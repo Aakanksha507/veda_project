@@ -38,27 +38,22 @@ class _BeneficiaryState extends State<Beneficiary> {
     _checkExistingCard();
   }
 
-
-Future<void> _checkExistingCard() async {
- final users = await prefService.getAllUsers();
-
-
- if (users.isNotEmpty) {
-   final lastUser = users.last;
-   if (lastUser.cardNumber != null && lastUser.cardNumber!.isNotEmpty) {
-     WidgetsBinding.instance.addPostFrameCallback((_) {
-       Navigator.pushReplacement(
-         context,
-         MaterialPageRoute(builder: (_) => const CreditCard()),
-       );
-     });
-     return;
-   }
- }
- setState(() {
-   _isRedirecting = false;
- });
-}
+  Future<void> _checkExistingCard() async {
+    final currentUser = await prefService.getCurrentUser();
+    if (currentUser != null &&
+        currentUser.cardNumber != null &&
+        currentUser.cardNumber!.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => CreditCard()),
+        );
+      });
+    }
+    setState(() {
+      _isRedirecting = false;
+    });
+  }
 
   final uuid = Uuid();
 
@@ -225,37 +220,34 @@ Future<void> _checkExistingCard() async {
                                         cardNumberError = cardNumberErrorText;
                                       });
 
-                                      // if (entercardNumber != widget.validCardNumber) {
-                                      //   setState(() {
-                                      //     cardNumberError =
-                                      //         "Invalid card number. Please enter a valid one.";
-                                      //   });
-                                      //   return;
-                                      // }
-
                                       if (bankNameError != null ||
                                           branchNameError != null ||
                                           transactionNameError != null ||
-                                          cardNumberError != null) {
-                                       
+                                          cardNumberError != null) {}
+
+                                      final currentUser =
+                                          await prefService.getCurrentUser();
+                                      if (currentUser != null) {
+                                        final updateUser = User(
+                                          id: currentUser.id,
+                                          username: currentUser.username,
+                                          phoneNumber: currentUser.phoneNumber,
+                                          password: currentUser.password,
+                                          bankName: bankName,
+                                          bankBranch: bankBranch,
+                                          transactionName: transactionName,
+                                          cardNumber: entercardNumber,
+                                        );
+
+                                        await prefService.setData(updateUser);
+
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => const CreditCard(),
+                                          ),
+                                        );
                                       }
-
-                                      User newUser = User(
-                                        id: uuid.v4(),
-                                        bankName: bankName,
-                                        bankBranch: bankBranch,
-                                        transactionName: transactionName,
-                                        cardNumber: entercardNumber,
-                                      );
-
-                                      await prefService.setData(newUser);
-
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => const CreditCard(),
-                                        ),
-                                      );
                                     }
                                     ;
                                   },

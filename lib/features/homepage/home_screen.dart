@@ -17,20 +17,37 @@ class _HomeScreenState extends State<HomeScreen> {
  
  final SharedPrefService _prefService = SharedPrefService();
 
- List<User> _users =[];
+//  List<User> _users =[];
 
-   @override
-  void initState() {
-    super.initState();
-    _loadUsers();
-  }
+ User? currentUser;
 
-  Future<void> _loadUsers() async {
-    List<User> users = await _prefService.getAllUsers();
-    setState(() {
-      _users = users;
-    });
-  }
+@override
+void initState() {
+  super.initState();
+  loadCurrentUser();
+}
+
+Future<void> loadCurrentUser() async {
+  final prefService = SharedPrefService();
+  final user = await prefService.getCurrentUser();
+  setState(() {
+    currentUser = user;
+  });
+}
+
+
+  //  @override
+  // void initState() {
+  //   super.initState();
+  //   _loadUsers();
+  // }
+
+  // Future<void> _loadUsers() async {
+  //   List<User> users = await _prefService.getAllUsers();
+  //   setState(() {
+  //     _users = users;
+  //   });
+  // }
 
   int selectedIndex = 0;
 

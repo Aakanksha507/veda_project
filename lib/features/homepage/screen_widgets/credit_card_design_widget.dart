@@ -9,12 +9,11 @@ class CreditCardDesignWidget extends StatelessWidget {
   final String? cardNumber;
   final String? cardBalance;
 
-
   const CreditCardDesignWidget({
     super.key,
     this.cardHolderName,
-    this.cardNumber, 
-    this.cardName, 
+    this.cardNumber,
+    this.cardName,
     this.cardBalance,
   });
 
@@ -25,7 +24,7 @@ class CreditCardDesignWidget extends StatelessWidget {
         Container(
           height: 204.h,
           width: 375.w,
-          
+
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/image/creditcard.png'),
@@ -48,7 +47,7 @@ class CreditCardDesignWidget extends StatelessWidget {
           top: 21.h,
           left: 44.4.w,
           child: TextWidget(
-            txt: cardHolderName ??'John Smith',
+            txt: cardHolderName ?? 'John Smith',
             fontWeight: FontWeight.w400,
             fontSize: 24.sp,
             txtColor: Color(0xFFFFFFFF),

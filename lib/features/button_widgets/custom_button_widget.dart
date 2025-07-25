@@ -18,13 +18,11 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ElevatedButton(
-      onPressed: isEnabled ? onTap : null, 
+      onPressed: isEnabled ? onTap : null,
       style: ElevatedButton.styleFrom(
-        backgroundColor: isEnabled ?
-        bgColorBtn ?? Color(0xFF3629B7)
-        :Color(0xFFA8A3D7) ,
+        backgroundColor:
+            isEnabled ? bgColorBtn ?? Color(0xFF3629B7) : Color(0xFFA8A3D7),
         minimumSize: Size(327.w, 44.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),

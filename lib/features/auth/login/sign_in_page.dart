@@ -109,8 +109,7 @@ class _SignInPageState extends State<SignInPage> {
                         matchUser = users.firstWhere(
                           (user) =>
                               user.phoneNumber == phoneNumber 
-                              // &&
-                              // user.password == password,
+                             
                         );
                       } catch (e) {
                         print("%not found ${e.toString()}");
@@ -165,7 +164,9 @@ class _SignInPageState extends State<SignInPage> {
                           context,
                           MaterialPageRoute(builder: (_) => const HomeScreen()),
                         );
+                        
                       }
+                      
                     }
                   },
                 ),

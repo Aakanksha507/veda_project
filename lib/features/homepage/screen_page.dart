@@ -31,28 +31,7 @@ class ScreenPage extends StatelessWidget {
                   },
                   child: const Text('Go to Credit Page'),
                 ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Beneficiary(),
-                      ),
-                    );
-                  },
-                  child: const Text('Go to Beneficiary Page'),
-                ),
-                //  SizedBox(height: 10,),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => const SignInPage()),
-                //     );
-                //   },
-                //   child: const Text('Go to SignIn Page'),
-                // ),
+               
                 SizedBox(height: 10),
                 TextButton(
                   onPressed: () async {

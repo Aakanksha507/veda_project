@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
@@ -22,6 +23,8 @@ class _AddExpensesState extends State<AddExpenses> {
 
   final SharedPrefService prefService = SharedPrefService();
 
+  String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +43,19 @@ class _AddExpensesState extends State<AddExpenses> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            DropdownFieldWidget(),
+            DropdownFieldWidget(
+              selectedValue:
+                  selectedValue != null
+                      ? ExpensesCategory.values.firstWhere(
+                        (e) => e.name == selectedValue,
+                      )
+                      : null,
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value?.name;
+                });
+              },
+            ),
             InputFielsWidget(
               hintTxt: 'Description',
               focusNode: FocusNode(),
@@ -59,25 +74,41 @@ class _AddExpensesState extends State<AddExpenses> {
                 btnText: 'Add Expenses',
                 bgColorBtn: Color(0xFF3629B7),
                 onTap: () async {
-                  // final category = categoryController.text.trim();
                   final description = descriptionController.text.trim();
                   final amount = amoutController.text.trim();
+                  final currentUser = await prefService.getCurrentUser();
 
-                  User newCategory = User(
-                    // category: catergory,
-                    description: description,
-                    amount: amount,
+                  if (currentUser != null) {
+                    final updateWithCategory = User(
+                      id: currentUser.id,
+                      username: currentUser.username,
+                      phoneNumber: currentUser.phoneNumber,
+                      password: currentUser.password,
+                      bankName: currentUser.bankName,
+                      bankBranch: currentUser.bankBranch,
+                      transactionName: currentUser.transactionName,
+                      cardNumber: currentUser.cardNumber,
+                      category: [selectedValue?? ''],
+                      description: [description],
+                      amount: [amount],
+                      
+                    );
 
-                  );
+                    // debugPrint('Amoutn: ${updateWithCategory.amount}');
 
-                  await prefService.setData(newCategory);
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text("Add Expenses")));
 
-                  Navigator.pushReplacement(
-                    context, MaterialPageRoute(
-                      builder: (context) => TransactionReport()));
+                    await prefService.setData(updateWithCategory);
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text("Add Expenses Succcessfully")));
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TransactionReport(),
+                      ),
+                    );
+                  }
                 },
               ),
             ),

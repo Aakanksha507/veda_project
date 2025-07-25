@@ -67,22 +67,21 @@ void initState() {
 }
 
 Future<void> checkUserCardData() async {
- List<User> users = await prefService.getAllUsers();
+ User? user = await prefService.getCurrentUser();
 
+  if (user == null || user.cardNumber == null || user.cardNumber!.isEmpty) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Beneficiary(),
+      ),
+    );
+  } else {
+    setState(() {
+      currentUser = user;
+    });
+  }
 
- if (users.isNotEmpty && (users.last.cardNumber == null || users.last.cardNumber!.isEmpty)) {
-
-   Navigator.pushReplacement(
-     context,
-     MaterialPageRoute(
-       builder: (context) => Beneficiary(),
-     ),
-   );
- } else {
-   setState(() {
-     currentUser = users.last;
-   });
- }
 }
 
 

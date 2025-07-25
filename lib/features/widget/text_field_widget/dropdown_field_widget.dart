@@ -4,10 +4,14 @@ import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 
 class DropdownFieldWidget extends StatefulWidget {
+  final ExpensesCategory? selectedValue;
+  final ValueChanged<ExpensesCategory?> onChanged;
 
-
- 
-  const DropdownFieldWidget({super.key, });
+  const DropdownFieldWidget({
+    super.key,
+    required this.onChanged,
+    this.selectedValue,
+  });
 
   @override
   State<DropdownFieldWidget> createState() => _DropdownFieldWidgetState();
@@ -30,10 +34,8 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
               fontSize: 12.sp,
             ),
           ),
-          DropdownButtonFormField(
-            
+          DropdownButtonFormField<ExpensesCategory>(
             decoration: InputDecoration(
-              
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: Color(0xFFCACACA)),
@@ -58,13 +60,10 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
                     ),
                   );
                 }).toList(),
-            onChanged: (value) {
-              
-            },
-            onSaved: (newValue) {
+                onChanged: widget.onChanged,
+                value: widget.selectedValue,
 
-            } ,
-            
+  
           ),
         ],
       ),

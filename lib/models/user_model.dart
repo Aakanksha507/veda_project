@@ -2,16 +2,16 @@
 class User{
 final String? id;
 final String? username;
-final String? email;
+// final String? email;
 final String? password;
 final String? phoneNumber;
 final String? cardNumber;
 final String? bankName;
 final String? bankBranch;
 final String? transactionName;
-final String? category;
-final String? description;
-final String? amount;
+final List<String>? category;
+final List<String>? description;
+final List<String>? amount;
 
 
 User( {
@@ -19,14 +19,14 @@ User( {
   this.username,
   this.password,
   this.phoneNumber,
-  this.email,
+  // this.email,
   this.cardNumber,
   this.bankName, 
   this.bankBranch, 
   this.transactionName,
   this.category,
-  this.amount,
   this.description,
+  this.amount,
 });
 
 factory User.fromJson(Map<String, dynamic> json){
@@ -35,14 +35,14 @@ factory User.fromJson(Map<String, dynamic> json){
     username: json['username'] ,
     password :json['password'] ,
     phoneNumber: json['phoneNumber'] ,
-    email: json['email'],
+    // email: json['email'],
     cardNumber: json['cardNumber'],
     bankName: json['bankName'],
     bankBranch: json['bankBranch'],
     transactionName: json['transactionName'],
-    category: json['categoryName'],
-    amount: json['amount'],
-    description: json['description'],
+    category: List<String>.from(json['categoryName']),
+    description: List<String>.from(json['description']),
+    amount: List<String>.from(json['amount']),
 );                  
 }
 
@@ -52,14 +52,14 @@ Map<String, dynamic> toJson(){
     'username': username,
     'password':password,
     'phoneNumber':phoneNumber,
-    'email': email,
+    // 'email': email,
     'cardNumber':cardNumber,
     'bankName': bankName,
     'bankBranch':bankBranch,
     'transactionName': transactionName,
     'categoryName': category,
     'description': description,
-    'amout': amount,
+    'amount': amount,
 
   };
 }
