@@ -12,10 +12,6 @@ import 'package:myflutterapp/models/user_model.dart';
 class CreditCard extends StatefulWidget {
   const CreditCard({super.key});
 
-
-
-  
-
   // static const String validCardNumber = "1234 5678 999";
 
   @override

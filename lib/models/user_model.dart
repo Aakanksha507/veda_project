@@ -31,20 +31,20 @@ User( {
 
 factory User.fromJson(Map<String, dynamic> json){
   return User(
-    id: json['id'] ,
-    username: json['username'] ,
-    password :json['password'] ,
-    phoneNumber: json['phoneNumber'] ,
-    // email: json['email'],
+    id: json['id'],
+    username: json['username'],
+    password: json['password'],
+    phoneNumber: json['phoneNumber'],
     cardNumber: json['cardNumber'],
     bankName: json['bankName'],
     bankBranch: json['bankBranch'],
     transactionName: json['transactionName'],
-    category: List<String>.from(json['categoryName']),
-    description: List<String>.from(json['description']),
-    amount: List<String>.from(json['amount']),
-);                  
+    category: (json['categoryName'] as List?)?.map((e) => e.toString()).toList() ?? [],
+    description: (json['description'] as List?)?.map((e) => e.toString()).toList() ?? [],
+    amount: (json['amount'] as List?)?.map((e) => e.toString()).toList() ?? [],
+  );
 }
+
 
 Map<String, dynamic> toJson(){
   return{

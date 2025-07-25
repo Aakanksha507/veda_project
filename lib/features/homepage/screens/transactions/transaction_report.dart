@@ -22,7 +22,7 @@ class _TransactionReportState extends State<TransactionReport> {
   @override
   void initState() {
     super.initState();
-    // getUserExpenses();
+    getUserExpenses();
   }
   
 
@@ -34,6 +34,20 @@ class _TransactionReportState extends State<TransactionReport> {
     });
   }
 }
+
+String getMaskedCardNumber(String cardNumber){
+
+  String cleaned = cardNumber.replaceAll(' ', '');
+  if(cleaned.length < 7) return cardNumber;
+
+  String firstFour = cleaned.substring(0,4);
+  String lastThree = cleaned.substring(cleaned.length - 3);
+
+ return '$firstFour  ****   $lastThree';
+
+}
+
+
 
 
   @override
@@ -79,34 +93,35 @@ class _TransactionReportState extends State<TransactionReport> {
             CreditCardBackgroundDesign(
               cardHolderName:
                   currentUser!.transactionName ?? 'User name not found',
-              cardNumber: '1234  ****   5678',
+              cardNumber: getMaskedCardNumber(currentUser!.cardNumber ??''),
             ),
 
-          //  Positioned(
-          //   top: 290.h,
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(
-          //     width: double.infinity,
-          //     padding: EdgeInsets.symmetric(horizontal: 16.w),
-          //     height: 300.h, 
-          //     child: ListView.builder(
-          //       itemCount: currentUser?.category?.length ?? 0,
-          //       itemBuilder: (context, index) {
-          //         return ListContainerWidget(
-          //           title: currentUser!.category![index],
-          //           description: currentUser!.description![index],
-          //           txtTapping: currentUser!.amount![index],
-          //           txtTappingColor: Colors.red,
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
+
+           Positioned(
+            top: 290.h,
+            left: 0,
+            right: 0,
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              height: 300.h, 
+              child: ListView.builder(
+                itemCount: currentUser?.category?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return ListContainerWidget(
+                    title: currentUser!.category![index],
+                    description: currentUser!.description![index],
+                    txtTapping: '\$${currentUser!.amount![index]}',
+                    txtTappingColor: Color(0xFFFF4267), 
+                  );
+                },
+              ),
+            ),
+          ),
 
             
             Positioned(
-              top: 600.h,
+              top: 500.h,
               left: 290.w,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
