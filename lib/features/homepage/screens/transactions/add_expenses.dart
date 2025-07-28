@@ -79,6 +79,11 @@ class _AddExpensesState extends State<AddExpenses> {
                   final currentUser = await prefService.getCurrentUser();
 
                   if (currentUser != null) {
+                  
+                  final updatedDescriptionList = List<String>.from(currentUser.description ?? [])..add(description);
+                  final updatedAmountList = List<String>.from(currentUser.amount ?? [])..add(amount);
+                  final updatedCategoryList = List<String>.from(currentUser.category ?? [])..add(selectedValue ?? '');
+    
                     final updateWithCategory = User(
                       id: currentUser.id,
                       username: currentUser.username,
@@ -88,9 +93,9 @@ class _AddExpensesState extends State<AddExpenses> {
                       bankBranch: currentUser.bankBranch,
                       transactionName: currentUser.transactionName,
                       cardNumber: currentUser.cardNumber,
-                      category: [selectedValue?? ''],
-                      description: [description],
-                      amount: [amount],
+                      category: updatedCategoryList,
+                      description: updatedDescriptionList,
+                      amount: updatedAmountList,
                       
                     );
 

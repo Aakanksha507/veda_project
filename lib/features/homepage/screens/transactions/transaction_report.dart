@@ -16,6 +16,7 @@ class TransactionReport extends StatefulWidget {
 
 class _TransactionReportState extends State<TransactionReport> {
   User? currentUser;
+  double cardBalance = 0.0;
   
   final SharedPrefService prefService = SharedPrefService();
 
@@ -24,6 +25,13 @@ class _TransactionReportState extends State<TransactionReport> {
     super.initState();
     getUserExpenses();
   }
+
+  void txtTapping(int index) {
+  setState(() {
+    cardBalance += double.parse(currentUser!.amount![index]);
+  });
+}
+
   
 
  Future<void> getUserExpenses() async {
@@ -46,8 +54,6 @@ String getMaskedCardNumber(String cardNumber){
  return '$firstFour  ****   $lastThree';
 
 }
-
-
 
 
   @override
@@ -94,6 +100,7 @@ String getMaskedCardNumber(String cardNumber){
               cardHolderName:
                   currentUser!.transactionName ?? 'User name not found',
               cardNumber: getMaskedCardNumber(currentUser!.cardNumber ??''),
+              cardBalance: cardBalance.toStringAsFixed(2),
             ),
 
 
@@ -102,26 +109,44 @@ String getMaskedCardNumber(String cardNumber){
             left: 0,
             right: 0,
             child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              height: 300.h, 
-              child: ListView.builder(
-                itemCount: currentUser?.category?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return ListContainerWidget(
-                    title: currentUser!.category![index],
-                    description: currentUser!.description![index],
-                    txtTapping: '\$${currentUser!.amount![index]}',
-                    txtTappingColor: Color(0xFFFF4267), 
-                  );
-                },
+              // width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.r),
+              ),
+              // height: 300.h, 
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:  [
+                    ListView.builder(
+                    shrinkWrap: true,
+                    // physics: NeverScrollableScrollPhysics(),
+                    itemCount: currentUser?.category?.length,
+                    itemBuilder: (context, index) {
+                      final items = currentUser?.category?[index];
+                      return ListContainerWidget(
+                        title: currentUser!.category![index],
+                        description: currentUser!.description![index],
+                        txtTapping: '\$${currentUser!.amount![index]}',
+                        txtTappingColor: Color(0xFFFF4267), 
+                        padding: EdgeInsets.all(12.w),
+                        margin: EdgeInsets.zero,
+                        borderBottom: BorderSide(
+                          color: Color(0xFFECECEC),
+                          width: 1.w,
+                        ),
+                        boxShadow: [
+                          BoxShadow(offset: Offset(0, 0), blurRadius:0 )
+                        ],
+                      );
+                    },
+                ),]
               ),
             ),
           ),
 
-            
             Positioned(
-              top: 500.h,
+              top: 600.h,
               left: 290.w,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

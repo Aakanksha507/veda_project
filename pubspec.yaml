@@ -83,6 +83,10 @@ flutter:
     - assets/image/Illustration_2.png
     - assets/icon/downArrow.svg
     - assets/image/creditcard.svg
+    - assets/icon/electricity.svg
+    - assets/icon/bill.svg
+    - assets/icon/income.svg
+    - assets/icon/water.svg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
