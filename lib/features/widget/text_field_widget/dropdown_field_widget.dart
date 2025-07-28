@@ -35,6 +35,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
             ),
           ),
           DropdownButtonFormField<ExpensesCategory>(
+            
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
