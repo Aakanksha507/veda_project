@@ -17,56 +17,54 @@ class TransactionReport extends StatefulWidget {
 }
 
 class _TransactionReportState extends State<TransactionReport> {
-  User? currentUser;  
-  
+  User? currentUser;
+
   final SharedPrefService prefService = SharedPrefService();
-  
+
   @override
   void initState() {
     super.initState();
     getUserExpenses();
   }
 
- Future<void> getUserExpenses() async {
-  User? user = await prefService.getCurrentUser();
-  if (user != null) {
-    setState(() {
-      currentUser = user;
-    });
-  }
-}
-
-String getMaskedCardNumber(String cardNumber){
-
-  String cleaned = cardNumber.replaceAll(' ', '');
-  if(cleaned.length < 7) return cardNumber;
-
-  String firstFour = cleaned.substring(0,4);
-  String lastThree = cleaned.substring(cleaned.length - 3);
-
- return '$firstFour  ****   $lastThree';
-
-}
-
-double getTotalAmount(User user) {
-  double total = 0.0;
-
-  for (int i = 0; i < user.amount!.length; i++) {
-    final amountString = user.amount![i];
-    final categoryString = user.category![i];
-
-    final categoryEnum = ExpensesCategoryExtension.fromString(categoryString);
-    final parsedAmount = double.tryParse(amountString) ?? 0.0;
-
-    if (categoryEnum == ExpensesCategory.salaries) {
-      total += parsedAmount; 
-    } else {
-      total -= parsedAmount; 
+  Future<void> getUserExpenses() async {
+    User? user = await prefService.getCurrentUser();
+    if (user != null) {
+      setState(() {
+        currentUser = user;
+      });
     }
   }
 
-  return total;
-}
+  String getMaskedCardNumber(String cardNumber) {
+    String cleaned = cardNumber.replaceAll(' ', '');
+    if (cleaned.length < 7) return cardNumber;
+
+    String firstFour = cleaned.substring(0, 4);
+    String lastThree = cleaned.substring(cleaned.length - 3);
+
+    return '$firstFour  ****   $lastThree';
+  }
+
+  double getTotalAmount(User user) {
+    double total = 0.0;
+
+    for (int i = 0; i < user.amount!.length; i++) {
+      final amountString = user.amount![i];
+      final categoryString = user.category![i];
+
+      final categoryEnum = ExpensesCategoryExtension.fromString(categoryString);
+      final parsedAmount = double.tryParse(amountString) ?? 0.0;
+
+      if (categoryEnum == ExpensesCategory.salaries) {
+        total += parsedAmount;
+      } else {
+        total -= parsedAmount;
+      }
+    }
+
+    return total;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,89 +109,98 @@ double getTotalAmount(User user) {
             CreditCardBackgroundDesign(
               cardHolderName:
                   currentUser!.transactionName ?? 'User name not found',
-              cardNumber: getMaskedCardNumber(currentUser!.cardNumber ??''),
-            cardBalance: getTotalAmount(currentUser!).toStringAsFixed(2),
+              cardNumber: getMaskedCardNumber(currentUser!.cardNumber ?? ''),
+              cardBalance: getTotalAmount(currentUser!).toStringAsFixed(2),
             ),
-            
 
-           Positioned(
-            top: 290.h,
-            left: 0,
-            right: 0,
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              // height: 300.h, 
-              child: Column(
+            Positioned(
+              top: 290.h,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                // height: 300.h,
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
+                  children: [
                     ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: currentUser?.category?.length,
-                    itemBuilder: (context, index) {
-                      final items = currentUser?.category?[index];
-                      final categoryString = currentUser!.category![index];
-                      final categoryEnum = ExpensesCategoryExtension.fromString(
-                        categoryString);
-                      return Dismissible(
-                        key: UniqueKey(),
-                        onDismissed: (direction){
-                          setState(() {
-                             currentUser?.category?.removeAt(index);
-                            currentUser?.amount?.removeAt(index);
-                            currentUser?.description?.removeAt(index);
-                          });
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: currentUser?.category?.length,
+                      itemBuilder: (context, index) {
+                        final items = currentUser?.category?[index];
+                        final categoryString = currentUser!.category![index];
+                        final categoryEnum =
+                            ExpensesCategoryExtension.fromString(
+                              categoryString,
+                            );
+                        return Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (direction) {
+                            setState(() {
+                              currentUser?.category?.removeAt(index);
+                              currentUser?.amount?.removeAt(index);
+                              currentUser?.description?.removeAt(index);
+                            });
 
-                           if (currentUser != null) {
-                             prefService.setData(currentUser!);
-                          }
+                            if (currentUser != null) {
+                              prefService.setData(currentUser!);
+                            }
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Deleted Succesfully"))
-                          );
-                        },
-
-                        background: Container(
-                          color: Colors.red,
-                          
-                        ),
-
-                        child: GestureDetector(
-                          onLongPress: (){
-                            Navigator.pushReplacement(context,
-                             MaterialPageRoute(builder: (context) => EditExpenses(),
-                            ));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Deleted Succesfully")),
+                            );
                           },
-                          child: ListContainerWidget(
-                            leadingIconPath: categoryEnum.svgAsset,
-                            iconBgColor: categoryEnum.backgroundColor,
-                            title: currentUser!.category![index],
-                            description: currentUser!.description![index],
-                            txtTapping: '${categoryEnum.amountSign}\$${currentUser!.amount![index]}',
-                            txtTappingColor: categoryEnum.amountColor, 
-                            txtTappingFontWeight: FontWeight.w600,
-                            txtTappingFontSize: 16.0.sp,
-                            padding: EdgeInsets.all(12.w),
-                            margin: EdgeInsets.zero,
-                            borderBottom: BorderSide(
-                              color: Color(0xFFECECEC),
-                              width: 1.w,
+
+                          background: Container(color: Colors.red),
+
+                          child: GestureDetector(
+                            onLongPress: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => EditExpenses(
+                                        category: currentUser!.category![index],
+                                        description:currentUser!.description![index],
+                                        amount: currentUser!.amount![index],
+                                        index : index,
+                                      ),
+                                ),
+                              );
+                            },
+                            child: ListContainerWidget(
+                              leadingIconPath: categoryEnum.svgAsset,
+                              iconBgColor: categoryEnum.backgroundColor,
+                              title: currentUser!.category![index],
+                              description: currentUser!.description![index],
+                              txtTapping:
+                                  '${categoryEnum.amountSign}\$${currentUser!.amount![index]}',
+                              txtTappingColor: categoryEnum.amountColor,
+                              txtTappingFontWeight: FontWeight.w600,
+                              txtTappingFontSize: 16.0.sp,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.zero,
+                              borderBottom: BorderSide(
+                                color: Color(0xFFECECEC),
+                                width: 1.w,
+                              ),
+                              boxShadow: [
+                                BoxShadow(offset: Offset(0, 0), blurRadius: 0),
+                              ],
                             ),
-                            boxShadow: [
-                              BoxShadow(offset: Offset(0, 0), blurRadius:0 )
-                            ],
                           ),
-                        ),
-                      );
-                    },
-                ),]
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
 
             Positioned(
               top: 600.h,

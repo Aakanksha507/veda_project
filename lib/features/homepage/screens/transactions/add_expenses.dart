@@ -17,12 +17,10 @@ class AddExpenses extends StatefulWidget {
 }
 
 class _AddExpensesState extends State<AddExpenses> {
-  final categoryController = TextEditingController();
   final descriptionController = TextEditingController();
   final amoutController = TextEditingController();
 
   final SharedPrefService prefService = SharedPrefService();
- 
 
   String? selectedValue;
 
@@ -56,7 +54,6 @@ class _AddExpensesState extends State<AddExpenses> {
                   selectedValue = value?.name;
                 });
               },
-              
             ),
             InputFielsWidget(
               hintTxt: 'Description',
@@ -81,11 +78,16 @@ class _AddExpensesState extends State<AddExpenses> {
                   final currentUser = await prefService.getCurrentUser();
 
                   if (currentUser != null) {
-                  
-                  final updatedDescriptionList = List<String>.from(currentUser.description ?? [])..add(description);
-                  final updatedAmountList = List<String>.from(currentUser.amount ?? [])..add(amount);
-                  final updatedCategoryList = List<String>.from(currentUser.category ?? [])..add(selectedValue ?? '');
-    
+                    final updatedDescriptionList = List<String>.from(
+                      currentUser.description ?? [],
+                    )..add(description);
+                    final updatedAmountList = List<String>.from(
+                      currentUser.amount ?? [],
+                    )..add(amount);
+                    final updatedCategoryList = List<String>.from(
+                      currentUser.category ?? [],
+                    )..add(selectedValue ?? '');
+
                     final updateWithCategory = User(
                       id: currentUser.id,
                       username: currentUser.username,
@@ -98,16 +100,14 @@ class _AddExpensesState extends State<AddExpenses> {
                       category: updatedCategoryList,
                       description: updatedDescriptionList,
                       amount: updatedAmountList,
-                      
                     );
 
                     // debugPrint('Amoutn: ${updateWithCategory.amount}');
 
-
                     await prefService.setData(updateWithCategory);
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text("Add Expenses Succcessfully")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Add Expenses Succcessfully")),
+                    );
 
                     Navigator.pushReplacement(
                       context,
