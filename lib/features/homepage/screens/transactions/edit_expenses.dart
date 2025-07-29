@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
@@ -65,11 +63,9 @@ class _EditExpensesState extends State<EditExpenses> {
 
   @override
   void dispose() {
-    setState(() {
-      descriptionController.dispose();
-      amountController.dispose();
-      super.dispose();
-    });
+    descriptionController.dispose();
+    amountController.dispose();
+    super.dispose();
   }
 
   @override

@@ -76,4 +76,5 @@ class SharedPrefService {
     final users = await getAllUsers();
     return users.firstWhere((user) => user.phoneNumber == phoneNumber);
   }
+
 }

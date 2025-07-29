@@ -2,7 +2,7 @@
 class User{
 final String? id;
 final String? username;
-// final String? email;
+
 final String? password;
 final String? phoneNumber;
 final String? cardNumber;
@@ -19,7 +19,6 @@ User( {
   this.username,
   this.password,
   this.phoneNumber,
-  // this.email,
   this.cardNumber,
   this.bankName, 
   this.bankBranch, 

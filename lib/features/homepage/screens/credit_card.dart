@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
-import 'package:myflutterapp/features/homepage/screens/beneficiary.dart';
+import 'package:myflutterapp/features/homepage/screens/beneficiary/beneficiary.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card_background_design.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 
 import 'package:myflutterapp/models/user_model.dart';
 
 class CreditCard extends StatefulWidget {
+  
   const CreditCard({super.key});
 
   // static const String validCardNumber = "1234 5678 999";
@@ -80,6 +82,26 @@ Future<void> checkUserCardData() async {
 
 }
 
+double getTotalAmount(User user) {
+    double total = 0.0;
+
+    for (int i = 0; i < user.amount!.length; i++) {
+      final amountString = user.amount![i];
+      final categoryString = user.category![i];
+
+      final categoryEnum = ExpensesCategoryExtension.fromString(categoryString);
+      final parsedAmount = double.tryParse(amountString) ?? 0.0;
+
+      if (categoryEnum == ExpensesCategory.salaries) {
+        total += parsedAmount;
+      } else {
+        total -= parsedAmount;
+      }
+    }
+
+    return total;
+  }
+
 
 String getMaskedCardNumber(String cardNumber) {
  String cleaned = cardNumber.replaceAll(' ', ''); 
@@ -90,7 +112,6 @@ String getMaskedCardNumber(String cardNumber) {
 
  return '$firstFour  ****   $lastThree';
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +147,7 @@ String getMaskedCardNumber(String cardNumber) {
               children: [
                 CreditCardBackgroundDesign(
                   cardHolderName: currentUser!.transactionName ?? "User",
+                   cardBalance: getTotalAmount(currentUser!).toStringAsFixed(2),
                   cardNumber: getMaskedCardNumber(currentUser!.cardNumber ?? ''),
                 ),
                 Container(
@@ -204,7 +226,7 @@ String getMaskedCardNumber(String cardNumber) {
                           child: CustomButtonWidget(
                             btnText: 'Pay',
                             onTap: () {
-                              // Handle payment logic here
+                            
                             },
                           ),
                         ),
