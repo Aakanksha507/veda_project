@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
+import 'package:myflutterapp/features/homepage/home_screen.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card_background_design.dart';
 import 'package:myflutterapp/features/homepage/screens/transactions/add_expenses.dart';
@@ -81,6 +82,12 @@ class _TransactionReportState extends State<TransactionReport> {
           bgColor: Color(0xFF3629B7),
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          },
         ),
         backgroundColor: Color(0xFF3629B7),
       ),

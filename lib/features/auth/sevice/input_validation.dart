@@ -71,4 +71,18 @@ class InputValidation {
     }
     return null;
   }
+
+  static String? validateDescription(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Description is Required";
+    }
+    return null;
+  }
+
+  static String? validateAmount(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Amount is Required";
+    }
+    return null;
+  }
 }

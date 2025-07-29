@@ -4,8 +4,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:myflutterapp/features/auth/sevice/input_validation.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
+import 'package:myflutterapp/features/homepage/home_screen.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
+import 'package:myflutterapp/features/homepage/screens/transactions/transaction_report.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
@@ -17,7 +19,7 @@ class EditBeneficary extends StatefulWidget {
   final String branchName;
   final String transactionName;
   final String cardNumber;
-  
+
   const EditBeneficary({
     super.key,
     required this.bankName,
@@ -31,7 +33,6 @@ class EditBeneficary extends StatefulWidget {
 }
 
 class _EditBeneficaryState extends State<EditBeneficary> {
-
   late TextEditingController bankNameController;
   late TextEditingController bankBranchController;
   late TextEditingController transactionNameController;
@@ -61,44 +62,46 @@ class _EditBeneficaryState extends State<EditBeneficary> {
 
   @override
   void initState() {
-      super.initState();
-      bankNameController = TextEditingController(text: widget.bankName);
-      bankBranchController = TextEditingController(text: widget.branchName);
-      transactionNameController = TextEditingController(text: widget.transactionName);
-      cardNumberController = TextEditingController(text: widget.cardNumber);
+    super.initState();
+    bankNameController = TextEditingController(text: widget.bankName);
+    bankBranchController = TextEditingController(text: widget.branchName);
+    transactionNameController = TextEditingController(
+      text: widget.transactionName,
+    );
+    cardNumberController = TextEditingController(text: widget.cardNumber);
 
-      bankNameController.addListener(checkedEditedorNot);
-      bankBranchController.addListener(checkedEditedorNot);
-      transactionNameController.addListener(checkedEditedorNot);
-      cardNumberController.addListener(checkedEditedorNot);
+    bankNameController.addListener(checkedEditedorNot);
+    bankBranchController.addListener(checkedEditedorNot);
+    transactionNameController.addListener(checkedEditedorNot);
+    cardNumberController.addListener(checkedEditedorNot);
   }
 
-  void checkedEditedorNot(){
+  void checkedEditedorNot() {
     final bankname = bankNameController.text.trim();
     final bankBranch = bankBranchController.text.trim();
     final transactionName = transactionNameController.text.trim();
     final cardNumber = cardNumberController.text.trim();
 
-    bool edited = bankname != widget.bankName.trim() || 
-    bankBranch != widget.branchName.trim() ||
-    transactionName != widget.transactionName.trim() ||
-    cardNumber != widget.cardNumber.trim() ;
+    bool edited =
+        bankname != widget.bankName.trim() ||
+        bankBranch != widget.branchName.trim() ||
+        transactionName != widget.transactionName.trim() ||
+        cardNumber != widget.cardNumber.trim();
 
-    if(edited != isEdited){
+    if (edited != isEdited) {
       setState(() {
         isEdited = edited;
       });
     }
-    
   }
 
   @override
-  void dispose(){
-      bankNameController.dispose();
-      bankBranchController.dispose();
-      transactionNameController.dispose();
-      cardNumberController.dispose();
-      super.dispose();
+  void dispose() {
+    bankNameController.dispose();
+    bankBranchController.dispose();
+    transactionNameController.dispose();
+    cardNumberController.dispose();
+    super.dispose();
   }
 
   @override
@@ -106,7 +109,15 @@ class _EditBeneficaryState extends State<EditBeneficary> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: AppBarWidget(mainTxt: 'Edit Beneficiary'),
+        title: AppBarWidget(
+          mainTxt: 'Edit Beneficiary',
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          },
+        ),
         backgroundColor: const Color(0xFF3629B7),
       ),
       body: SafeArea(
@@ -211,74 +222,98 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                               child: CustomButtonWidget(
                                 btnText: "Edit",
                                 bgColorBtn: Color(0Xff3629B7),
-                                onTap: isEdited ? () async {
-                                  if (_formkey.currentState!.validate()) {
-                                    final bankName =
-                                        bankNameController.text.trim();
-                                    final bankBranch =
-                                        bankBranchController.text.trim();
-                                    final transactionName =
-                                        transactionNameController.text.trim();
-                                    final entercardNumber =
-                                        cardNumberController.text.trim();
+                                onTap:
+                                    isEdited
+                                        ? () async {
+                                          if (_formkey.currentState!
+                                              .validate()) {
+                                            final bankName =
+                                                bankNameController.text.trim();
+                                            final bankBranch =
+                                                bankBranchController.text
+                                                    .trim();
+                                            final transactionName =
+                                                transactionNameController.text
+                                                    .trim();
+                                            final entercardNumber =
+                                                cardNumberController.text
+                                                    .trim();
 
-                                    final bankNameErrorText =
-                                        InputValidation.validateBankName(
-                                          bankName,
-                                        );
-                                    final branchNameErrorText =
-                                        InputValidation.validateBranchName(
-                                          bankBranch,
-                                        );
-                                    final transactionNameErrorText =
-                                        InputValidation.validateTransactionName(
-                                          transactionName,
-                                        );
-                                    final cardNumberErrorText =
-                                        InputValidation.validateCardNumber(
-                                          entercardNumber,
-                                        );
+                                            final bankNameErrorText =
+                                                InputValidation.validateBankName(
+                                                  bankName,
+                                                );
+                                            final branchNameErrorText =
+                                                InputValidation.validateBranchName(
+                                                  bankBranch,
+                                                );
+                                            final transactionNameErrorText =
+                                                InputValidation.validateTransactionName(
+                                                  transactionName,
+                                                );
+                                            final cardNumberErrorText =
+                                                InputValidation.validateCardNumber(
+                                                  entercardNumber,
+                                                );
 
-                                    setState(() {
-                                      bankNameError = bankNameErrorText;
-                                      branchNameError = branchNameErrorText;
-                                      transactionNameError =
-                                          transactionNameErrorText;
-                                      cardNumberError = cardNumberErrorText;
-                                    });
+                                            setState(() {
+                                              bankNameError = bankNameErrorText;
+                                              branchNameError =
+                                                  branchNameErrorText;
+                                              transactionNameError =
+                                                  transactionNameErrorText;
+                                              cardNumberError =
+                                                  cardNumberErrorText;
+                                            });
 
-                                    final currentUser =
-                                      await prefService.getCurrentUser();
+                                            final currentUser =
+                                                await prefService
+                                                    .getCurrentUser();
 
-                                    if (currentUser != null) {
-                                       
-                                    final updateUser = User(
-                                      id: currentUser.id,
-                                      phoneNumber: currentUser.phoneNumber, 
-                                      bankName: bankNameController.text.trim(),
-                                      bankBranch: bankBranchController.text.trim(),
-                                      transactionName: transactionNameController.text.trim(),
-                                      cardNumber: cardNumberController.text.trim(),
-                                    );
+                                            if (currentUser != null) {
+                                              final updateUser = User(
+                                                id: currentUser.id,
+                                                phoneNumber:
+                                                    currentUser.phoneNumber,
+                                                bankName:
+                                                    bankNameController.text
+                                                        .trim(),
+                                                bankBranch:
+                                                    bankBranchController.text
+                                                        .trim(),
+                                                transactionName:
+                                                    transactionNameController
+                                                        .text
+                                                        .trim(),
+                                                cardNumber:
+                                                    cardNumberController.text
+                                                        .trim(),
+                                              );
 
+                                              await prefService.setData(
+                                                updateUser,
+                                              );
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    "Updated Beneficary Succcessfully",
+                                                  ),
+                                                ),
+                                              );
 
-                                      await prefService.setData(updateUser);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text("Updated Beneficary Succcessfully"),
-                                        ),
-                                      );
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => const CreditCard(),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                }
-                                : null
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (_) => const CreditCard(),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        }
+                                        : null,
                               ),
                             ),
                           ],

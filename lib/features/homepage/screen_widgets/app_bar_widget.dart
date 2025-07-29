@@ -9,6 +9,7 @@ class AppBarWidget extends StatelessWidget{
   final Color? bgColor;
   final Color? txtColor;
   final Color? iconColor;
+  final GestureTapCallback? onTap;
 
   const AppBarWidget({
     super.key, 
@@ -16,6 +17,7 @@ class AppBarWidget extends StatelessWidget{
     this.bgColor,
     this.txtColor,
     this.iconColor,
+    this.onTap,
     });
 
    @override
@@ -38,7 +40,7 @@ class AppBarWidget extends StatelessWidget{
         leading:Padding(
           padding: EdgeInsets.all(4.w),
           child: GestureDetector(
-            onTap:() {
+            onTap:onTap ?? () {
               Navigator.pop(context); 
             },
             child: SvgPicture.asset('assets/icon/Path.svg',

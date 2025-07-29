@@ -35,7 +35,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
             ),
           ),
           DropdownButtonFormField<ExpensesCategory>(
-            
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -61,10 +61,14 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
                     ),
                   );
                 }).toList(),
-                onChanged: widget.onChanged,
-                value: widget.selectedValue,
-
-  
+            onChanged: widget.onChanged,
+            value: widget.selectedValue,
+            validator: (value) {
+              if (value == null) {
+                return 'Please select a category';
+              }
+              return null;
+            },
           ),
         ],
       ),
