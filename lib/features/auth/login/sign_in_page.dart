@@ -138,7 +138,7 @@ class _SignInPageState extends State<SignInPage> {
                       debugPrint("matchUser.password  ${matchUser?.password} == $password ");
                       if (matchUser != null &&
                           matchUser.password != password  ) {
-                             debugPrint("matchUser.password  ${matchUser?.password} == $password ");
+                             debugPrint("matchUser.password  ${matchUser.password} == $password ");
                         setState(() {
                        phoneError = null;
                           passwordError = "Please Enter Valid Password.";

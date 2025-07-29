@@ -10,7 +10,7 @@ import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widge
 import 'package:myflutterapp/features/auth/signup/term_condition_checkup_box.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:uuid/uuid.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

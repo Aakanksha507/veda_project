@@ -11,18 +11,18 @@ import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_wi
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 
 class EditExpenses extends StatefulWidget {
+  final String category;
+  final String description;
+  final String amount;
+  final int index;
 
-final String category;
-final String description;
-final String amount;
-final int index;
-
-  const EditExpenses({super.key,
-   required this.category,
+  const EditExpenses({
+    super.key,
+    required this.category,
     required this.description,
-     required this.amount, 
-     required this.index
-     });
+    required this.amount,
+    required this.index,
+  });
 
   @override
   State<EditExpenses> createState() => _EditExpensesState();
@@ -32,25 +32,45 @@ class _EditExpensesState extends State<EditExpenses> {
   late TextEditingController descriptionController;
   late TextEditingController amountController;
   String? selectedValue;
+  bool isEdited = false;
 
   SharedPrefService prefService = SharedPrefService();
 
-@override
-void initState(){
-  super.initState();
-  descriptionController = TextEditingController(text: widget.description);
-  amountController = TextEditingController(text: widget.amount);
-  selectedValue = widget.category;
-}
+  @override
+  void initState() {
+    super.initState();
+    descriptionController = TextEditingController(text: widget.description);
+    amountController = TextEditingController(text: widget.amount);
+    selectedValue = widget.category;
 
-@override
-void dispose(){
-  setState(() {
-    descriptionController.dispose();
-    amountController.dispose();
-    super.dispose();
-  });
-}
+    descriptionController.addListener(checkedEditedorNot);
+    amountController.addListener(checkedEditedorNot);
+  }
+
+  void checkedEditedorNot() {
+    final description = descriptionController.text.trim();
+    final amount = amountController.text.trim();                  //removing whitespace
+    final categorySelected = selectedValue != widget.category;   //comparing with original selected value
+
+    bool edited =                                               // checking any line is been edited
+        description != widget.description.trim() ||
+        amount != widget.amount.trim() ||
+        categorySelected;
+    if (edited != isEdited) {
+      setState(() {
+        isEdited = edited;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    setState(() {
+      descriptionController.dispose();
+      amountController.dispose();
+      super.dispose();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +101,7 @@ void dispose(){
                 setState(() {
                   selectedValue = value?.name;
                 });
+                checkedEditedorNot();
               },
             ),
             InputFielsWidget(
@@ -100,30 +121,37 @@ void dispose(){
               child: CustomButtonWidget(
                 btnText: 'Edit Expenses',
                 bgColorBtn: Color(0xFF3629B7),
-                onTap: () async{
-                  final description = descriptionController.text.trim();
-                  final amount = amountController.text.trim();
-                  final currentUser = await prefService.getCurrentUser();
+                onTap:
+                    isEdited
+                        ? () async {
+                          final description = descriptionController.text.trim();
+                          final amount = amountController.text.trim();
+                          final currentUser =
+                              await prefService.getCurrentUser();
 
-                  if (currentUser != null) {
-                
-                    currentUser.category![widget.index] = selectedValue ?? widget.category;
-                    currentUser.description![widget.index] = description;
-                    currentUser.amount![widget.index] = amount;
-                  
-                  await prefService.setData(currentUser);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Add Expenses Succcessfully")),
-                    );
+                          if (currentUser != null) {
+                            currentUser.category![widget.index] =
+                                selectedValue ?? widget.category;
+                            currentUser.description![widget.index] =
+                                description;
+                            currentUser.amount![widget.index] = amount;
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TransactionReport(),
-                      ),
-                    );
-                  }
-                },
+                            await prefService.setData(currentUser);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Add Expenses Succcessfully"),
+                              ),
+                            );
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TransactionReport(),
+                              ),
+                            );
+                          }
+                        }
+                        : null,
               ),
             ),
           ],
