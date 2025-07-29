@@ -6,19 +6,21 @@ class ProfileUserImgWidget extends StatelessWidget{
     final ImageProvider? img;
     final double? imgHeight;
     final double? imgWidth;
+    final EdgeInsetsGeometry? imgMargin;
 
     const ProfileUserImgWidget({
       super.key,
       this.img, 
       this.imgHeight,
-      this.imgWidth,
+      this.imgWidth, 
+      this.imgMargin,
       });
  
   @override
   Widget build(BuildContext context) {
   
     return Container(
-          margin: EdgeInsets.symmetric(horizontal: 140, vertical: 15),
+          margin: imgMargin?? EdgeInsets.symmetric(horizontal: 140.w, vertical: 15.h),
           height: imgWidth?? 120.h,
           width: imgWidth?? 120.w,
           decoration: BoxDecoration(

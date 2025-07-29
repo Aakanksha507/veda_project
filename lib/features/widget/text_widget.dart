@@ -10,6 +10,7 @@ class TextWidget extends StatelessWidget{
   final double? letterSpacing;
   final double? lineheight;
   final TextOverflow? overflow;
+  final TextAlign? textAlign;
 
 
   const TextWidget({
@@ -21,18 +22,22 @@ class TextWidget extends StatelessWidget{
     this.letterSpacing,
     this.lineheight,
     this.overflow,  
+    this.textAlign,
 
     });
   
   @override
   Widget build(BuildContext context) {
   return Text(
-    txt, style: GoogleFonts.poppins(
+    txt,
+    textAlign: textAlign,
+     style: GoogleFonts.poppins(
       fontSize: fontSize, 
       fontWeight: fontWeight, 
       color: txtColor?? Colors.black, 
       letterSpacing: letterSpacing ?? 0,
       height: lineheight,
+      
     ),
     overflow: overflow ?? TextOverflow.visible,
    

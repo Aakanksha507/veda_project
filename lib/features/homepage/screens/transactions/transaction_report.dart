@@ -30,9 +30,11 @@ class _TransactionReportState extends State<TransactionReport> {
   Future<void> getUserExpenses() async {
     User? user = await prefService.getCurrentUser();
     if (user != null) {
-      setState(() {
+      if (mounted){
+        setState(() {
         currentUser = user;
       });
+      }  
     }
   }
 
