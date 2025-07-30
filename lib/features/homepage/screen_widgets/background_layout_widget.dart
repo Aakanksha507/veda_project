@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 // import 'package:myflutterapp/screen/sign_up_page.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 // import 'package:myflutterapp/widget/custom_button_widget.dart';
@@ -36,7 +37,6 @@ class BackgroundLayoutWidget extends StatelessWidget{
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: AppBarWidget(mainTxt:appbarTittle ),
-          // backgroundColor: Color(0xFF3629B7),
         ),
         body: LayoutBuilder(
           builder: (context, constraints){
@@ -57,7 +57,7 @@ class BackgroundLayoutWidget extends StatelessWidget{
                   child: Container(
                     margin: whiteContainerHeight?? EdgeInsets.only(top: 15.h),
                     decoration: BoxDecoration(
-                      color: Color(0xFFFFFFFF),
+                      color: AppColor.neutral6,
                       borderRadius: BorderRadius.only( topLeft: Radius.circular(30.r),
                        topRight: Radius.circular(30.r)),
                     ),

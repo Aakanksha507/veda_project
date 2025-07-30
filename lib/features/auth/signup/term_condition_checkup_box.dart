@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class TermConditionCheckupBox extends StatefulWidget{
   const TermConditionCheckupBox({super.key});
@@ -41,7 +42,7 @@ class TermConditionCheckupBoxWidget extends State<TermConditionCheckupBox>{
                   mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextWidget(txt: "to our", fontWeight: FontWeight.w400, fontSize: 11.99.sp),
-                      TextWidget(txt: " Term and Condtions", fontWeight: FontWeight.w600, fontSize: 14.sp, txtColor: Color(0xFF3629B7),), 
+                      TextWidget(txt: " Term and Condtions", fontWeight: FontWeight.w600, fontSize: 14.sp, txtColor: AppColor.primary1,), 
                 ],
               )
           ],

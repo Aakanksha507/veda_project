@@ -8,6 +8,7 @@ import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dar
 import 'package:myflutterapp/features/homepage/screens/beneficiary/beneficiary.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card_background_design.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 import 'package:myflutterapp/models/user_model.dart';
 
@@ -31,28 +32,28 @@ class _CreditCardState extends State<CreditCard> {
       'secondarytxt': '02/11/2018',
       'date': "-\$1200",
       'icon': 'assets/icon/14.svg',
-      'bgColor': Color(0xFF3629B7),
+      'bgColor': AppColor.primary1,
     },
     {
       'main': 'Buy Television',
       'secondarytxt': '02/11/2018',
       'date': "-\$1200",
       'icon': 'assets/icon/13.svg',
-      'bgColor': Color(0XFFFF4267),
+      'bgColor': AppColor.semantic1,
     },
     {
       'main': 'Buy Camera',
       'secondarytxt': '02/11/2018',
       'date': "-\$1200",
       'icon': 'assets/icon/14.svg',
-      'bgColor': Color(0XFF0890FE),
+      'bgColor': AppColor.semantic2,
     },
     {
       'main': 'Buy Television',
       'secondarytxt': '02/11/2018',
       'date': "-\$1200",
       'icon': 'assets/icon/13.svg',
-      'bgColor': Color(0XFFFFAF2A),
+      'bgColor': AppColor.semantic3,
     },
   ];
 
@@ -126,9 +127,8 @@ String getMaskedCardNumber(String cardNumber) {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: 'Credit Card',
-          bgColor: Color(0xFF3629B7),
-          txtColor: Color(0xFFFFFFFF),
-          iconColor: Color(0xFFFFFFFF),
+          txtColor:AppColor.neutral6,
+          iconColor: AppColor.neutral6,
           onTap: () {
             Navigator.push(
               context,
@@ -136,15 +136,14 @@ String getMaskedCardNumber(String cardNumber) {
             );
           },
         ),
-        backgroundColor: Color(0xFF3629B7),
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xFF3629B7),
+          color: AppColor.primary1,
           child: Container(
             margin: EdgeInsets.only(top: 24.h),
             decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
+              color: AppColor.neutral6,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.r),
                 topRight: Radius.circular(30.r),
@@ -185,7 +184,7 @@ String getMaskedCardNumber(String cardNumber) {
                               txtTapping: items['date'],
                               leadingIconPath: items['icon'],
                               iconBgColor: items['bgColor'],
-                              txtTappingColor: Color(0xFFFF4267),
+                              txtTappingColor: AppColor.semantic1,
                               padding: EdgeInsets.all(12.w),
                               margin: EdgeInsets.zero,
                               borderBottom: BorderSide(
@@ -221,7 +220,7 @@ String getMaskedCardNumber(String cardNumber) {
                                 style: TextStyle(
                                   fontSize: 24.sp,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFF4267),
+                                  color: AppColor.semantic1,
                                 ),
                               ),
                             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 enum ExpensesCategory {
   waterBill,
@@ -42,15 +43,15 @@ extension ExpensesCategoryExtension on ExpensesCategory {
   Color get backgroundColor {
     switch (this) {
       case ExpensesCategory.waterBill:
-        return Color(0xFF3629B7);
+        return AppColor.primary1;
       case ExpensesCategory.electricityBill:
-        return Color(0xFF0890FE);
+        return AppColor.semantic2;
       case ExpensesCategory.internetBill:
-        return Color(0xFF52D5BA);
+        return AppColor.semantic4;
       case ExpensesCategory.salaries:
-        return Color(0xFFFF4267);
+        return AppColor.semantic1;
       case ExpensesCategory.transportation:
-        return Color(0xFFFFAF2A);
+        return AppColor.semantic3;
     }
   }
 
@@ -58,11 +59,12 @@ extension ExpensesCategoryExtension on ExpensesCategory {
   return this == ExpensesCategory.salaries ? '+' : '-';
 }
 
-Color get amountColor {
+Color? get amountColor {
   return this == ExpensesCategory.salaries
-      ? const Color(0xFF3629B7) 
-      : const Color(0xFFFF4267); 
+      ? AppColor.primary1 
+      :  AppColor.semantic1; 
 }
+
 
 static ExpensesCategory fromString(String value) {
   return ExpensesCategory.values.firstWhere(

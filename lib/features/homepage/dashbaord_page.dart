@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/screen_layout.dart';
@@ -13,6 +14,8 @@ import 'package:myflutterapp/features/widget/home_category_layout.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ScreenPage extends StatefulWidget {
   const ScreenPage({super.key});
@@ -52,7 +55,7 @@ class _ScreenPageState extends State<ScreenPage> {
           padding: EdgeInsets.symmetric(horizontal: 92.w, vertical: 69.h),
           child: ProfileUsernameWidget(
             username: 'Hi, Push Puttichai',
-            txtColor: Color(0xFFFFFFFF),
+            txtColor:  Theme.of(context).colorScheme.onPrimary,
             txtFontWeight: FontWeight.w500,
           ),
         ),
@@ -100,9 +103,10 @@ class _ScreenPageState extends State<ScreenPage> {
               Row(
                 children: [
                   HomeCategoryLayout(
-                    text: 'Account and Card',
+                    text: AppLocalizations.of(context)!.accountAndCard,
                     iconImg: 'assets/icon/home_icon/accountCard.svg',
                   ),
+
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
                     text: 'Transfer',
@@ -180,3 +184,4 @@ class _ScreenPageState extends State<ScreenPage> {
     );
   }
 }
+

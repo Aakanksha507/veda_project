@@ -10,6 +10,7 @@ import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widge
 import 'package:myflutterapp/features/auth/signup/term_condition_checkup_box.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -60,7 +61,7 @@ class SignUpPageState extends State<SignUpPage> {
                   validator: InputValidation.validateUserName,
                   errorText: usernameError,
                   hintTxt: 'User Name',
-                  hintStyleColor: const Color(0xFFCACACA),
+                  hintStyleColor:  AppColor.neutral4,
                   borderBoxColor: const Color(0xFFCBCBCB),
                 ),
                 //Input Field For PhoneNumber
@@ -78,7 +79,7 @@ class SignUpPageState extends State<SignUpPage> {
                   errorText: passwordError,
                   obscureTextPassword: obscurePassword,
                   hintTxt: 'Password',
-                  hintStyleColor: const Color(0xFFCACACA),
+                  hintStyleColor:  AppColor.neutral4,
                   borderBoxColor: const Color(0xFFCBCBCB),
                 ),
                 Padding(
@@ -127,7 +128,7 @@ class SignUpPageState extends State<SignUpPage> {
                     }
                   },
                   btnText: "SignUp",
-                  bgColorBtn: const Color(0xFF3629B7),
+                  bgColorBtn: AppColor.primary1,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +151,7 @@ class SignUpPageState extends State<SignUpPage> {
                         txt: "Sign In ",
                         fontWeight: FontWeight.w600,
                         fontSize: 12.sp,
-                        txtColor: const Color(0xFF3629B7),
+                        txtColor: AppColor.primary1,
                       ),
                     ),
                   ],

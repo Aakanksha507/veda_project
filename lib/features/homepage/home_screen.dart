@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/homepage/screens/message_screen.dart';
-import 'package:myflutterapp/features/homepage/screen_page.dart';
+import 'package:myflutterapp/features/homepage/dashbaord_page.dart';
 import 'package:myflutterapp/features/homepage/screens/setting_screen.dart';
 import 'package:myflutterapp/models/user_model.dart';
 
@@ -87,8 +87,8 @@ Future<void> loadCurrentUser() async {
         onTap: tapSelectedItem,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        selectedItemColor: const Color(0xFF3629B7),
-        unselectedItemColor: const Color(0xFF898989),
+        selectedItemColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor ,
+        unselectedItemColor: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),

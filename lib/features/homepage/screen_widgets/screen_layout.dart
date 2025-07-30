@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class ScreenLayout extends StatelessWidget {
   final EdgeInsetsGeometry? marginOfWhiteContainer;
@@ -7,16 +9,16 @@ class ScreenLayout extends StatelessWidget {
   const ScreenLayout({super.key, this.marginOfWhiteContainer});
 
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext  context) {
     return Stack(
       children: [
         Container(
-          decoration: BoxDecoration(color: Color(0xff3629B7)),
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary),
 
           child: Container(
             margin: marginOfWhiteContainer?? EdgeInsets.only(top: 78.h),
             decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
+              color:Theme.of(context).colorScheme.secondary,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30.r),
                 topRight: Radius.circular(30.r),

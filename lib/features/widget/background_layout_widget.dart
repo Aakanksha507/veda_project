@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/widget/text_img_designlayout_widget.dart';
-
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class BackgroundLayoutWidget extends StatelessWidget{
 
@@ -31,7 +31,7 @@ class BackgroundLayoutWidget extends StatelessWidget{
         appBar: AppBar(
           
           title: AppBarWidget(mainTxt:appbarTittle ),
-          backgroundColor: Color(0xFF3629B7),
+          backgroundColor: AppColor.primary1,
         ),
         body: Column(
           children: [
@@ -91,7 +91,7 @@ class BackgroundLayoutWidget extends StatelessWidget{
             //          child: TextWidget(txt: actionText,
             //            fontWeight: FontWeight.w600,
             //            fontSize: 12.sp,
-            //              txtColor: Color(0xFF3629B7),
+            //              txtColor: AppColor.primary1,
             //              ),
             //        ),
             //     ],

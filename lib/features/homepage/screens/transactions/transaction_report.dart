@@ -9,6 +9,7 @@ import 'package:myflutterapp/features/homepage/screens/transactions/add_expenses
 import 'package:myflutterapp/features/homepage/screens/transactions/edit_expenses.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class TransactionReport extends StatefulWidget {
   const TransactionReport({super.key});
@@ -79,7 +80,7 @@ class _TransactionReportState extends State<TransactionReport> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: 'Transaction Report',
-          bgColor: Color(0xFF3629B7),
+          bgColor: AppColor.primary1,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -89,12 +90,12 @@ class _TransactionReportState extends State<TransactionReport> {
             );
           },
         ),
-        backgroundColor: Color(0xFF3629B7),
+        backgroundColor: AppColor.primary1,
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(color: Color(0xFF3629B7), height: 200.h),
+            Container(color: AppColor.primary1, height: 200.h),
             Container(
               margin: EdgeInsets.only(top: 108.h),
 

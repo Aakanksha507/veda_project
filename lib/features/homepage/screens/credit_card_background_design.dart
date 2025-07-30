@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/credit_card_design_widget.dart';
 
 class CreditCardBackgroundDesign extends StatelessWidget {
@@ -24,7 +25,7 @@ class CreditCardBackgroundDesign extends StatelessWidget {
             height: 164.h,
             width: 261.w,
             decoration: BoxDecoration(
-              color: Color(0xFF5655B9),
+              color: AppColor.primary2,
               borderRadius: BorderRadius.circular(10.0.r),
               boxShadow: [
                 BoxShadow(
@@ -42,7 +43,7 @@ class CreditCardBackgroundDesign extends StatelessWidget {
             height: 178.h,
             width: 287.w,
             decoration: BoxDecoration(
-              color: Color(0xFFFF4267),
+              color: AppColor.semantic1,
               borderRadius: BorderRadius.circular(10.0.r),
               boxShadow: [
                 BoxShadow(

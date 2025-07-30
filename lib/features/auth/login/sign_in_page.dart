@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/auth/login/International_phone_number_inputfield.dart';
 import 'package:myflutterapp/features/auth/sevice/input_validation.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
@@ -64,7 +65,7 @@ class _SignInPageState extends State<SignInPage> {
                   validator: InputValidation.validatePassword,
                   errorText: passwordError,
                   obscureTextPassword: obscurePassword,
-                  hintStyleColor: Color(0xFFCACACA),
+                  hintStyleColor: AppColor.neutral4,
                   borderBoxColor: Color(0xFFCBCBCB),
                  onChanged: (value) {
                     setState(() {
@@ -82,7 +83,7 @@ class _SignInPageState extends State<SignInPage> {
                     child: TextWidget(
                       txt: "Forget your Password",
                       fontWeight: FontWeight.w500,
-                      txtColor: Color(0xffCACACA),
+                      txtColor: AppColor.neutral4,
                       fontSize: 12,
                     ),
                   ),
@@ -90,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                 CustomButtonWidget(
                   btnText: "SignIn",
                   isEnabled: true,
-                  bgColorBtn: Color(0xFF3629B7),
+                  bgColorBtn: AppColor.primary1,
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       final phoneNumber = phoneNumberController.text.trim();
@@ -194,7 +195,7 @@ class _SignInPageState extends State<SignInPage> {
                           txt: "Sign Up ",
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
-                          txtColor: Color(0xFF3629B7),
+                          txtColor: AppColor.primary1,
                         ),
                       ),
                     ],

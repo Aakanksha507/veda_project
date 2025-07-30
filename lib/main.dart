@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/auth/login/checking_login_status.dart';
 import 'package:myflutterapp/theme/theme.dart';
 import 'package:myflutterapp/theme/theme_preference.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() => runApp
 (ScreenUtilInit(
@@ -27,12 +28,32 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     //ref is obj provided by riverpod that access and react to state provider.
     final themeMode = ref.watch(themeModeProvider);
+    // final appLocale = ref.watch(appLanguageProvider);
     return MaterialApp(
 
       theme: AppTheme.lighttheme(),
       darkTheme: AppTheme.darkTheme(),
       themeMode: themeMode,//ThemeMode.system,
       debugShowCheckedModeBanner: false,
+       localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'), 
+          Locale('fr'), 
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          for (var supported in supportedLocales) {
+            if (supported.languageCode == locale?.languageCode) {
+              return supported;
+            }
+          }
+          return supportedLocales.first;
+        },
+
       home: CheckingLoginStatus(),
     );
   }

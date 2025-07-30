@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 
@@ -50,7 +51,7 @@ class CreditCardDesignWidget extends StatelessWidget {
             txt: cardHolderName ?? 'John Smith',
             fontWeight: FontWeight.w400,
             fontSize: 24.sp,
-            txtColor: Color(0xFFFFFFFF),
+            txtColor: AppColor.neutral6,
           ),
         ),
         Positioned(
@@ -60,7 +61,7 @@ class CreditCardDesignWidget extends StatelessWidget {
             txt: 'Amazon Platinium',
             fontWeight: FontWeight.w500,
             fontSize: 14.sp,
-            txtColor: Color(0xFFFFFFFF),
+            txtColor: AppColor.neutral6,
           ),
         ),
         Positioned(
@@ -70,7 +71,7 @@ class CreditCardDesignWidget extends StatelessWidget {
             txt: cardNumber ?? '4768  ****  ****  1234',
             fontWeight: FontWeight.w400,
             fontSize: 16.sp,
-            txtColor: Color(0xFFFFFFFF),
+            txtColor: AppColor.neutral6,
           ),
         ),
         Positioned(
@@ -80,7 +81,7 @@ class CreditCardDesignWidget extends StatelessWidget {
             txt: cardBalance ?? '\$3.469,52',
             fontWeight: FontWeight.w600,
             fontSize: 20.sp,
-            txtColor: Color(0xFFFFFFFF),
+            txtColor: AppColor.neutral6,
           ),
         ),
       ],

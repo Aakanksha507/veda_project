@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
-
+import 'package:myflutterapp/AppColor/app_color.dart';
 class ProfileUsernameWidget extends StatelessWidget{
 
   final String username;
@@ -20,7 +20,7 @@ class ProfileUsernameWidget extends StatelessWidget{
     return TextWidget(txt: username,
      fontWeight:txtFontWeight?? FontWeight.w600 ,
       fontSize: 16.sp,
-       txtColor:txtColor?? Color(0xFF3629B7)
+       txtColor:txtColor?? AppColor.primary1
        );
   }
 }

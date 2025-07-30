@@ -30,7 +30,7 @@ class AppBarWidget extends StatelessWidget{
             style: GoogleFonts.poppins(
               fontSize: 20.sp,
                fontWeight: FontWeight.w600, 
-                color:txtColor ?? Color(0xFFFFFFFF),
+                color:txtColor ?? Theme.of(context).appBarTheme.titleTextStyle?.color,
             ),  
             
             

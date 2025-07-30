@@ -8,6 +8,7 @@ import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dar
 import 'package:myflutterapp/features/homepage/screens/transactions/transaction_report.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class EditExpenses extends StatefulWidget {
   final String category;
@@ -82,7 +83,7 @@ class _EditExpensesState extends State<EditExpenses> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: "Edit Expenses",
-          bgColor: Color(0xFF3629B7),
+          bgColor: AppColor.primary1,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -92,7 +93,7 @@ class _EditExpensesState extends State<EditExpenses> {
             );
           },
         ),
-        backgroundColor: Color(0xFF3629B7),
+        backgroundColor: AppColor.primary1,
       ),
       body: Container(
         color: Color(0xFFFFFFFF),
@@ -133,7 +134,7 @@ class _EditExpensesState extends State<EditExpenses> {
                 padding: EdgeInsets.all(55.w),
                 child: CustomButtonWidget(
                   btnText: 'Edit Expenses',
-                  bgColorBtn: Color(0xFF3629B7),
+                  bgColorBtn: AppColor.primary1,
                   onTap:
                       isEdited
                           ? () async {

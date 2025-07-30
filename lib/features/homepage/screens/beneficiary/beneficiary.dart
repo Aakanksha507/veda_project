@@ -12,6 +12,7 @@ import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:uuid/uuid.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class Beneficiary extends StatefulWidget {
   const Beneficiary({super.key});
@@ -84,7 +85,7 @@ class _BeneficiaryState extends State<Beneficiary> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: AppBarWidget(mainTxt: 'Beneficiary'),
-        backgroundColor: const Color(0xFF3629B7),
+        backgroundColor: AppColor.primary1,
       ),
 
       body: SafeArea(
@@ -96,13 +97,13 @@ class _BeneficiaryState extends State<Beneficiary> {
                   Container(
                     width: 375.w,
                     height: 700.h,
-                    decoration: BoxDecoration(color: Color(0xff3629B7)),
+                    decoration: BoxDecoration(color: AppColor.primary1),
                     child: Container(
                       height: 641.h,
                       width: 375.w,
                       margin: EdgeInsets.only(top: 78.h),
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
+                        color: AppColor.neutral6,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(30.r),
                           topRight: Radius.circular(30.r),
@@ -125,7 +126,7 @@ class _BeneficiaryState extends State<Beneficiary> {
                     child: Container(
                       height: 641.h,
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
+                        color: AppColor.neutral6,
                         borderRadius: BorderRadius.circular(15.r),
                         boxShadow: [
                           BoxShadow(
@@ -188,7 +189,7 @@ class _BeneficiaryState extends State<Beneficiary> {
                               ),
                               child: CustomButtonWidget(
                                 btnText: "Confirm",
-                                bgColorBtn: Color(0Xff3629B7),
+                                bgColorBtn: AppColor.primary1,
                                 onTap: () async {
                                   if (_formkey.currentState!.validate()) {
                                     final bankName =

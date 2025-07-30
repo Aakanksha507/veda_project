@@ -9,6 +9,7 @@ import 'package:myflutterapp/features/homepage/screens/transactions/transaction_
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class AddExpenses extends StatefulWidget {
   const AddExpenses({super.key});
@@ -36,7 +37,7 @@ class _AddExpensesState extends State<AddExpenses> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: "Add Expenses",
-          bgColor: Color(0xFF3629B7),
+          bgColor: AppColor.primary1,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -46,7 +47,7 @@ class _AddExpensesState extends State<AddExpenses> {
             );
           },
         ),
-        backgroundColor: Color(0xFF3629B7),
+        backgroundColor: AppColor.primary1,
       ),
       body: Container(
         color: Color(0xFFFFFFFF),
@@ -86,7 +87,7 @@ class _AddExpensesState extends State<AddExpenses> {
                 padding: EdgeInsets.all(55.w),
                 child: CustomButtonWidget(
                   btnText: 'Add Expenses',
-                  bgColorBtn: Color(0xFF3629B7),
+                  bgColorBtn: AppColor.primary1,
                   onTap: () async {
                     if (_formkey.currentState!.validate()) {
                       final description = descriptionController.text.trim();

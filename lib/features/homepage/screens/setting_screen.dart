@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 // ignore: must_be_immutable
 class SettingScreen extends StatelessWidget{
@@ -23,22 +24,22 @@ class SettingScreen extends StatelessWidget{
       appBar: AppBar(
          automaticallyImplyLeading: false,
         title: AppBarWidget(mainTxt: 'Setting',
-         bgColor: Color(0xFF3629B7),
-          txtColor: Color(0xFFFFFFFF),
-           iconColor:  Color(0xFFFFFFFF),
+         bgColor: Theme.of(context).appBarTheme.backgroundColor,//AppColor.primary1,
+          txtColor:  AppColor.neutral6,
+           iconColor:  AppColor.neutral6,
            ),
-        backgroundColor: Color(0xFF3629B7),
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       ),
     
       body: Stack(
         children: [
           Container(
-            color: Color(0xFF3629B7),
+            color: AppColor.primary1,
           ),
           Container(
             margin: EdgeInsets.only(top: 67.h),
             decoration: BoxDecoration(
-              color:Color(0xFFFFFFFF),
+              color: AppColor.neutral6,
               borderRadius: BorderRadius.only(
                 topLeft:Radius.circular(30.r), 
                 topRight: Radius.circular(30.r)

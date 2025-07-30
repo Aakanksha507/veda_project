@@ -30,7 +30,7 @@ class HomeCategoryLayout extends StatelessWidget {
         width: 100.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
-          color: Color(0xFFFFFFFF),
+          color:Theme.of(context).colorScheme.onPrimary,
           // color: Colors.red,
           boxShadow: [
             BoxShadow(

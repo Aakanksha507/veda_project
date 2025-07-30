@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class TextImgDesignlayoutWidget extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class TextImgDesignlayoutWidget extends StatelessWidget {
         TextWidget(txt: titleText,
          fontSize: 24.sp,
           fontWeight: FontWeight.w600,
-           txtColor: Color(0xFF3629B7),
+           txtColor: AppColor.primary1,
         ), 
         TextWidget(txt: secondaryText,
          fontWeight: FontWeight.w500,

@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "chooseLanguageTitle": "Choose Your Language",
+  "@chooseLanguageTitle": {
+    "description": "Title for the Choose Language screen"
+  },
+
+  "accountAndCard": "Account and Card"
+}

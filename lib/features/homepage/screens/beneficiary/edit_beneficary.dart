@@ -7,12 +7,12 @@ import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/home_screen.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
-import 'package:myflutterapp/features/homepage/screens/transactions/transaction_report.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:uuid/uuid.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class EditBeneficary extends StatefulWidget {
   final String bankName;
@@ -118,7 +118,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
             );
           },
         ),
-        backgroundColor: const Color(0xFF3629B7),
+        backgroundColor:  AppColor.primary1,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -129,7 +129,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                   Container(
                     width: 375.w,
                     height: 700.h,
-                    decoration: BoxDecoration(color: Color(0xff3629B7)),
+                    decoration: BoxDecoration(color: AppColor.primary1),
                     child: Container(
                       height: 641.h,
                       width: 375.w,
@@ -158,7 +158,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                     child: Container(
                       height: 641.h,
                       decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
+                        color: AppColor.neutral6,
                         borderRadius: BorderRadius.circular(15.r),
                         boxShadow: [
                           BoxShadow(
@@ -221,7 +221,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                               ),
                               child: CustomButtonWidget(
                                 btnText: "Edit",
-                                bgColorBtn: Color(0Xff3629B7),
+                                bgColorBtn: AppColor.primary1,
                                 onTap:
                                     isEdited
                                         ? () async {
