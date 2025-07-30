@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
+import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/screen_layout.dart';
 import 'package:myflutterapp/features/homepage/screens/beneficiary/beneficiary.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
@@ -54,6 +55,13 @@ class _ScreenPageState extends State<ScreenPage> {
             txtColor: Color(0xFFFFFFFF),
             txtFontWeight: FontWeight.w500,
           ),
+        ),
+
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 60.h),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: CutomToggleSwitchWidget()),
         ),
         GestureDetector(
           onTap: () async {

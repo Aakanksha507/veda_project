@@ -24,13 +24,13 @@ class AppBarWidget extends StatelessWidget{
   Widget build(BuildContext context) {
        return AppBar( 
         // automaticallyImplyLeading: false,
-        backgroundColor: bgColor ?? Color(0xFF3629B7),    
+        backgroundColor: bgColor ?? Theme.of(context).appBarTheme.backgroundColor,    
         title: 
             Text(mainTxt,
             style: GoogleFonts.poppins(
               fontSize: 20.sp,
                fontWeight: FontWeight.w600, 
-                color: txtColor ?? Color(0xFFFFFFFF),
+                color:txtColor ?? Color(0xFFFFFFFF),
             ),  
             
             

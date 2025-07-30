@@ -36,7 +36,7 @@ class BackgroundLayoutWidget extends StatelessWidget{
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: AppBarWidget(mainTxt:appbarTittle ),
-          backgroundColor: Color(0xFF3629B7),
+          // backgroundColor: Color(0xFF3629B7),
         ),
         body: LayoutBuilder(
           builder: (context, constraints){
