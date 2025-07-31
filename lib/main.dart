@@ -7,6 +7,7 @@ import 'package:myflutterapp/theme/theme_preference.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 void main() => runApp
 (ScreenUtilInit(
     designSize: Size(375, 812),
@@ -28,14 +29,14 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     //ref is obj provided by riverpod that access and react to state provider.
     final themeMode = ref.watch(themeModeProvider);
-    // final appLocale = ref.watch(appLanguageProvider);
+    final appLocale = ref.watch(localeProvider);
     return MaterialApp(
 
       theme: AppTheme.lighttheme(),
       darkTheme: AppTheme.darkTheme(),
-      themeMode: themeMode,//ThemeMode.system,
+      themeMode: themeMode,//ThemeMode.system, 
       debugShowCheckedModeBanner: false,
-      locale: Locale('fr'),  
+      locale: appLocale,  
       supportedLocales: const [
         Locale('en'), 
         Locale('fr'), 

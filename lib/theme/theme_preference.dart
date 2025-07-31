@@ -26,3 +26,6 @@ final themeModeProvider = StateProvider<ThemeMode>((ref) {
   return theme == 'dark' ? ThemeMode.dark : ThemeMode.light;
   
 });
+
+final localeProvider = StateProvider<Locale>((ref) => const Locale('en'));
+

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,16 +15,18 @@ import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/theme/theme_preference.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-class ScreenPage extends StatefulWidget {
+class ScreenPage extends ConsumerStatefulWidget {
   const ScreenPage({super.key});
 
   @override
-  State<ScreenPage> createState() => _ScreenPageState();
+  ConsumerState<ScreenPage> createState() => _ScreenPageState();
 }
 
-class _ScreenPageState extends State<ScreenPage> {
+class _ScreenPageState extends ConsumerState<ScreenPage> {
 
   User? currentUser;
 
@@ -39,7 +42,11 @@ class _ScreenPageState extends State<ScreenPage> {
  
   @override
   Widget build(BuildContext context) {
+    final ref = this.ref; 
     final loc = AppLocalizations.of(context)!;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Stack(
       children: [
         ScreenLayout(marginOfWhiteContainer: EdgeInsets.only(top: 130.h)),
@@ -52,7 +59,7 @@ class _ScreenPageState extends State<ScreenPage> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 92.w, vertical: 69.h),
+          padding: EdgeInsets.symmetric(horizontal: 85.w, vertical: 69.h),
           child: ProfileUsernameWidget(
             username: loc.hiUser,
             txtColor:  Theme.of(context).colorScheme.onPrimary,
@@ -61,7 +68,52 @@ class _ScreenPageState extends State<ScreenPage> {
         ),
 
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 60.w, vertical: 60.h),
+          padding: EdgeInsets.symmetric(horizontal: 88.w, vertical: 60.h),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+            onPressed:(){
+                final RenderBox button = context.findRenderObject() as RenderBox;
+                final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+                final Offset position = button.localToGlobal(Offset.zero, ancestor: overlay);
+
+              showMenu<Locale>(
+                context: context,
+                position: RelativeRect.fromLTRB(
+                  position.dx+ button.size.width,
+                  position.dy,
+                  position.dx ,
+                  position.dy + button.size.height,
+                ),
+                items: [
+                  PopupMenuItem(
+                    value: const Locale('en'),
+                    child: const Text('English'),
+                  ),
+                  PopupMenuItem(
+                    value: const Locale('ne'),
+                    child: const Text('Nepali'),
+                  ),
+                  PopupMenuItem(
+                    value: const Locale('fr'),
+                    child: const Text('French'),
+                  ),
+                ],
+              ).then((selectedLocale) {
+                if (selectedLocale != null) {
+                  ref.read(localeProvider.notifier).state = selectedLocale;
+                }
+              });
+
+
+          }, 
+            icon: Icon(Icons.g_translate_rounded, color:Colors.white,)
+            ),
+          )
+        ),
+
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 60.h),
           child: Align(
             alignment: Alignment.topRight,
             child: CutomToggleSwitchWidget()),
@@ -74,10 +126,14 @@ class _ScreenPageState extends State<ScreenPage> {
               context,
               MaterialPageRoute(builder: (_) => SignInPage()),
               (route) => false,
+              
             );
+            
           },
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 67.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: screenWidth*0.06, vertical: screenHeight*0.08
+            ),
             child: Align(
               alignment: Alignment.topRight,
               child: SvgPicture.asset(

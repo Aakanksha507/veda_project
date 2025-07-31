@@ -23,6 +23,7 @@ class HomeCategoryLayout extends StatelessWidget {
           SnackBar(content: Text("Coming Soon!"),
           duration: Duration(seconds: 2), )
         );
+  
       },
       
       child: Container(

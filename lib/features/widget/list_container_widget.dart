@@ -7,7 +7,7 @@ import 'package:myflutterapp/features/widget/text_widget.dart';
 
 class ListContainerWidget extends StatelessWidget{
   final String title ;
-  final String description;
+  final String? description;
   final String? leadingIconPath;
   final Color? iconBgColor;
   final Color? txtTappingColor;
@@ -30,7 +30,7 @@ class ListContainerWidget extends StatelessWidget{
   const ListContainerWidget({
     super.key, 
     required this.title,  
-    required this.description,
+    this.description,
     this.leadingIconPath, 
     this.iconBgColor,
     this.txtTapping,
@@ -100,7 +100,7 @@ class ListContainerWidget extends StatelessWidget{
                     fontSize: 16.sp,
                      txtColor: Color(0xFF343434),
                   ),
-                  TextWidget(txt: description,
+                  TextWidget(txt: description??'' ,
                     overflow: TextOverflow.ellipsis,
                     fontWeight: FontWeight.w600,
                     fontSize: 12.sp,

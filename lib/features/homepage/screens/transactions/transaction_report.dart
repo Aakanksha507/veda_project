@@ -164,6 +164,7 @@ class _TransactionReportState extends State<TransactionReport> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Deleted Succesfully")),
                             );
+
                           },
 
                           background: Container(color: Colors.red),

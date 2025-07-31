@@ -18,6 +18,7 @@ class ProfileUsernameWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return TextWidget(txt: username,
+    overflow: TextOverflow.ellipsis,
      fontWeight:txtFontWeight?? FontWeight.w600 ,
       fontSize: 16.sp,
        txtColor:txtColor?? AppColor.primary1
