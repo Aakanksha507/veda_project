@@ -85,11 +85,11 @@ Future<void> loadCurrentUser() async {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: tapSelectedItem,
-        showSelectedLabels: true,
+        showSelectedLabels: false,
         showUnselectedLabels: false,
         selectedItemColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor ,
         unselectedItemColor: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
-        items: const [
+        items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'Message'),

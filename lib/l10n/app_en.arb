@@ -1,9 +1,13 @@
 {
   "@@locale": "en",
-  "chooseLanguageTitle": "Choose Your Language",
-  "@chooseLanguageTitle": {
-    "description": "Title for the Choose Language screen"
-  },
-
-  "accountAndCard": "Account and Card"
+  "hiUser": "Hi, Push Puttichai",
+  "accountAndCard": "Account and Card",
+  "transfer": "Transfer",
+  "withdraw": "Withdraw",
+  "mobilePrepaid": "Mobile prepaid",
+  "payTheBill": "Pay the bill",
+  "saveOnline": "Save online",
+  "creditCard": "Credit card",
+  "transactionReport": "Transaction Report",
+  "beneficiary": "Beneficiary"
 }

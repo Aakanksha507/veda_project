@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/screen_layout.dart';
@@ -40,6 +39,7 @@ class _ScreenPageState extends State<ScreenPage> {
  
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Stack(
       children: [
         ScreenLayout(marginOfWhiteContainer: EdgeInsets.only(top: 130.h)),
@@ -54,7 +54,7 @@ class _ScreenPageState extends State<ScreenPage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 92.w, vertical: 69.h),
           child: ProfileUsernameWidget(
-            username: 'Hi, Push Puttichai',
+            username: loc.hiUser,
             txtColor:  Theme.of(context).colorScheme.onPrimary,
             txtFontWeight: FontWeight.w500,
           ),
@@ -103,18 +103,18 @@ class _ScreenPageState extends State<ScreenPage> {
               Row(
                 children: [
                   HomeCategoryLayout(
-                    text: AppLocalizations.of(context)!.accountAndCard,
+                    text: loc.accountAndCard,
                     iconImg: 'assets/icon/home_icon/accountCard.svg',
                   ),
 
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Transfer',
+                    text: loc.transfer,
                     iconImg: 'assets/icon/home_icon/transfer.svg',
                   ),
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Withdraw',
+                    text: loc.withdraw,
                     iconImg: 'assets/icon/home_icon/withdraw.svg',
                   ),
                 ],
@@ -123,17 +123,17 @@ class _ScreenPageState extends State<ScreenPage> {
               Row(
                 children: [
                   HomeCategoryLayout(
-                    text: 'Mobile prepaid',
+                    text: loc.mobilePrepaid,
                     iconImg: 'assets/icon/home_icon/mobilePrepaid.svg',
                   ),
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Pay the bill',
+                    text: loc.payTheBill,
                     iconImg: 'assets/icon/home_icon/receipt.svg',
                   ),
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Save online',
+                    text: loc.saveOnline,
                     iconImg: 'assets/icon/home_icon/pig.svg',
                   ),
                 ],
@@ -142,7 +142,7 @@ class _ScreenPageState extends State<ScreenPage> {
               Row(
                 children: [
                   HomeCategoryLayout(
-                    text: 'Credit card',
+                    text: loc.creditCard,
                     iconImg: 'assets/icon/home_icon/creditCard.svg',
                     ontap: () {
                       Navigator.push(
@@ -153,7 +153,7 @@ class _ScreenPageState extends State<ScreenPage> {
                   ),
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Transaction Report',
+                    text: loc.transactionReport,
                     iconImg: 'assets/icon/home_icon/report.svg',
                     ontap: () {
                       Navigator.push(
@@ -166,7 +166,7 @@ class _ScreenPageState extends State<ScreenPage> {
                   ),
                   SizedBox(width: 16.w),
                   HomeCategoryLayout(
-                    text: 'Beneficiary',
+                    text: loc.beneficiary,
                     iconImg: 'assets/icon/home_icon/beneficiary.svg',
                     ontap: () {
                       Navigator.push(

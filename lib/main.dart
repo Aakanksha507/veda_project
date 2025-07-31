@@ -35,25 +35,18 @@ class _MyAppState extends ConsumerState<MyApp> {
       darkTheme: AppTheme.darkTheme(),
       themeMode: themeMode,//ThemeMode.system,
       debugShowCheckedModeBanner: false,
-       localizationsDelegates: const [
+      locale: Locale('fr'),  
+      supportedLocales: const [
+        Locale('en'), 
+        Locale('fr'), 
+        Locale('ne'), 
+      ],
+      localizationsDelegates: const [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'), 
-          Locale('fr'), 
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          for (var supported in supportedLocales) {
-            if (supported.languageCode == locale?.languageCode) {
-              return supported;
-            }
-          }
-          return supportedLocales.first;
-        },
-
+      ],
       home: CheckingLoginStatus(),
     );
   }
