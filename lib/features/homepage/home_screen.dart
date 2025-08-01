@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflutterapp/Api/api.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/homepage/screens/message_screen.dart';
 import 'package:myflutterapp/features/homepage/dashbaord_page.dart';
@@ -65,7 +66,7 @@ Future<void> loadCurrentUser() async {
         screen =  ScreenPage();
         break;
       case 1:
-        screen =  Center(child: Text('Search Screen'));
+        screen =  ApiDioPractice();
         break;
       case 2:
         screen =  MessageScreen();
