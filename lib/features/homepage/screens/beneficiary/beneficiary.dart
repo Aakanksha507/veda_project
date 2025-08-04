@@ -11,8 +11,8 @@ import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widge
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:uuid/uuid.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Beneficiary extends StatefulWidget {
   const Beneficiary({super.key});
@@ -26,10 +26,12 @@ class _BeneficiaryState extends State<Beneficiary> {
   final bankBranchController = TextEditingController();
   final transactionNameController = TextEditingController();
   final cardNumberController = TextEditingController();
+
   final bankNameNode = FocusNode();
   final bankBranchNode = FocusNode();
   final transactionNameNode = FocusNode();
   final cardNumberNode = FocusNode();
+
   final SharedPrefService prefService = SharedPrefService();
 
   bool _isRedirecting = true;
@@ -48,46 +50,58 @@ class _BeneficiaryState extends State<Beneficiary> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => EditBeneficary( 
-              bankName: currentUser.bankName ?? '',
-              branchName: currentUser.bankBranch ?? '',
-              transactionName: currentUser.transactionName ?? '',
-              cardNumber: currentUser.cardNumber ?? '',
-          )),
+          MaterialPageRoute(
+            builder:
+                (context) => EditBeneficary(
+                  bankName: currentUser.bankName ?? '',
+                  branchName: currentUser.bankBranch ?? '',
+                  transactionName: currentUser.transactionName ?? '',
+                  cardNumber: currentUser.cardNumber ?? '',
+                ),
+          ),
         );
       });
+    } else {
+      setState(() {
+        _isRedirecting = false;
+      });
     }
-    setState(() {
-      _isRedirecting = true;
-    });
   }
 
-  final uuid = Uuid();
+  final _formKey = GlobalKey<FormState>();
 
-  final _formkey = GlobalKey<FormState>();
-  String? bankNameError;
-  String? branchNameError;
-  String? transactionNameError;
-  String? cardNumberError;
-
-  // for cardNumber Formatter
+  // Card number formatter
   final cardNumberFormatter = MaskTextInputFormatter(
     mask: '#### #### ###',
     filter: {'#': RegExp(r'[0-9]')},
   );
 
   @override
+  void dispose() {
+    bankNameController.dispose();
+    bankBranchController.dispose();
+    transactionNameController.dispose();
+    cardNumberController.dispose();
+    bankNameNode.dispose();
+    bankBranchNode.dispose();
+    transactionNameNode.dispose();
+    cardNumberNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     if (_isRedirecting) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: AppBarWidget(mainTxt: 'Beneficiary'),
+        title: AppBarWidget(mainTxt: loc.beneficiary),
         backgroundColor: AppColor.primary1,
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -114,11 +128,9 @@ class _BeneficiaryState extends State<Beneficiary> {
                   Positioned(child: ProfileUserImgWidget()),
                   Positioned(
                     top: 127.h,
-                    left: 125.w,
-                    child: ProfileUsernameWidget(username: "Push Puttichai"),
+                    left: 145.w,
+                    child: ProfileUsernameWidget(username: loc.user),
                   ),
-          
-                  // SizedBox(height: 12,),
                   Positioned(
                     top: 160.h,
                     left: 24.w,
@@ -130,102 +142,84 @@ class _BeneficiaryState extends State<Beneficiary> {
                         borderRadius: BorderRadius.circular(15.r),
                         boxShadow: [
                           BoxShadow(
-                            color: Color(0x0D000000),
+                            color: const Color(0x0D000000),
                             blurRadius: 30,
                             offset: Offset(0, 4),
                           ),
                         ],
                       ),
                       child: Form(
-                        key: _formkey,
+                        key: _formKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             InputFielsWidget(
                               focusNode: bankNameNode,
                               controller: bankNameController,
-                              validator: InputValidation.validateBankName,
-                              errorText: bankNameError,
-                              labelTxt: 'Choose Bank',
-                              hintTxt: 'Choose Bank',
+                              validator:
+                                  (value) => InputValidation.validateBankName(
+                                    loc,
+                                    value,
+                                  ),
+                              labelTxt: loc.chooseBank,
+                              hintTxt: loc.chooseBank,
                             ),
-          
                             InputFielsWidget(
                               focusNode: bankBranchNode,
-                              labelTxt: 'Choose branch',
+                              labelTxt: loc.chooseBranch,
                               controller: bankBranchController,
-                              validator: InputValidation.validateBranchName,
-                              errorText: branchNameError,
-                              hintTxt: 'Choose branch',
+                              validator:
+                                  (value) => InputValidation.validateBranchName(
+                                    loc,
+                                    value,
+                                  ),
+                              hintTxt: loc.chooseBranch,
                             ),
-          
                             InputFielsWidget(
-                              labelTxt: 'Transaction name',
+                              labelTxt: loc.transactionName,
                               controller: transactionNameController,
                               focusNode: transactionNameNode,
                               validator:
-                                  InputValidation.validateTransactionName,
-                              hintTxt: 'Transaction name',
+                                  (value) =>
+                                      InputValidation.validateTransactionName(
+                                        loc,
+                                        value,
+                                      ),
+                              hintTxt: loc.transactionName,
                             ),
-          
                             InputFielsWidget(
-                              labelTxt: 'Card number',
+                              labelTxt: loc.cardNumber,
                               controller: cardNumberController,
                               focusNode: cardNumberNode,
-                              validator: InputValidation.validateCardNumber,
-                              errorText: cardNumberError,
+                              validator:
+                                  (value) => InputValidation.validateCardNumber(
+                                    loc,
+                                    value,
+                                  ),
                               inputFormatters: [cardNumberFormatter],
-                              hintTxt: 'Card number',
+                              hintTxt: loc.cardNumber,
                               keyboardType: TextInputType.number,
                             ),
-          
                             SizedBox(height: 24.h),
-          
                             Padding(
-                              padding: EdgeInsets.only(
-                                top: 16.h,
-                                left: 16.w,
-                                right: 16.w,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 16.h,
                               ),
                               child: CustomButtonWidget(
-                                btnText: "Confirm",
+                                btnText: loc.confirm,
                                 bgColorBtn: AppColor.primary1,
                                 onTap: () async {
-                                  if (_formkey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     final bankName =
-                                        bankBranchController.text.trim();
+                                        bankNameController.text.trim();
                                     final bankBranch =
                                         bankBranchController.text.trim();
                                     final transactionName =
                                         transactionNameController.text.trim();
                                     final entercardNumber =
                                         cardNumberController.text.trim();
-          
-                                    final bankNameErrorText =
-                                        InputValidation.validateBankName(
-                                          bankName,
-                                        );
-                                    final branchNameErrorText =
-                                        InputValidation.validateBranchName(
-                                          bankBranch,
-                                        );
-                                    final transactionNameErrorText =
-                                        InputValidation.validateTransactionName(
-                                          transactionName,
-                                        );
-                                    final cardNumberErrorText =
-                                        InputValidation.validateCardNumber(
-                                          entercardNumber,
-                                        );
-          
-                                    setState(() {
-                                      bankNameError = bankNameErrorText;
-                                      branchNameError = branchNameErrorText;
-                                      transactionNameError =
-                                          transactionNameErrorText;
-                                      cardNumberError = cardNumberErrorText;
-                                    });
-          
+
                                     final currentUser =
                                         await prefService.getCurrentUser();
                                     if (currentUser != null) {
@@ -239,9 +233,9 @@ class _BeneficiaryState extends State<Beneficiary> {
                                         transactionName: transactionName,
                                         cardNumber: entercardNumber,
                                       );
-          
+
                                       await prefService.setData(updateUser);
-          
+
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -250,7 +244,6 @@ class _BeneficiaryState extends State<Beneficiary> {
                                       );
                                     }
                                   }
-                                  ;
                                 },
                               ),
                             ),

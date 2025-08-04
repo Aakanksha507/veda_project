@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 enum ExpensesCategory {
   waterBill,
@@ -10,18 +12,19 @@ enum ExpensesCategory {
 }
 
 extension ExpensesCategoryExtension on ExpensesCategory {
-  String get label {
+  String label (BuildContext context){
+  final loc = AppLocalizations.of(context)!;
     switch (this) {
       case ExpensesCategory.waterBill:
-        return "Water Bill";
+        return loc.waterBill;
       case ExpensesCategory.electricityBill:
-        return "Electricity Bill";
+        return loc.electricityBill;
       case ExpensesCategory.internetBill:
-        return "Internet Bill";
+        return loc.internetBill;
       case ExpensesCategory.salaries:
-        return "Salaries";
+        return loc.salaries;
       case ExpensesCategory.transportation:
-        return "Transportation";
+        return loc.transportation;
     }
   }
 

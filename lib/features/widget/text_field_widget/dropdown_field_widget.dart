@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DropdownFieldWidget extends StatefulWidget {
   final ExpensesCategory? selectedValue;
@@ -20,6 +21,7 @@ class DropdownFieldWidget extends StatefulWidget {
 class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(top: 24.w, left: 16.w, right: 16.w),
       child: Column(
@@ -28,7 +30,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
           Padding(
             padding: EdgeInsets.all(8.h),
             child: TextWidget(
-              txt: 'Category',
+              txt: loc.category,
               fontWeight: FontWeight.w600,
               txtColor: Color(0xFF979797),
               fontSize: 12.sp,
@@ -41,7 +43,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: Color(0xFFCACACA)),
               ),
-              hintText: 'Select Category',
+              hintText: loc.select,
 
               hintStyle: TextStyle(
                 color: Color(0xFFCACACA),
@@ -54,7 +56,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
                   return DropdownMenuItem(
                     value: category,
                     child: TextWidget(
-                      txt: category.name,
+                     txt: category.label(context),
                       fontWeight: FontWeight.w500,
                       txtColor: Color(0xFF343434),
                       fontSize: 14.sp,
@@ -65,7 +67,7 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
             value: widget.selectedValue,
             validator: (value) {
               if (value == null) {
-                return 'Please select a category';
+                return loc.category_required;
               }
               return null;
             },

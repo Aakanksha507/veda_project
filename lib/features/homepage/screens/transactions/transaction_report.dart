@@ -10,6 +10,7 @@ import 'package:myflutterapp/features/homepage/screens/transactions/edit_expense
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransactionReport extends StatefulWidget {
   const TransactionReport({super.key});
@@ -72,6 +73,7 @@ class _TransactionReportState extends State<TransactionReport> {
 
   @override
   Widget build(BuildContext context) {
+      final loc = AppLocalizations.of(context)!;
     if (currentUser == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -79,7 +81,7 @@ class _TransactionReportState extends State<TransactionReport> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: AppBarWidget(
-          mainTxt: 'Transaction Report',
+          mainTxt: loc.transactionReport,
           bgColor: AppColor.primary1,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
@@ -162,7 +164,7 @@ class _TransactionReportState extends State<TransactionReport> {
                             }
 
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Deleted Succesfully")),
+                              SnackBar(content: Text(loc.deleted_successfully)),
                             );
 
                           },
@@ -187,7 +189,7 @@ class _TransactionReportState extends State<TransactionReport> {
                             child: ListContainerWidget(
                               leadingIconPath: categoryEnum.svgAsset,
                               iconBgColor: categoryEnum.backgroundColor,
-                              title: currentUser!.category![index],
+                              title: categoryEnum.label(context),
                               description: currentUser!.description![index],
                               txtTapping:
                                   '${categoryEnum.amountSign}\$${currentUser!.amount![index]}',

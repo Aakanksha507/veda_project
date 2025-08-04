@@ -1,87 +1,86 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class InputValidation {
-  static String? validatePhoneNumber(String? value) {
+  static String? validatePhoneNumber(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Phone Number is Required";
+      return loc.phone_required;
     }
-    // if (!RegExp(r"^\d+$").hasMatch(value.trim())){
-    //   return "Only Numerica Value are Allowded";
-    // }
     if (value.length < 10) {
-      return "Phone number must be at least 10 digits";
+      return loc.phone_min_length;
     }
     return null;
   }
 
-  static String? validatePassword(String? value) {
+  static String? validatePassword(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Password is Required";
+      return loc.password_required;
     }
     if (value.length < 6) {
-      return " Password must be at least 6";
+      return  loc.password_min_length;
     }
     return null;
   }
 
-  static String? validateUserName(String? value) {
+  static String? validateUserName(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "UserName is Required";
+      return loc.username_required;
     }
     if (value.length < 3) {
-      return "Username must be at least 3";
+      return loc.username_min_length;
     }
     return null;
   }
 
-  static String? validateBankName(String? value) {
+  static String? validateBankName(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "BankName is Required";
+      return loc.bankname_required;
     }
     final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
     if (!nameRegExp.hasMatch(value.trim())) {
-      return "Only alphabetic characters are allowed";
+      return loc.alphabetic_only;
     }
     return null;
   }
 
-  static String? validateBranchName(String? value) {
+  static String? validateBranchName(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "BranchName is Required";
+      return loc.branch_required;
     }
     final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
     if (!nameRegExp.hasMatch(value.trim())) {
-      return "Only alphabetic characters are allowed";
+      return loc.alphabetic_only;
     }
     return null;
   }
 
-  static String? validateTransactionName(String? value) {
+  static String? validateTransactionName(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Branch Name is Required";
+      return loc.transaction_requirded;
     }
     final nameRegExp = RegExp(r'^[a-zA-Z\s]+$');
     if (!nameRegExp.hasMatch(value.trim())) {
-      return "Only alphabetic characters are allowed";
+      return loc.alphabetic_only;
     }
     return null;
   }
 
-  static String? validateCardNumber(String? value) {
+  static String? validateCardNumber(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "CardNumber is Required";
+      return loc.cardnumber_required;
     }
     return null;
   }
 
-  static String? validateDescription(String? value) {
+  static String? validateDescription(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Description is Required";
+      return loc.description_required;
     }
     return null;
   }
 
-  static String? validateAmount(String? value) {
+  static String? validateAmount(AppLocalizations loc, String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Amount is Required";
+      return loc.amount_required;
     }
     return null;
   }

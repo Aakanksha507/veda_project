@@ -11,6 +11,7 @@ import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -32,13 +33,14 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BackgroundLayoutWidget(
-      appbarTittle: "SignIn",
-      titleText: "Welcome Back",
-      secondaryText: "Hello there, sign in to continue",
+      appbarTittle: loc.signin,
+      titleText: loc.welcomeBack,
+      secondaryText: loc.helloSignInToContinue,
       //  btnText: "SignIn",
-      promptText: "Don't have an account? ",
-      actionText: "Sign Up ",
+      promptText:loc.dontHaveAnAccount,
+      actionText: loc.signup,
       dynamicWidget: Padding(
         padding: EdgeInsets.only(top: 301.0.w),
         child: SingleChildScrollView(
@@ -49,7 +51,7 @@ class _SignInPageState extends State<SignInPage> {
                 //Input Field For PhoneNumber
                 InternationalPhoneNumberInputfield(
                   controller: phoneNumberController,
-                  validator: InputValidation.validatePhoneNumber,
+                  validator: (value) => InputValidation.validatePhoneNumber(loc, value),
                   errorText: phoneError,
                   onInputValidated: (bool isValid) { 
                       setState(() {
@@ -59,17 +61,17 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 //Input Field For Password
                 InputFielsWidget(
-                  hintTxt: 'Password',
+                  hintTxt: loc.password,
                   focusNode: passwordnode,
                   controller: passwordController,
-                  validator: InputValidation.validatePassword,
+                  validator:  (value)=>  InputValidation.validatePassword(loc, value),
                   errorText: passwordError,
                   obscureTextPassword: obscurePassword,
                   hintStyleColor: AppColor.neutral4,
                   borderBoxColor: Color(0xFFCBCBCB),
                  onChanged: (value) {
                     setState(() {
-                      passwordError = InputValidation.validatePassword(value);
+                      passwordError = InputValidation.validatePassword(loc,value);
                     });
                   },
                 ),
@@ -81,7 +83,7 @@ class _SignInPageState extends State<SignInPage> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: TextWidget(
-                      txt: "Forget your Password",
+                      txt: loc.forgetYourPassword,
                       fontWeight: FontWeight.w500,
                       txtColor: AppColor.neutral4,
                       fontSize: 12,
@@ -89,7 +91,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 CustomButtonWidget(
-                  btnText: "SignIn",
+                  btnText: loc.signin,
                   isEnabled: true,
                   bgColorBtn: AppColor.primary1,
                   onTap: () async {
@@ -97,8 +99,8 @@ class _SignInPageState extends State<SignInPage> {
                       final phoneNumber = phoneNumberController.text.trim();
                       final password = passwordController.text.trim();
 
-                      final phoneErrorText = InputValidation.validatePhoneNumber(phoneNumber);
-                      final passwordErrorText = InputValidation.validatePassword(password);
+                      final phoneErrorText = InputValidation.validatePhoneNumber(loc, phoneNumber);
+                      final passwordErrorText = InputValidation.validatePassword(loc, password);
 
                       final prefService = SharedPrefService();
                       final users = await prefService.getAllUsers();
@@ -128,11 +130,11 @@ class _SignInPageState extends State<SignInPage> {
                           matchUser.phoneNumber != phoneNumber  ) {
                             ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Invalid Phone Number or Password"),
+                              content: Text(loc.invalid_phone_password_message),
                             ),
                           );
                         setState(() {
-                          phoneError = "Please Enter Valid Phone Number.";
+                          phoneError = loc.invalid_phone_message;
                         });
                         
                       }
@@ -142,7 +144,7 @@ class _SignInPageState extends State<SignInPage> {
                              debugPrint("matchUser.password  ${matchUser.password} == $password ");
                         setState(() {
                        phoneError = null;
-                          passwordError = "Please Enter Valid Password.";
+                          passwordError = loc.invalid_password_message;
                         });
                         
                       }
@@ -153,7 +155,7 @@ class _SignInPageState extends State<SignInPage> {
                         setState(() {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Invalid Phone Number or Password"),
+                              content: Text(loc.invalid_phone_password_message),
                             ),
                           );
                         });
@@ -177,7 +179,7 @@ class _SignInPageState extends State<SignInPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextWidget(
-                        txt: "Don't have an account? ",
+                        txt: loc.dontHaveAnAccount,
                         fontWeight: FontWeight.w400,
                         fontSize: 12.sp,
                       ),
@@ -192,7 +194,7 @@ class _SignInPageState extends State<SignInPage> {
                           );
                         },
                         child: TextWidget(
-                          txt: "Sign Up ",
+                          txt: loc.signup,
                           fontWeight: FontWeight.w600,
                           fontSize: 12.sp,
                           txtColor: AppColor.primary1,

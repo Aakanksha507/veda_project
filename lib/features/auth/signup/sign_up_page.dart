@@ -11,6 +11,7 @@ import 'package:myflutterapp/features/auth/signup/term_condition_checkup_box.dar
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -40,12 +41,13 @@ class SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return BackgroundLayoutWidget(
-      appbarTittle: "Sign Up",
-      titleText: "Welcome to us,",
-      secondaryText: "Hello there, create New account",
-      promptText: "Have an account?",
-      actionText: "Sign In",
+      appbarTittle: loc.signup,
+      titleText: loc.welcomeToUs,
+      secondaryText: loc.helloCreateNewAccount,
+      promptText: loc.haveAnAccount,
+      actionText: loc.signin,
       dynamicWidget: Padding(
         padding: EdgeInsets.only(top: 301.0.w),
         child: SingleChildScrollView(
@@ -58,9 +60,9 @@ class SignUpPageState extends State<SignUpPage> {
                 InputFielsWidget(
                   controller: usernameController,
                   focusNode: usernamenode,
-                  validator: InputValidation.validateUserName,
+                  validator:  (value)=> InputValidation.validateUserName(loc, value),
                   errorText: usernameError,
-                  hintTxt: 'User Name',
+                  hintTxt: loc.userName,
                   hintStyleColor:  AppColor.neutral4,
                   borderBoxColor: const Color(0xFFCBCBCB),
                 ),
@@ -68,17 +70,17 @@ class SignUpPageState extends State<SignUpPage> {
                 InternationalPhoneNumberInputfield(
                   controller: phoneNumberController,
 
-                  validator: InputValidation.validatePhoneNumber,
+                  validator: (value)=> InputValidation.validatePhoneNumber(loc, value),
                   errorText: phoneError,
                 ),
                 //Input Field For Password
                 InputFielsWidget(
                   controller: passwordController,
                   focusNode: passwordnode,
-                  validator: InputValidation.validatePassword,
+                  validator:  (value)=> InputValidation.validatePassword(loc, value),
                   errorText: passwordError,
                   obscureTextPassword: obscurePassword,
-                  hintTxt: 'Password',
+                  hintTxt: loc.password,
                   hintStyleColor:  AppColor.neutral4,
                   borderBoxColor: const Color(0xFFCBCBCB),
                 ),
@@ -96,11 +98,11 @@ class SignUpPageState extends State<SignUpPage> {
                       final phoneNumber = phoneNumberController.text.trim();
                       final password = passwordController.text.trim();
                       final usernameErrorText =
-                          InputValidation.validateUserName(username);
+                          InputValidation.validateUserName(loc, username);
                       final phoneErrorText =
-                          InputValidation.validatePhoneNumber(phoneNumber);
+                          InputValidation.validatePhoneNumber(loc, phoneNumber);
                       final passwordErrorText =
-                          InputValidation.validatePassword(password);
+                          InputValidation.validatePassword(loc, password);
 
                       setState(() {
                         phoneError = phoneErrorText;
@@ -117,7 +119,7 @@ class SignUpPageState extends State<SignUpPage> {
                       await prefService.setData(newUser);
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("User Register Succesfully")),
+                        SnackBar(content: Text(loc.registration_success_message)),
                       );
                       Navigator.pushReplacement(
                         context,
@@ -127,14 +129,14 @@ class SignUpPageState extends State<SignUpPage> {
                       );
                     }
                   },
-                  btnText: "SignUp",
+                  btnText: loc.signup,
                   bgColorBtn: AppColor.primary1,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      txt: "Have an account? ",
+                      txt:loc.haveAnAccount,
                       fontWeight: FontWeight.w400,
                       fontSize: 12.sp,
                     ),
@@ -148,7 +150,7 @@ class SignUpPageState extends State<SignUpPage> {
                         );
                       },
                       child: TextWidget(
-                        txt: "Sign In ",
+                        txt: loc.signin,
                         fontWeight: FontWeight.w600,
                         fontSize: 12.sp,
                         txtColor: AppColor.primary1,

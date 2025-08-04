@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeCategoryLayout extends StatelessWidget {
   final String text;
@@ -17,10 +18,11 @@ class HomeCategoryLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return InkWell(
       onTap: ontap?? (){
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Coming Soon!"),
+          SnackBar(content: Text(loc.comingSoon),
           duration: Duration(seconds: 2), )
         );
   

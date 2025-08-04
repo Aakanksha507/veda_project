@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class InternationalPhoneNumberInputfield extends StatelessWidget{
 
@@ -23,6 +25,7 @@ class InternationalPhoneNumberInputfield extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+      final loc = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(top: 24.w, left: 16.w, right: 16.w),
       child: InternationalPhoneNumberInput(
@@ -45,7 +48,7 @@ class InternationalPhoneNumberInputfield extends StatelessWidget{
         
         autoValidateMode: AutovalidateMode.onUserInteraction,
         inputDecoration: InputDecoration(
-          hintText: "Phone Number",
+          hintText: loc.phoneNumber,
           errorStyle: GoogleFonts.poppins(
                     fontSize: 10.sp, fontWeight: FontWeight.w400
                   ),

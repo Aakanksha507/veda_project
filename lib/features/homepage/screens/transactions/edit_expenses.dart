@@ -9,6 +9,7 @@ import 'package:myflutterapp/features/homepage/screens/transactions/transaction_
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditExpenses extends StatefulWidget {
   final String category;
@@ -78,11 +79,12 @@ class _EditExpensesState extends State<EditExpenses> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: AppBarWidget(
-          mainTxt: "Edit Expenses",
+          mainTxt: loc.editExpenses,
           bgColor: AppColor.primary1,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
@@ -117,23 +119,23 @@ class _EditExpensesState extends State<EditExpenses> {
                 },
               ),
               InputFielsWidget(
-                hintTxt: 'Description',
+                hintTxt: loc.description,
                 focusNode: FocusNode(),
-                validator: InputValidation.validateDescription,
-                labelTxt: 'Description',
+                validator: (value) => InputValidation.validateDescription(loc, value),
+                labelTxt: loc.description,
                 controller: descriptionController,
               ),
               InputFielsWidget(
-                hintTxt: 'Amount',
-                validator: InputValidation.validateAmount,
+                hintTxt: loc.amount,
+                validator: (value) => InputValidation.validateAmount(loc, value),
                 focusNode: FocusNode(),
-                labelTxt: 'Amount',
+                labelTxt: loc.amount,
                 controller: amountController,
               ),
               Padding(
                 padding: EdgeInsets.all(55.w),
                 child: CustomButtonWidget(
-                  btnText: 'Edit Expenses',
+                  btnText:  loc.editExpenses,
                   bgColorBtn: AppColor.primary1,
                   onTap:
                       isEdited
@@ -144,9 +146,9 @@ class _EditExpensesState extends State<EditExpenses> {
                               final amount = amountController.text.trim();
 
                               final descriptionErrorText =
-                                  InputValidation.validateBankName(description);
+                                  InputValidation.validateBankName(loc, description);
                               final amountErrorText =
-                                  InputValidation.validateBranchName(amount);
+                                  InputValidation.validateBranchName(loc, amount);
 
                               setState(() {
                                 descriptionError = descriptionErrorText;
@@ -166,7 +168,7 @@ class _EditExpensesState extends State<EditExpenses> {
                                 await prefService.setData(currentUser);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Add Expenses Succcessfully"),
+                                    content: Text(loc.update_successfully),
                                   ),
                                 );
 

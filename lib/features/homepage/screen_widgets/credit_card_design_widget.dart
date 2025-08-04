@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreditCardDesignWidget extends StatelessWidget {
   final String? cardHolderName;
@@ -20,6 +21,7 @@ class CreditCardDesignWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Stack(
       children: [
         Container(
@@ -48,7 +50,7 @@ class CreditCardDesignWidget extends StatelessWidget {
           top: 21.h,
           left: 44.4.w,
           child: TextWidget(
-            txt: cardHolderName ?? 'John Smith',
+            txt: cardHolderName ?? loc.user,
             fontWeight: FontWeight.w400,
             fontSize: 24.sp,
             txtColor: AppColor.neutral6,
@@ -58,7 +60,7 @@ class CreditCardDesignWidget extends StatelessWidget {
           top: 92.82.h,
           left: 44.4.w,
           child: TextWidget(
-            txt: 'Amazon Platinium',
+            txt: loc.amazonPlatinium,
             fontWeight: FontWeight.w500,
             fontSize: 14.sp,
             txtColor: AppColor.neutral6,

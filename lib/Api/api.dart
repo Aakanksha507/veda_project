@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ApiDioPractice extends StatefulWidget {
   const ApiDioPractice({super.key});
@@ -147,9 +148,11 @@ void deletePosts() async {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: AppBarWidget(mainTxt: 'News', txtColor: Color(0xFFFFFFFF)),
+        title: AppBarWidget(mainTxt: loc.news, txtColor: Color(0xFFFFFFFF)),
+        automaticallyImplyLeading: false,
       ),
       body:
           bbcNews.isEmpty
