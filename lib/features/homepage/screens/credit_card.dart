@@ -132,7 +132,7 @@ class _CreditCardState extends State<CreditCard> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: AppColor.primary1,
+          color: Theme.of(context).primaryColor,
           child: Container(
             margin: EdgeInsets.only(top: 24.h),
             decoration: BoxDecoration(
@@ -208,6 +208,7 @@ class _CreditCardState extends State<CreditCard> {
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                               Text(

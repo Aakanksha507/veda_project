@@ -168,7 +168,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
             );
           },
         ),
-        backgroundColor: AppColor.primary1,
+        backgroundColor: Theme.of(context).primaryColor
       ),
       body: SafeArea(
         child:
@@ -182,7 +182,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                           Container(
                             width: 375.w,
                             height: 700.h,
-                            decoration: BoxDecoration(color: AppColor.primary1),
+                            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                             child: Container(
                               height: 641.h,
                               width: 375.w,
@@ -209,7 +209,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                             child: Container(
                               height: 641.h,
                               decoration: BoxDecoration(
-                                color: AppColor.neutral6,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 borderRadius: BorderRadius.circular(15.r),
                                 boxShadow: const [
                                   BoxShadow(
@@ -286,7 +286,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                                       ),
                                       child: CustomButtonWidget(
                                         btnText: loc.edit,
-                                        bgColorBtn: AppColor.primary1,
+                                        bgColorBtn: Theme.of(context).primaryColor,
                                         onTap: isEdited ? _handleEdit : null,
                                       ),
                                     ),

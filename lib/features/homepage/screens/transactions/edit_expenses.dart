@@ -85,7 +85,7 @@ class _EditExpensesState extends State<EditExpenses> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: loc.editExpenses,
-          bgColor: AppColor.primary1,
+          bgColor: Theme.of(context).primaryColor,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -95,7 +95,7 @@ class _EditExpensesState extends State<EditExpenses> {
             );
           },
         ),
-        backgroundColor: AppColor.primary1,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
         color: Color(0xFFFFFFFF),
@@ -136,7 +136,7 @@ class _EditExpensesState extends State<EditExpenses> {
                 padding: EdgeInsets.all(55.w),
                 child: CustomButtonWidget(
                   btnText:  loc.editExpenses,
-                  bgColorBtn: AppColor.primary1,
+                  bgColorBtn: Theme.of(context).primaryColor,
                   onTap:
                       isEdited
                           ? () async {

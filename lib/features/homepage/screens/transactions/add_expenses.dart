@@ -39,7 +39,7 @@ class _AddExpensesState extends State<AddExpenses> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: loc.addExpenses,
-          bgColor: AppColor.primary1,
+          bgColor:Theme.of(context).primaryColor,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -49,7 +49,7 @@ class _AddExpensesState extends State<AddExpenses> {
             );
           },
         ),
-        backgroundColor: AppColor.primary1,
+        backgroundColor:Theme.of(context).primaryColor,
       ),
       body: Container(
         color: Color(0xFFFFFFFF),
@@ -89,7 +89,7 @@ class _AddExpensesState extends State<AddExpenses> {
                 padding: EdgeInsets.all(55.w),
                 child: CustomButtonWidget(
                   btnText: loc.addExpenses,
-                  bgColorBtn: AppColor.primary1,
+                  bgColorBtn: Theme.of(context).primaryColor,
                   onTap: () async {
                     if (_formkey.currentState!.validate()) {
                       final description = descriptionController.text.trim();

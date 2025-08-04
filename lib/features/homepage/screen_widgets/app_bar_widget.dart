@@ -31,8 +31,7 @@ class AppBarWidget extends StatelessWidget{
               fontSize: 20.sp,
                fontWeight: FontWeight.w600, 
                 color:txtColor ?? Theme.of(context).appBarTheme.titleTextStyle?.color,
-            ),  
-            
+            ),       
             
         ),
         leadingWidth: 16.w,

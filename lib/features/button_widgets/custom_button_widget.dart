@@ -19,11 +19,12 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
       onPressed: isEnabled ? onTap : null,
       style: ElevatedButton.styleFrom(
         backgroundColor:
-            isEnabled ? bgColorBtn ?? AppColor.primary1 : AppColor.primary3,
+            isEnabled ? bgColorBtn ?? theme.primaryColor : theme.scaffoldBackgroundColor,
         minimumSize: Size(327.w, 44.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.r),

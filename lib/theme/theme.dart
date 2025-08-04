@@ -6,11 +6,10 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.light,
       primaryColor: Color(0xFF3629B7),
-
-      scaffoldBackgroundColor: Color(0xFFFFFFFF),
+      scaffoldBackgroundColor: AppColor.neutral6,
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColor.primary1,
-        titleTextStyle: TextStyle(color: Color.fromARGB(255, 20, 20, 20)),
+        titleTextStyle: TextStyle(color: AppColor.neutral6),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppColor.neutral6,
@@ -22,11 +21,11 @@ class AppTheme {
         primary: AppColor.primary1,
         onPrimary: AppColor.neutral6,
         secondary: AppColor.neutral6,
-        onSecondary: AppColor.neutral6,
+        onSecondary: AppColor.neutral1,
         error: AppColor.primary1,
-        onError: AppColor.primary1,
+        onError: AppColor.neutral6,
         surface: AppColor.primary4,
-        onSurface: AppColor.primary1,
+        onSurface: AppColor.neutral1,
       ),
     );
   }
@@ -34,26 +33,27 @@ class AppTheme {
   static ThemeData darkTheme() {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Color(0xFF3629B7),
-      scaffoldBackgroundColor: AppColor.neutral1,
+      primaryColor: AppColor.neutral1,
+      scaffoldBackgroundColor: AppColor.neutral3,
       appBarTheme: AppBarTheme(
         backgroundColor: AppColor.neutral1,
-        titleTextStyle: TextStyle(color: Colors.blue),
+        titleTextStyle: TextStyle(color:AppColor.neutral6),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedItemColor: AppColor.primary2,
         unselectedItemColor: AppColor.neutral6,
+        backgroundColor: AppColor.neutral1
       ),
       colorScheme: ColorScheme(
         brightness: Brightness.dark,
         primary: AppColor.neutral1,
-        onPrimary: AppColor.neutral5,
+        onPrimary: AppColor.neutral6,
         secondary: AppColor.neutral4,
-        onSecondary: AppColor.neutral4,
-        error:  Colors.red,
+        onSecondary: AppColor.neutral6,
+        error: const Color.fromARGB(255, 19, 18, 18),
         onError: Colors.red,
-        surface: AppColor.neutral1,
-        onSurface: AppColor.primary1,
+        surface: AppColor.neutral5,
+        onSurface: AppColor.neutral1,
       ),
     );
   }

@@ -51,13 +51,13 @@ class BackgroundLayoutWidget extends StatelessWidget{
                 children: [
                   Container(
                   decoration: BoxDecoration(
-                    color: Color(0xff3629B7)
+                    color: Theme.of(context).primaryColor,
                   ),
                   
                   child: Container(
                     margin: whiteContainerHeight?? EdgeInsets.only(top: 15.h),
                     decoration: BoxDecoration(
-                      color: AppColor.neutral6,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.only( topLeft: Radius.circular(30.r),
                        topRight: Radius.circular(30.r)),
                     ),

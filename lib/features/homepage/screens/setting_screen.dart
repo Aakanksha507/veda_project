@@ -34,7 +34,7 @@ class SettingScreen extends StatelessWidget{
       body: Stack(
         children: [
           Container(
-            color: AppColor.primary1,
+            color:Theme.of(context).primaryColor,
           ),
           Container(
             margin: EdgeInsets.only(top: 67.h),
@@ -84,8 +84,10 @@ class SettingScreen extends StatelessWidget{
                        ),
           
                        items == loc.customerCare
-                        ? const Text('1233434')
-                        : const Icon(Icons.arrow_forward_ios_outlined, size: 16, color: Colors.black12)
+                        ?  Text('1233434', style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),)
+                        :  Icon(Icons.arrow_forward_ios_outlined, size: 16, color: Colors.black12)
        
                   ],  
                 ),

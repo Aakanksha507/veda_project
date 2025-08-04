@@ -82,7 +82,7 @@ class _TransactionReportState extends State<TransactionReport> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: loc.transactionReport,
-          bgColor: AppColor.primary1,
+          bgColor: Theme.of(context).appBarTheme.backgroundColor,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -92,12 +92,12 @@ class _TransactionReportState extends State<TransactionReport> {
             );
           },
         ),
-        backgroundColor: AppColor.primary1,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(color: AppColor.primary1, height: 200.h),
+            Container(color: Theme.of(context).primaryColor, height: 200.h),
             Container(
               margin: EdgeInsets.only(top: 108.h),
 

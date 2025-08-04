@@ -100,7 +100,7 @@ class _BeneficiaryState extends State<Beneficiary> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: AppBarWidget(mainTxt: loc.beneficiary),
-        backgroundColor: AppColor.primary1,
+        backgroundColor:Theme.of(context).primaryColor,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -111,7 +111,7 @@ class _BeneficiaryState extends State<Beneficiary> {
                   Container(
                     width: 375.w,
                     height: 700.h,
-                    decoration: BoxDecoration(color: AppColor.primary1),
+                    decoration: BoxDecoration(color:Theme.of(context).primaryColor),
                     child: Container(
                       height: 641.h,
                       width: 375.w,

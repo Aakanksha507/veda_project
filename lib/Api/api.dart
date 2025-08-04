@@ -14,29 +14,25 @@ class ApiDioPractice extends StatefulWidget {
 }
 
 class _ApiState extends State<ApiDioPractice> {
+  List<dynamic> bbcNews = [];
+  List<dynamic> usNews = [];
 
+  // cancel request
+  CancelToken cancelToken = CancelToken();
 
-List<dynamic> bbcNews = [];
-List<dynamic> usNews = [];
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
 
-// cancel request
-CancelToken cancelToken = CancelToken();
+  @override
+  void dispose() {
+    super.dispose();
+    cancelToken.cancel('Disposed');
+  }
 
-@override
-void initState() {
-  super.initState();
-  fetchPosts();
-
-}
-
-@override
-void dispose() {
-  super.dispose();
-  cancelToken.cancel('Disposed');
-
-}
-
- //fetch data
+  //fetch data
   // void fetchPosts() async {
   //   try {
   //     var response = await Dio().get(
@@ -48,103 +44,96 @@ void dispose() {
   //   } catch (e) {
   //     print('Error: $e');
   //   }
-    
+
   // }
 
-// Performing multiple concurrent request
-Future fetchPosts() async {
-  try{
+  // Performing multiple concurrent request
+  Future fetchPosts() async {
+    try {
       // future.wait allows you to run multple task at same time...
-    final result = await Future.wait([
-      Dio().get(
-        'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=c1388405f46a4cddad56cc380a96fd65',
-      cancelToken: cancelToken,
-      ),
-      Dio().get(
-        'https://newsapi.org/v2/top-headlines?country=us&apiKey=c1388405f46a4cddad56cc380a96fd65',
-      cancelToken: cancelToken,
-      )
-    ]);
-    setState(() {
-      bbcNews = result[0].data['articles'];
-      usNews = result[1].data['articles'];
-    });
-  } on DioException catch(e) {
-      switch(e.type){
-        case DioExceptionType.connectionTimeout:  //the request that take time to connect
-        print('');
-        break;
+      final result = await Future.wait([
+        Dio().get(
+          'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=c1388405f46a4cddad56cc380a96fd65',
+          cancelToken: cancelToken,
+        ),
+        Dio().get(
+          'https://newsapi.org/v2/top-headlines?country=us&apiKey=c1388405f46a4cddad56cc380a96fd65',
+          cancelToken: cancelToken,
+        ),
+      ]);
+      setState(() {
+        bbcNews = result[0].data['articles'];
+        usNews = result[1].data['articles'];
+      });
+    } on DioException catch (e) {
+      switch (e.type) {
+        case DioExceptionType
+            .connectionTimeout: //the request that take time to connect
+          print('');
+          break;
 
-        case DioExceptionType.badResponse:  // 404 kind of error 
-        print('');
-        break;
+        case DioExceptionType.badResponse: // 404 kind of error
+          print('');
+          break;
 
-        case DioExceptionType.receiveTimeout:  // the receive data that take time to recieve
-        print('');
-        break;
+        case DioExceptionType
+            .receiveTimeout: // the receive data that take time to recieve
+          print('');
+          break;
 
-        case DioExceptionType.cancel:  // the request that cancel
-        print('');
-        break;
+        case DioExceptionType.cancel: // the request that cancel
+          print('');
+          break;
 
-        case DioExceptionType.sendTimeout:  //sending data to server which takes time
-        print('');
-        break;
+        case DioExceptionType
+            .sendTimeout: //sending data to server which takes time
+          print('');
+          break;
 
         default:
-         print('Unexpected Error');
-      } 
-  } catch (e){
-    print('Error: ${e}');
-  }
-      
-}
-  
-//post data
-void addPosts() async {
-  try {
-    var response = await Dio().post(
-      'https://jsonplaceholder.typicode.com/posts',
-      data: {
-        'title': 'NewPosts',
-        'body': 'this is a description',
-      },
-    );
-    print('Post response: ${response.data}');
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-
-//put data
-void putPosts() async{
-  try{
-    var response = await Dio().put(
-      'https://jsonplaceholder.typicode.com/posts/1',
-      data: {
-        'title': 'EditPosts',
-        'body': 'this is a edit description',
-
+          print('Unexpected Error');
       }
-    );
- print('Post response: ${response.data}');
-  }catch (e) {
-    print('Error: $e');
+    } catch (e) {
+      print('Error: ${e}');
+    }
   }
-}
 
-void deletePosts() async {
-  try {
-    var response = await Dio().delete(
-      'https://jsonplaceholder.typicode.com/posts/1',
-    );
-    print('DELETE status code: ${response.statusCode}');
-  } catch (e) {
-    print('DELETE Error: $e');
+  //post data
+  void addPosts() async {
+    try {
+      var response = await Dio().post(
+        'https://jsonplaceholder.typicode.com/posts',
+        data: {'title': 'NewPosts', 'body': 'this is a description'},
+      );
+      print('Post response: ${response.data}');
+    } catch (e) {
+      print('Error: $e');
+    }
   }
-}
 
+  //put data
+  void putPosts() async {
+    try {
+      var response = await Dio().put(
+        'https://jsonplaceholder.typicode.com/posts/1',
+        data: {'title': 'EditPosts', 'body': 'this is a edit description'},
+      );
+      print('Post response: ${response.data}');
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
+  void deletePosts() async {
+    try {
+      var response = await Dio().delete(
+        'https://jsonplaceholder.typicode.com/posts/1',
+      );
+      print('DELETE status code: ${response.statusCode}');
+    } catch (e) {
+      print('DELETE Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +154,10 @@ void deletePosts() async {
                       itemBuilder: (context, index) {
                         final post = usNews[index];
                         // print('Image URL for post $index: ${post['urlToImage']}');
-                    
+
                         return Card(
                           margin: EdgeInsets.all(8.w),
-                          
+
                           child: ListTile(
                             leading: CachedNetworkImage(
                               imageUrl: post['urlToImage'] ?? '',
@@ -176,16 +165,23 @@ void deletePosts() async {
                               height: 100,
                               fit: BoxFit.cover,
                               repeat: ImageRepeat.noRepeat,
-                              placeholder: (context, url) => CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(Icons.error),
+                              placeholder:
+                                  (context, url) => CircularProgressIndicator(),
+                              errorWidget:
+                                  (context, url, error) => Icon(
+                                    Icons.error,
+                                    color:
+                                        Theme.of(context).colorScheme.error,
+                                  ),
                             ),
-                    
+
                             title: Text(
                               post['title'] ?? 'No Title',
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
-                                color: AppColor.neutral1,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
                             subtitle: Text(
@@ -193,7 +189,8 @@ void deletePosts() async {
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: AppColor.neutral2,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
                           ),
@@ -202,16 +199,16 @@ void deletePosts() async {
                     ),
                   ),
 
-                   Expanded(
+                  Expanded(
                     child: ListView.builder(
                       itemCount: bbcNews.length,
                       itemBuilder: (context, index) {
                         final post = bbcNews[index];
                         // print('Image URL for post $index: ${post['urlToImage']}');
-                    
+
                         return Card(
                           margin: EdgeInsets.all(8.w),
-                          
+
                           child: ListTile(
                             leading: CachedNetworkImage(
                               imageUrl: post['urlToImage'] ?? '',
@@ -219,16 +216,19 @@ void deletePosts() async {
                               height: 100,
                               fit: BoxFit.cover,
                               repeat: ImageRepeat.noRepeat,
-                              placeholder: (context, url) => CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(Icons.error),
+                              placeholder:
+                                  (context, url) => CircularProgressIndicator(),
+                              errorWidget:
+                                  (context, url, error) => Icon(Icons.error),
                             ),
-                    
+
                             title: Text(
                               post['title'] ?? 'No Title',
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
-                                color: AppColor.neutral1,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
                             subtitle: Text(
@@ -236,7 +236,8 @@ void deletePosts() async {
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
-                                color: AppColor.neutral2,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
                           ),
@@ -245,8 +246,14 @@ void deletePosts() async {
                     ),
                   ),
 
-                  ElevatedButton(onPressed: addPosts,
-                  child: const Text('Add Posts'),
+                  ElevatedButton(
+                    onPressed: addPosts,
+                    child: Text(
+                      'Add Posts',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
                   ),
 
                   // ElevatedButton(onPressed: putPosts,
@@ -255,7 +262,6 @@ void deletePosts() async {
                   //  ElevatedButton(onPressed: deletePosts,
                   // child: const Text('Delete Posts'),
                   // )
-
                 ],
               ),
     );
