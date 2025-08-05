@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:myflutterapp/Api/api_client.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -14,22 +14,21 @@ class ApiDioPractice extends StatefulWidget {
 }
 
 class _ApiState extends State<ApiDioPractice> {
+  late final ApiClient apiClient;
   List<dynamic> bbcNews = [];
   List<dynamic> usNews = [];
-
-  // cancel request
-  CancelToken cancelToken = CancelToken();
 
   @override
   void initState() {
     super.initState();
+    apiClient = ApiClient(); // initialize api client once...
     fetchPosts();
   }
 
   @override
   void dispose() {
     super.dispose();
-    cancelToken.cancel('Disposed');
+    apiClient.cancelToken.cancel('Disposed');
   }
 
   //fetch data
@@ -48,55 +47,26 @@ class _ApiState extends State<ApiDioPractice> {
   // }
 
   // Performing multiple concurrent request
-  Future fetchPosts() async {
-    try {
-      // future.wait allows you to run multple task at same time...
-      final result = await Future.wait([
-        Dio().get(
-          'https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=c1388405f46a4cddad56cc380a96fd65',
-          cancelToken: cancelToken,
-        ),
-        Dio().get(
-          'https://newsapi.org/v2/top-headlines?country=us&apiKey=c1388405f46a4cddad56cc380a96fd65',
-          cancelToken: cancelToken,
-        ),
-      ]);
-      setState(() {
-        bbcNews = result[0].data['articles'];
-        usNews = result[1].data['articles'];
-      });
-    } on DioException catch (e) {
-      switch (e.type) {
-        case DioExceptionType
-            .connectionTimeout: //the request that take time to connect
-          print('');
-          break;
+Future fetchPosts() async {
+  try {
+    final result = await Future.wait([
+      apiClient.getRequest(
+        '/top-headlines?' , queryParameters: {'sources':'bbc-news'} 
+      ),
+      apiClient.getRequest(
+          'top-headlines?' , queryParameters: {'country': 'us'}
 
-        case DioExceptionType.badResponse: // 404 kind of error
-          print('');
-          break;
+      ),
+    ]);
 
-        case DioExceptionType
-            .receiveTimeout: // the receive data that take time to recieve
-          print('');
-          break;
-
-        case DioExceptionType.cancel: // the request that cancel
-          print('');
-          break;
-
-        case DioExceptionType
-            .sendTimeout: //sending data to server which takes time
-          print('');
-          break;
-
-        default:
-          print('Unexpected Error');
-      }
-    } catch (e) {
-      print('Error: ${e}');
-    }
+    setState(() {
+      bbcNews = result[0]['articles'];
+      usNews = result[1]['articles'];
+    });
+  } catch (e) {
+    print('Error fetching posts: $e');
   }
+}
 
   //post data
   void addPosts() async {

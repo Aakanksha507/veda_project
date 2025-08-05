@@ -9,7 +9,6 @@ import 'package:myflutterapp/features/homepage/screens/transactions/add_expenses
 import 'package:myflutterapp/features/homepage/screens/transactions/edit_expenses.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TransactionReport extends StatefulWidget {
@@ -144,7 +143,7 @@ class _TransactionReportState extends State<TransactionReport> {
                       physics: BouncingScrollPhysics(),
                       itemCount: currentUser?.category?.length,
                       itemBuilder: (context, index) {
-                        final items = currentUser?.category?[index];
+                        // final items = currentUser?.category?[index];
                         final categoryString = currentUser!.category![index];
                         final categoryEnum =
                             ExpensesCategoryExtension.fromString(

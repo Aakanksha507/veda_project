@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
   final String _usersKey = 'users';
-  final String _cardNumberKey = 'card_number';
 
   //to save data in a list
   Future<void> setData(User user) async {

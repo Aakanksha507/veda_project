@@ -9,7 +9,6 @@ import 'package:myflutterapp/features/homepage/screens/transactions/transaction_
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddExpenses extends StatefulWidget {

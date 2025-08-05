@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/auth/sevice/input_validation.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
