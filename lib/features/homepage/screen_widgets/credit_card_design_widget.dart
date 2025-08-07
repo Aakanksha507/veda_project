@@ -10,6 +10,7 @@ class CreditCardDesignWidget extends StatelessWidget {
   final String? cardName;
   final String? cardNumber;
   final String? cardBalance;
+  final Color? cardColor;
 
   const CreditCardDesignWidget({
     super.key,
@@ -17,6 +18,7 @@ class CreditCardDesignWidget extends StatelessWidget {
     this.cardNumber,
     this.cardName,
     this.cardBalance,
+    this.cardColor,
   });
 
   @override
@@ -83,7 +85,7 @@ class CreditCardDesignWidget extends StatelessWidget {
             txt: cardBalance ?? '\$3.469,52',
             fontWeight: FontWeight.w600,
             fontSize: 20.sp,
-            txtColor: AppColor.neutral6,
+            txtColor:cardColor?? AppColor.neutral6,
           ),
         ),
       ],

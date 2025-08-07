@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/screen_layout.dart';
@@ -17,7 +18,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:myflutterapp/theme/theme_preference.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
 class ScreenPage extends ConsumerStatefulWidget {
   const ScreenPage({super.key});
 
@@ -26,22 +26,77 @@ class ScreenPage extends ConsumerStatefulWidget {
 }
 
 class _ScreenPageState extends ConsumerState<ScreenPage> {
-
   User? currentUser;
+  final SharedPrefService prefService = SharedPrefService();
+
+    @override
+  void initState() {
+    super.initState();
+    loadUserAndBalance();
+    getUserExpenses();
+  }
+
+   Future<void> getUserExpenses() async {
+    User? user = await prefService.getCurrentUser();
+    if (user != null) {
+      if (mounted){
+        setState(() {
+        currentUser = user;
+      });
+      }  
+    }
+  }
 
   String getMaskedCardNumber(String cardNumber) {
-    String cleaned = cardNumber.replaceAll(' ', ''); 
+    String cleaned = cardNumber.replaceAll(' ', '');
     if (cleaned.length < 7) return cardNumber;
 
     String firstFour = cleaned.substring(0, 4);
     String lastThree = cleaned.substring(cleaned.length - 3);
 
     return '$firstFour  ****   $lastThree';
+  }
+
+  Future<void> loadUserAndBalance() async {
+    await getCardBalanceAmount();
+    User? user = await prefService.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  Future<void> getCardBalanceAmount() async {
+    User? user = await prefService.getCurrentUser();
+    if (user != null) {
+      double balance = getTotalAmount(user);
+      user.cardBalance = balance.abs().toStringAsFixed(2);
+      await prefService.setData(user);
     }
- 
+  }
+
+  double getTotalAmount(User user) {
+    double total = 0.0;
+
+    for (int i = 0; i < user.amount!.length; i++) {
+      final amountString = user.amount![i];
+      final categoryString = user.category![i];
+
+      final categoryEnum = ExpensesCategoryExtension.fromString(categoryString);
+      final parsedAmount = double.tryParse(amountString) ?? 0.0;
+
+      if (categoryEnum == ExpensesCategory.salaries) {
+        total += parsedAmount;
+      } else {
+        total -= parsedAmount;
+      }
+    }
+
+    return total;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ref = this.ref; 
+    final ref = this.ref;
     final loc = AppLocalizations.of(context)!;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -61,7 +116,7 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
           padding: EdgeInsets.symmetric(horizontal: 85.w, vertical: 69.h),
           child: ProfileUsernameWidget(
             username: loc.hiUser,
-            txtColor:  Theme.of(context).colorScheme.onPrimary,
+            txtColor: Theme.of(context).colorScheme.onPrimary,
             txtFontWeight: FontWeight.w500,
           ),
         ),
@@ -71,51 +126,55 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
           child: Align(
             alignment: Alignment.topRight,
             child: IconButton(
-            onPressed:(){
-                final RenderBox button = context.findRenderObject() as RenderBox;
-                final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-                final Offset position = button.localToGlobal(Offset.zero, ancestor: overlay);
+              onPressed: () {
+                final RenderBox button =
+                    context.findRenderObject() as RenderBox;
+                final RenderBox overlay =
+                    Overlay.of(context).context.findRenderObject() as RenderBox;
+                final Offset position = button.localToGlobal(
+                  Offset.zero,
+                  ancestor: overlay,
+                );
 
-              showMenu<Locale>(
-                context: context,
-                position: RelativeRect.fromLTRB(
-                  position.dx+ button.size.width,
-                  position.dy,
-                  position.dx ,
-                  position.dy + button.size.height,
-                ),
-                items: [
-                  PopupMenuItem(
-                    value: const Locale('en'),
-                    child: const Text('English'),
+                showMenu<Locale>(
+                  context: context,
+                  position: RelativeRect.fromLTRB(
+                    position.dx + button.size.width,
+                    position.dy,
+                    position.dx,
+                    position.dy + button.size.height,
                   ),
-                  PopupMenuItem(
-                    value: const Locale('ne'),
-                    child: const Text('Nepali'),
-                  ),
-                  PopupMenuItem(
-                    value: const Locale('fr'),
-                    child: const Text('French'),
-                  ),
-                ],
-              ).then((selectedLocale) {
-                if (selectedLocale != null) {
-                  ref.read(localeProvider.notifier).state = selectedLocale;
-                }
-              });
-
-
-          }, 
-            icon: Icon(Icons.g_translate_rounded, color:Colors.white,)
+                  items: [
+                    PopupMenuItem(
+                      value: const Locale('en'),
+                      child: const Text('English'),
+                    ),
+                    PopupMenuItem(
+                      value: const Locale('ne'),
+                      child: const Text('Nepali'),
+                    ),
+                    PopupMenuItem(
+                      value: const Locale('fr'),
+                      child: const Text('French'),
+                    ),
+                  ],
+                ).then((selectedLocale) {
+                  if (selectedLocale != null) {
+                    ref.read(localeProvider.notifier).state = selectedLocale;
+                  }
+                });
+              },
+              icon: Icon(Icons.g_translate_rounded, color: Colors.white),
             ),
-          )
+          ),
         ),
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 60.h),
           child: Align(
             alignment: Alignment.topRight,
-            child: CutomToggleSwitchWidget()),
+            child: CutomToggleSwitchWidget(),
+          ),
         ),
         GestureDetector(
           onTap: () async {
@@ -125,13 +184,12 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
               context,
               MaterialPageRoute(builder: (_) => SignInPage()),
               (route) => false,
-              
             );
-            
           },
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: screenWidth*0.06, vertical: screenHeight*0.08
+              horizontal: screenWidth * 0.06,
+              vertical: screenHeight * 0.08,
             ),
             child: Align(
               alignment: Alignment.topRight,
@@ -144,10 +202,13 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
           ),
         ),
 
-        Positioned(top: 130.h, child: CreditCardBackgroundDesign(
-          // cardHolderName: currentUser!.transactionName ?? 'USer not found',
-          // cardNumber:getMaskedCardNumber(currentUser!.cardNumber ?? '123214123'),
-        )),
+        Positioned(
+          top: 130.h,
+          child: CreditCardBackgroundDesign(
+
+            // cardNumber:getMaskedCardNumber(currentUser!.cardNumber ?? '123214123'),
+          ),
+        ),
 
         Positioned(
           top: 391.h,
@@ -239,4 +300,3 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
     );
   }
 }
-

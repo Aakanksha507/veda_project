@@ -5,7 +5,7 @@ class InputValidation {
     if (value == null || value.trim().isEmpty) {
       return loc.phone_required;
     }
-    if (value.length < 10) {
+    if (value.length <= 10) {
       return loc.phone_min_length;
     }
     return null;

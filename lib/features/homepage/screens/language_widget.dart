@@ -1,51 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:myflutterapp/theme/theme_preference.dart'; // Make sure this contains `localeProvider`
+import 'package:myflutterapp/features/homepage/screens/setting/setting_screen.dart';
+import 'package:myflutterapp/theme/theme_preference.dart'; 
 
-class LanguageWidget extends ConsumerWidget {
-  const LanguageWidget({super.key});
+class LanguageDialog extends ConsumerWidget {
+  const LanguageDialog({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return PopupMenuButton<Locale>(
-      icon: const Icon(Icons.language),
-      onSelected: (Locale selectedLocale) {
-        ref.read(localeProvider.notifier).state = selectedLocale;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Language changed to ${_getLangName(selectedLocale)}"),
-            duration: const Duration(seconds: 2),
+    return AlertDialog(
+      titlePadding: const EdgeInsets.only(left: 20, right: 8, top: 20, bottom: 0),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Select Language'),
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
           ),
-        );
-      },
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
-        const PopupMenuItem<Locale>(
-          value: Locale('en'),
-          child: Text('English'),
-        ),
-        const PopupMenuItem<Locale>(
-          value: Locale('ne'),
-          child: Text('Nepali'),
-        ),
-        const PopupMenuItem<Locale>(
-          value: Locale('fr'),
-          child: Text('French'),
-        ),
-      ],
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildLanguageTile(context, ref, const Locale('en'), 'English'),
+          _buildLanguageTile(context, ref, const Locale('ne'), 'Nepali'),
+          _buildLanguageTile(context, ref, const Locale('fr'), 'French'),
+        ],
+      ),
     );
   }
 
-  String _getLangName(Locale locale) {
-    switch (locale.languageCode) {
-      case 'en':
-        return 'English';
-      case 'ne':
-        return 'Nepali';
-      case 'fr':
-        return 'French';
-      default:
-        return locale.languageCode;
-    }
+  Widget _buildLanguageTile(
+    BuildContext context,
+    WidgetRef ref,
+    Locale locale,
+
+    String label,
+  ) {
+    return ListTile(
+      title: Text(label),
+      onTap: () {
+        ref.read(localeProvider.notifier).state = locale;
+       Navigator.pop(context); 
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Language changed to $label')),
+        );
+      },
+    );
   }
 }

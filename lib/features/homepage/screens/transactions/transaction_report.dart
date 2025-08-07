@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/homepage/home_screen.dart';
@@ -27,6 +28,7 @@ class _TransactionReportState extends State<TransactionReport> {
   void initState() {
     super.initState();
     getUserExpenses();
+    loadUserAndBalance();
   }
 
   Future<void> getUserExpenses() async {
@@ -48,6 +50,23 @@ class _TransactionReportState extends State<TransactionReport> {
     String lastThree = cleaned.substring(cleaned.length - 3);
 
     return '$firstFour  ****   $lastThree';
+  }
+
+  Future<void> loadUserAndBalance() async {
+    await getCardBalanceAmount();  
+    User? user = await prefService.getCurrentUser(); 
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  Future<void> getCardBalanceAmount() async {
+    User? user = await prefService.getCurrentUser();
+    if (user != null) {
+      double balance = getTotalAmount(user);
+      user.cardBalance = balance.abs().toStringAsFixed(2);
+      await prefService.setData(user);
+    }
   }
 
   double getTotalAmount(User user) {
@@ -121,11 +140,12 @@ class _TransactionReportState extends State<TransactionReport> {
               cardHolderName:
                   currentUser!.transactionName ?? 'User name not found',
               cardNumber: getMaskedCardNumber(currentUser!.cardNumber ?? ''),
-              cardBalance: getTotalAmount(currentUser!).toStringAsFixed(2),
+              cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}', 
+              cardColor: getTotalAmount(currentUser!)< 0 ? Colors.red : AppColor.neutral6,
             ),
 
             Positioned(
-              top: 290.h,
+              top: 290.h, 
               left: 0,
               right: 0,
               child: Container(
@@ -191,7 +211,7 @@ class _TransactionReportState extends State<TransactionReport> {
                               title: categoryEnum.label(context),
                               description: currentUser!.description![index],
                               txtTapping:
-                                  '${categoryEnum.amountSign}\$${currentUser!.amount![index]}',
+                                  '\$${currentUser!.amount![index]}',
                               txtTappingColor: categoryEnum.amountColor,
                               txtTappingFontWeight: FontWeight.w600,
                               txtTappingFontSize: 16.0.sp,

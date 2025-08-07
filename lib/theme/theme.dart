@@ -22,7 +22,7 @@ class AppTheme {
         onPrimary: AppColor.neutral6,
         secondary: AppColor.neutral6,
         onSecondary: AppColor.neutral1,
-        error: AppColor.primary1,
+        error: AppColor.semantic1,
         onError: AppColor.neutral6,
         surface: AppColor.primary4,
         onSurface: AppColor.neutral1,

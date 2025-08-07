@@ -65,13 +65,30 @@ class MessageScreen extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(),
         itemBuilder: (context, index) {
           final mssg = mssgList[index];
-          return ListContainerWidget(
-            title: mssg['main'],
-            description: mssg['secondarytxt'],
-            txtTapping: mssg['date'],
-            iconBgColor: mssg['bgColor'],
-            leadingIconPath: mssg['icon'],
-            radius: 15.r,
+          return InkWell(
+            child: ListContainerWidget(
+              title: mssg['main'],
+              description: mssg['secondarytxt'],
+              txtTapping: mssg['date'],
+              iconBgColor: mssg['bgColor'],
+              leadingIconPath: mssg['icon'],
+              radius: 15.r,
+            ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder:
+                    (_) => AlertDialog(
+                    //  title: Text(),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('OK'),
+                        ),
+                      ],
+                    ),
+              );
+            },
           );
         },
       ),

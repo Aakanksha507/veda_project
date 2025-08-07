@@ -30,10 +30,6 @@ class ApiClient implements DioServiceClass {
     String endpoint, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    final uri = Uri.parse(
-      dio.options.baseUrl,
-    ).replace(queryParameters: queryParameters);
-    print('Calling API URL: $uri');
     final response = await dio.get(
       '/top-headlines',
       queryParameters: queryParameters,

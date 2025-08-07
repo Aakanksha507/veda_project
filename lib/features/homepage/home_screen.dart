@@ -3,7 +3,7 @@ import 'package:myflutterapp/Api/api.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/homepage/screens/message_screen.dart';
 import 'package:myflutterapp/features/homepage/dashbaord_page.dart';
-import 'package:myflutterapp/features/homepage/screens/setting_screen.dart';
+import 'package:myflutterapp/features/homepage/screens/setting/setting_screen.dart';
 import 'package:myflutterapp/models/user_model.dart';
 
 

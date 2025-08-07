@@ -20,6 +20,7 @@ class InputFielsWidget extends StatelessWidget{
   final String? errorText;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
+  final bool readOnly;
   
 
   const InputFielsWidget({
@@ -37,6 +38,7 @@ class InputFielsWidget extends StatelessWidget{
     this.validator,
     this.errorText,
     this.onChanged,
+    this.readOnly = false,
     
     });
 
@@ -71,6 +73,7 @@ class InputFielsWidget extends StatelessWidget{
               //     }
               //   }
               // },
+              readOnly: readOnly,
               autofocus: true,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: controller,
@@ -90,7 +93,7 @@ class InputFielsWidget extends StatelessWidget{
                       color:borderBoxColor ?? Color(0xFF979797), width: 1,
                     )
                   ),
-
+                  
                   suffixIcon:suffixIconPassword,
                   errorText: errorText,
                   errorStyle: GoogleFonts.poppins(

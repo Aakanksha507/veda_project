@@ -29,6 +29,7 @@ class _CreditCardState extends State<CreditCard> {
   void initState() {
     super.initState();
     checkUserCardData();
+    loadUserAndBalance();
   }
 
   Future<void> checkUserCardData() async {
@@ -43,6 +44,23 @@ class _CreditCardState extends State<CreditCard> {
       setState(() {
         currentUser = user;
       });
+    }
+  }
+
+  Future<void> loadUserAndBalance() async {
+    await getCardBalanceAmount();
+    User? user = await prefService.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  Future<void> getCardBalanceAmount() async {
+    User? user = await prefService.getCurrentUser();
+    if (user != null) {
+      double balance = getTotalAmount(user);
+      user.cardBalance = balance.abs().toStringAsFixed(2);
+      await prefService.setData(user);
     }
   }
 
@@ -80,36 +98,36 @@ class _CreditCardState extends State<CreditCard> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
-    final List<Map<String, dynamic>> item = [
-      {
-        'main':loc.buyCamera,
-        'secondarytxt': '02/11/2018',
-        'date': "-\$1200",
-        'icon': 'assets/icon/14.svg',
-        'bgColor': AppColor.primary1,
-      },
-      {
-        'main': loc.buyTelevision,
-        'secondarytxt': '02/11/2018',
-        'date': "-\$1200",
-        'icon': 'assets/icon/13.svg',
-        'bgColor': AppColor.semantic1,
-      },
-      {
-        'main': loc.buyCamera,
-        'secondarytxt': '02/11/2018',
-        'date': "-\$1200",
-        'icon': 'assets/icon/14.svg',
-        'bgColor': AppColor.semantic2,
-      },
-      {
-        'main': loc.buyTelevision,
-        'secondarytxt': '02/11/2018',
-        'date': "-\$1200",
-        'icon': 'assets/icon/13.svg',
-        'bgColor': AppColor.semantic3,
-      },
-    ];
+    // final List<Map<String, dynamic>> item = [
+    //   {
+    //     'main':loc.buyCamera,
+    //     'secondarytxt': '02/11/2018',
+    //     'date': "-\$1200",
+    //     'icon': 'assets/icon/14.svg',
+    //     'bgColor': AppColor.primary1,
+    //   },
+    //   {
+    //     'main': loc.buyTelevision,
+    //     'secondarytxt': '02/11/2018',
+    //     'date': "-\$1200",
+    //     'icon': 'assets/icon/13.svg',
+    //     'bgColor': AppColor.semantic1,
+    //   },
+    //   {
+    //     'main': loc.buyCamera,
+    //     'secondarytxt': '02/11/2018',
+    //     'date': "-\$1200",
+    //     'icon': 'assets/icon/14.svg',
+    //     'bgColor': AppColor.semantic2,
+    //   },
+    //   {
+    //     'main': loc.buyTelevision,
+    //     'secondarytxt': '02/11/2018',
+    //     'date': "-\$1200",
+    //     'icon': 'assets/icon/13.svg',
+    //     'bgColor': AppColor.semantic3,
+    //   },
+    // ];
 
     if (currentUser == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -146,11 +164,16 @@ class _CreditCardState extends State<CreditCard> {
               children: [
                 CreditCardBackgroundDesign(
                   cardHolderName: currentUser!.transactionName ?? "User",
-                  cardBalance: getTotalAmount(currentUser!).toStringAsFixed(2),
+                  cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}',
+                  cardColor:
+                      getTotalAmount(currentUser!) < 0
+                          ? Colors.red
+                          : AppColor.neutral6,
                   cardNumber: getMaskedCardNumber(
                     currentUser!.cardNumber ?? '',
                   ),
                 ),
+
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
@@ -162,76 +185,148 @@ class _CreditCardState extends State<CreditCard> {
                       ),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                  child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: item.length,
-                          itemBuilder: (context, index) {
-                            final items = item[index];
-                            return ListContainerWidget(
-                              title: items['main'],
-                              description: items['secondarytxt'],
-                              txtTapping: items['date'],
-                              leadingIconPath: items['icon'],
-                              iconBgColor: items['bgColor'],
-                              txtTappingColor: AppColor.semantic1,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.zero,
-                              borderBottom: BorderSide(
-                                color: Color(0xFFF2F2F2),
-                                width: 1.0,
-                              ),
-                              // Border.(
-                              //   color: Color(0xFFF2F2F2),
-                              //   width: 1.0,
-                              // ),
-                              boxShadow: [
-                                BoxShadow(offset: Offset(0, 0), blurRadius: 0),
-                              ],
-                            );
-                          },
-                        ),
-
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          padding: const EdgeInsets.all(24.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                loc.total,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                              Text(
-                                '\$1234.56',
-                                style: TextStyle(
-                                  fontSize: 24.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.semantic1,
-                                ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                primary: false,
+                                itemCount: currentUser?.category?.length,
+                                itemBuilder: (context, index) {
+                                  // final items = currentUser?.category?[index];
+                                  final categoryString =
+                                      currentUser!.category![index];
+                                  final categoryEnum =
+                                      ExpensesCategoryExtension.fromString(
+                                        categoryString,
+                                      );
+                                  return ListContainerWidget(
+                                    leadingIconPath: categoryEnum.svgAsset,
+                                    iconBgColor: categoryEnum.backgroundColor,
+                                    title: categoryEnum.label(context),
+                                    description:
+                                        currentUser!.description![index],
+                                    txtTapping:
+                                        '\$${currentUser!.amount![index]}',
+                                    txtTappingColor: categoryEnum.amountColor,
+                                    txtTappingFontWeight: FontWeight.w600,
+                                    txtTappingFontSize: 16.0.sp,
+                                    padding: EdgeInsets.all(12.w),
+                                    margin: EdgeInsets.zero,
+                                    borderBottom: BorderSide(
+                                      color: Color(0xFFECECEC),
+                                      width: 1.w,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: Offset(0, 0),
+                                        blurRadius: 0,
+                                      ),
+                                    ],
+                                    // title: items['main'],
+                                    // description: items['secondarytxt'],
+                                    // txtTapping: items['date'],
+                                    // leadingIconPath: items['icon'],
+                                    // iconBgColor: items['bgColor'],
+                                    // txtTappingColor: AppColor.semantic1,
+                                    // padding: EdgeInsets.all(12.w),
+                                    // margin: EdgeInsets.zero,
+                                    // borderBottom: BorderSide(
+                                    //   color: Color(0xFFF2F2F2),
+                                    //   width: 1.0,
+                                    // ),
+                                    // // Border.(
+                                    // //   color: Color(0xFFF2F2F2),
+                                    // //   width: 1.0,
+                                    // // ),
+                                    // boxShadow: [
+                                    //   BoxShadow(offset: Offset(0, 0), blurRadius: 0),
+                                    // ],
+                                  );
+                                },
                               ),
                             ],
                           ),
                         ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
-                          child: CustomButtonWidget(
-                            btnText: loc.pay,
-                            onTap: () {},
-                          ),
-                        ),
                       ],
                     ),
+                  ),
+                ),
+
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            loc.total,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          Text(
+                            '\$${getTotalAmount(currentUser!).abs().toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  getTotalAmount(currentUser!) < 0
+                                      ? Colors.red
+                                      : AppColor.primary1,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: CustomButtonWidget(
+                          btnText: loc.pay,
+                          bgColorBtn: Theme.of(context).primaryColor,
+                          isEnabled: getTotalAmount(currentUser!) < 0,
+                          onTap: () async {
+                            double cardBalance =
+                                double.tryParse(
+                                  currentUser!.cardBalance ?? '0',
+                                ) ??
+                                0.0;
+
+                            double totalAmount = getTotalAmount(currentUser!);
+
+                            double updatedBalance = cardBalance - totalAmount;
+
+                            currentUser!.cardBalance = updatedBalance
+                                .toStringAsFixed(2);
+
+                              currentUser!.amount?.clear();
+                              currentUser!.category?.clear();
+                              currentUser!.description?.clear();
+
+                                await prefService.setData(currentUser!);
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Updated Successfully")),
+                              );
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomeScreen()),
+                              );
+
+                            
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

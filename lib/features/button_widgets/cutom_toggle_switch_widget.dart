@@ -4,7 +4,7 @@ import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/theme/theme_preference.dart';
 
 class CutomToggleSwitchWidget extends ConsumerStatefulWidget{
-  const CutomToggleSwitchWidget({super.key});
+  const CutomToggleSwitchWidget( {super.key});
 
   @override
   ConsumerState<CutomToggleSwitchWidget> createState() => _CutomToggleSwitchWidgetState();
@@ -19,7 +19,7 @@ class _CutomToggleSwitchWidgetState extends ConsumerState<CutomToggleSwitchWidge
     return IconButton(
       icon: Icon(
         isDark? Icons.dark_mode : Icons.light_mode,
-        color: isDark ? AppColor.semantic3: AppColor.neutral6,
+        color: isDark ? AppColor.semantic3: AppColor.neutral4 ,
       ),
       onPressed:() async {
         final newMode = isDark ? ThemeMode.light : ThemeMode.dark;

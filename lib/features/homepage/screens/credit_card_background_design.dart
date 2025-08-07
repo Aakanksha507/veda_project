@@ -4,16 +4,20 @@ import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/credit_card_design_widget.dart';
 
 class CreditCardBackgroundDesign extends StatelessWidget {
-
   final String? cardHolderName;
-  final String? cardName; 
+  final String? cardName;
   final String? cardNumber;
   final String? cardBalance;
-  const CreditCardBackgroundDesign({super.key,
-   this.cardHolderName,
+  final Color? cardColor;
+
+  const CreditCardBackgroundDesign({
+    super.key,
+    this.cardHolderName,
     this.cardName,
-     this.cardNumber,
-      this.cardBalance});
+    this.cardNumber,
+    this.cardColor,
+    this.cardBalance,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +59,16 @@ class CreditCardBackgroundDesign extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(top: 20.h, child: CreditCardDesignWidget(
-          cardHolderName: cardHolderName ,
-          cardName: cardName, 
-          cardNumber: cardNumber, 
-          cardBalance:  cardBalance,
-        )),
+        Positioned(
+          top: 20.h,
+          child: CreditCardDesignWidget(
+            cardHolderName: cardHolderName,
+            cardName: cardName,
+            cardNumber: cardNumber,
+            cardBalance: cardBalance,
+            cardColor: cardColor,
+          ),
+        ),
       ],
     );
   }

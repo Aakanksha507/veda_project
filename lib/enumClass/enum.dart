@@ -58,9 +58,9 @@ extension ExpensesCategoryExtension on ExpensesCategory {
     }
   }
 
-  String get amountSign {
-  return this == ExpensesCategory.salaries ? '+' : '-';
-}
+//   String get amountSign {
+//   return this == ExpensesCategory.salaries ? '+' : '-';
+// }
 
 Color? get amountColor {
   return this == ExpensesCategory.salaries
