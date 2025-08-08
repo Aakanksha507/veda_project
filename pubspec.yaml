@@ -50,7 +50,7 @@ dependencies:
   fluttertoast: ^8.2.12
   dio: ^5.8.0+1
   cached_network_image: ^3.4.1
-  
+  image_picker: ^1.1.2
 
 
 
@@ -108,6 +108,7 @@ flutter:
     - assets/icon/home_icon/creditCard.svg
     - assets/icon/home_icon/beneficiary.svg
     - assets/icon/home_icon/report.svg
+    - assets/icon/roundedButton.svg
 
 
 

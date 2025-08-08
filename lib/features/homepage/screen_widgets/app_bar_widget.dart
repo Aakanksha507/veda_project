@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 
 class AppBarWidget extends StatelessWidget{
 
@@ -35,19 +36,23 @@ class AppBarWidget extends StatelessWidget{
             
         ),
         leadingWidth: 16.w,
-      
-        leading:Padding(
-          padding: EdgeInsets.all(4.w),
-          child: GestureDetector(
+        leading:Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: AppColor.primary3,
             onTap:onTap ?? () {
               Navigator.pop(context); 
             },
-            child: SvgPicture.asset('assets/icon/Path.svg',
-             height: 16.h,
-              width: 16.w,
-              colorFilter: ColorFilter.mode(iconColor ?? Colors.white, BlendMode.srcIn),
-              //  color: iconColor ?? Color(0xFFFFFFFF),
-            ), 
+            child: Padding(
+              padding: EdgeInsets.all(4.w),
+              child: SvgPicture.asset('assets/icon/Path.svg',
+               height: 20.h,
+                width: 20.w,
+                colorFilter: ColorFilter.mode(iconColor ?? Colors.white, BlendMode.srcIn),
+                
+                //  color: iconColor ?? Color(0xFFFFFFFF),
+              ),
+            ),
           ),
         ) ,
     );

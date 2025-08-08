@@ -4,13 +4,17 @@ import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/theme/theme_preference.dart';
 
 class CutomToggleSwitchWidget extends ConsumerStatefulWidget{
-  const CutomToggleSwitchWidget( {super.key});
+  final Color? darkbtn;
+    final Color? lightbtn;
+  const CutomToggleSwitchWidget( {super.key, this.darkbtn, this.lightbtn});
 
   @override
   ConsumerState<CutomToggleSwitchWidget> createState() => _CutomToggleSwitchWidgetState();
 }
 
 class _CutomToggleSwitchWidgetState extends ConsumerState<CutomToggleSwitchWidget> {
+
+
   @override
   Widget build(BuildContext context) {
     //check whether the app is currently in dark mode or light mode
@@ -19,7 +23,7 @@ class _CutomToggleSwitchWidgetState extends ConsumerState<CutomToggleSwitchWidge
     return IconButton(
       icon: Icon(
         isDark? Icons.dark_mode : Icons.light_mode,
-        color: isDark ? AppColor.semantic3: AppColor.neutral4 ,
+        color: isDark ? widget.darkbtn ?? AppColor.semantic3:  widget.lightbtn?? AppColor.neutral6 ,
       ),
       onPressed:() async {
         final newMode = isDark ? ThemeMode.light : ThemeMode.dark;

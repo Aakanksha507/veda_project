@@ -168,6 +168,7 @@ class _EditExpensesState extends State<EditExpenses> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(loc.update_successfully),
+                                    duration: Duration(seconds: 1)
                                   ),
                                 );
 

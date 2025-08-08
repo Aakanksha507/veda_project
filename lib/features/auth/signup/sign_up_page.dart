@@ -42,123 +42,130 @@ class SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return BackgroundLayoutWidget(
-      appbarTittle: loc.signup,
-      titleText: loc.welcomeToUs,
-      secondaryText: loc.helloCreateNewAccount,
-      promptText: loc.haveAnAccount,
-      actionText: loc.signin,
-      dynamicWidget: Padding(
-        padding: EdgeInsets.only(top: 301.0.w),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                //Input Field For Username
-                InputFielsWidget(
-                  controller: usernameController,
-                  focusNode: usernamenode,
-                  validator:  (value)=> InputValidation.validateUserName(loc, value),
-                  errorText: usernameError,
-                  hintTxt: loc.userName,
-                  hintStyleColor:  AppColor.neutral4,
-                  borderBoxColor: const Color(0xFFCBCBCB),
-                ),
-                //Input Field For PhoneNumber
-                InternationalPhoneNumberInputfield(
-                  controller: phoneNumberController,
-
-                  validator: (value)=> InputValidation.validatePhoneNumber(loc, value),
-                  errorText: phoneError,
-                ),
-                //Input Field For Password
-                InputFielsWidget(
-                  controller: passwordController,
-                  focusNode: passwordnode,
-                  validator:  (value)=> InputValidation.validatePassword(loc, value),
-                  errorText: passwordError,
-                  obscureTextPassword: obscurePassword,
-                  hintTxt: loc.password,
-                  hintStyleColor:  AppColor.neutral4,
-                  borderBoxColor: const Color(0xFFCBCBCB),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.h,
-                    horizontal: 24.w,
+    return GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus?.unfocus(); // way to remove focus from input field
+                                                        // dismissed the keyboard
+      },
+      child: BackgroundLayoutWidget(
+        appbarTittle: loc.signup,
+        titleText: loc.welcomeToUs,
+        secondaryText: loc.helloCreateNewAccount,
+        promptText: loc.haveAnAccount,
+        actionText: loc.signin,
+        dynamicWidget: Padding(
+          padding: EdgeInsets.only(top: 301.0.w),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  //Input Field For Username
+                  InputFielsWidget(
+                    controller: usernameController,
+                    focusNode: usernamenode,
+                    validator:  (value)=> InputValidation.validateUserName(loc, value),
+                    errorText: usernameError,
+                    hintTxt: loc.userName,
+                    hintStyleColor:  AppColor.neutral4,
+                    // borderBoxColor: const Color(0xFFCBCBCB),
                   ),
-                  child: TermConditionCheckupBox(),
-                ),
-                CustomButtonWidget(
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final username = usernameController.text.trim();
-                      final phoneNumber = phoneNumberController.text.trim();
-                      final password = passwordController.text.trim();
-                      final usernameErrorText =
-                          InputValidation.validateUserName(loc, username);
-                      final phoneErrorText =
-                          InputValidation.validatePhoneNumber(loc, phoneNumber);
-                      final passwordErrorText =
-                          InputValidation.validatePassword(loc, password);
-
-                      setState(() {
-                        phoneError = phoneErrorText;
-                        passwordError = passwordErrorText;
-                        usernameError = usernameErrorText;
-                      });
-                      User newUser = User(
-                        // id: uuid.v4(),
-                        username: username,
-                        phoneNumber: phoneNumber,
-                        password: password,
-                      );
-
-                      await prefService.setData(newUser);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(loc.registration_success_message)),
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInPage(),
-                        ),
-                      );
-                    }
-                  },
-                  btnText: loc.signup,
-                  bgColorBtn: AppColor.primary1,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextWidget(
-                      txt:loc.haveAnAccount,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 12.sp,
+                  //Input Field For PhoneNumber
+                  InternationalPhoneNumberInputfield(
+                    controller: phoneNumberController,
+      
+                    validator: (value)=> InputValidation.validatePhoneNumber(loc, value),
+                    errorText: phoneError,
+                  ),
+                  //Input Field For Password
+                  InputFielsWidget(
+                    controller: passwordController,
+                    focusNode: passwordnode,
+                    validator:  (value)=> InputValidation.validatePassword(loc, value),
+                    errorText: passwordError,
+                    obscureTextPassword: obscurePassword,
+                    hintTxt: loc.password,
+                    hintStyleColor:  AppColor.neutral4,
+                    // borderBoxColor: const Color(0xFFCBCBCB),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 24.w,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
+                    child: TermConditionCheckupBox(),
+                  ),
+                  CustomButtonWidget(
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final username = usernameController.text.trim();
+                        final phoneNumber = phoneNumberController.text.trim();
+                        final password = passwordController.text.trim();
+                        final usernameErrorText =
+                            InputValidation.validateUserName(loc, username);
+                        final phoneErrorText =
+                            InputValidation.validatePhoneNumber(loc, phoneNumber);
+                        final passwordErrorText =
+                            InputValidation.validatePassword(loc, password);
+      
+                        setState(() {
+                          phoneError = phoneErrorText;
+                          passwordError = passwordErrorText;
+                          usernameError = usernameErrorText;
+                        });
+                        User newUser = User(
+                          // id: uuid.v4(),
+                          username: username,
+                          phoneNumber: phoneNumber,
+                          password: password,
+                        );
+      
+                        await prefService.setData(newUser);
+      
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(loc.registration_success_message),
+                          duration: Duration(seconds: 1))
+                        );
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const SignInPage(),
                           ),
                         );
-                      },
-                      child: TextWidget(
-                        txt: loc.signin,
-                        fontWeight: FontWeight.w600,
+                      }
+                    },
+                    btnText: loc.signup,
+                    bgColorBtn: AppColor.primary1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextWidget(
+                        txt:loc.haveAnAccount,
+                        fontWeight: FontWeight.w400,
                         fontSize: 12.sp,
-                        txtColor: AppColor.primary1,
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignInPage(),
+                            ),
+                          );
+                        },
+                        child: TextWidget(
+                          txt: loc.signin,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
+                          txtColor: AppColor.primary1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

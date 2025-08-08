@@ -50,7 +50,7 @@ class AppTheme {
         onPrimary: AppColor.neutral6,
         secondary: AppColor.neutral4,
         onSecondary: AppColor.neutral6,
-        error: const Color.fromARGB(255, 19, 18, 18),
+        error: Colors.red,
         onError: Colors.red,
         surface: AppColor.neutral5,
         onSurface: AppColor.neutral1,

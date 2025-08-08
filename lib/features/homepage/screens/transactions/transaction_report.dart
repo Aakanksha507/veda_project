@@ -34,11 +34,11 @@ class _TransactionReportState extends State<TransactionReport> {
   Future<void> getUserExpenses() async {
     User? user = await prefService.getCurrentUser();
     if (user != null) {
-      if (mounted){
+      if (mounted) {
         setState(() {
-        currentUser = user;
-      });
-      }  
+          currentUser = user;
+        });
+      }
     }
   }
 
@@ -53,8 +53,8 @@ class _TransactionReportState extends State<TransactionReport> {
   }
 
   Future<void> loadUserAndBalance() async {
-    await getCardBalanceAmount();  
-    User? user = await prefService.getCurrentUser(); 
+    await getCardBalanceAmount();
+    User? user = await prefService.getCurrentUser();
     setState(() {
       currentUser = user;
     });
@@ -91,7 +91,7 @@ class _TransactionReportState extends State<TransactionReport> {
 
   @override
   Widget build(BuildContext context) {
-      final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
     if (currentUser == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
@@ -140,96 +140,108 @@ class _TransactionReportState extends State<TransactionReport> {
               cardHolderName:
                   currentUser!.transactionName ?? 'User name not found',
               cardNumber: getMaskedCardNumber(currentUser!.cardNumber ?? ''),
-              cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}', 
-              cardColor: getTotalAmount(currentUser!)< 0 ? Colors.red : AppColor.neutral6,
+              cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}',
+              cardColor:
+                  getTotalAmount(currentUser!) < 0
+                      ? Colors.red
+                      : AppColor.neutral6,
             ),
 
             Positioned(
-              top: 290.h, 
+              top: 290.h,
               left: 0,
               right: 0,
               child: Container(
+                height: 350,
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.r),
                 ),
-                // height: 300.h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: currentUser?.category?.length,
-                      itemBuilder: (context, index) {
-                        // final items = currentUser?.category?[index];
-                        final categoryString = currentUser!.category![index];
-                        final categoryEnum =
-                            ExpensesCategoryExtension.fromString(
-                              categoryString,
-                            );
-                        return Dismissible(
-                          key: UniqueKey(),
-                          onDismissed: (direction) {
-                            setState(() {
-                              currentUser?.category?.removeAt(index);
-                              currentUser?.amount?.removeAt(index);
-                              currentUser?.description?.removeAt(index);
-                            });
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: currentUser?.category?.length,
+                        itemBuilder: (context, index) {
+                          // final items = currentUser?.category?[index];
+                          final categoryString = currentUser!.category![index];
+                          final categoryEnum =
+                              ExpensesCategoryExtension.fromString(
+                                categoryString,
+                              );
+                          return Dismissible(
+                            key: UniqueKey(),
+                            onDismissed: (direction) {
+                              setState(() {
+                                currentUser?.category?.removeAt(index);
+                                currentUser?.amount?.removeAt(index);
+                                currentUser?.description?.removeAt(index);
+                              });
 
-                            if (currentUser != null) {
-                              prefService.setData(currentUser!);
-                            }
+                              if (currentUser != null) {
+                                prefService.setData(currentUser!);
+                              }
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(loc.deleted_successfully)),
-                            );
-
-                          },
-
-                          background: Container(color: Colors.red),
-
-                          child: GestureDetector(
-                            onLongPress: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => EditExpenses(
-                                        category: currentUser!.category![index],
-                                        description:currentUser!.description![index],
-                                        amount: currentUser!.amount![index],
-                                        index : index,
-                                      ),
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(loc.deleted_successfully),
+                                  duration: Duration(seconds: 1),
                                 ),
                               );
                             },
-                            child: ListContainerWidget(
-                              leadingIconPath: categoryEnum.svgAsset,
-                              iconBgColor: categoryEnum.backgroundColor,
-                              title: categoryEnum.label(context),
-                              description: currentUser!.description![index],
-                              txtTapping:
-                                  '\$${currentUser!.amount![index]}',
-                              txtTappingColor: categoryEnum.amountColor,
-                              txtTappingFontWeight: FontWeight.w600,
-                              txtTappingFontSize: 16.0.sp,
-                              padding: EdgeInsets.all(12.w),
-                              margin: EdgeInsets.zero,
-                              borderBottom: BorderSide(
-                                color: Color(0xFFECECEC),
-                                width: 1.w,
+
+                            background: Container(color: Colors.red),
+
+                            child: GestureDetector(
+                              onLongPress: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => EditExpenses(
+                                          category:
+                                              currentUser!.category![index],
+                                          description:
+                                              currentUser!.description![index],
+                                          amount: currentUser!.amount![index],
+                                          index: index,
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: ListContainerWidget(
+                                leadingIconPath: categoryEnum.svgAsset,
+                                iconBgColor: categoryEnum.backgroundColor,
+                                title: categoryEnum.label(context),
+                                description: currentUser!.description![index],
+                                txtTapping:
+                                    '\$${double.parse(currentUser!.amount![index]).abs().toStringAsFixed(2)}',
+                                txtTappingColor: categoryEnum.amountColor,
+                                txtTappingFontWeight: FontWeight.w600,
+                                txtTappingFontSize: 16.0.sp,
+                                padding: EdgeInsets.all(12.w),
+                                margin: EdgeInsets.zero,
+                                borderBottom: BorderSide(
+                                  color: Color(0xFFECECEC),
+                                  width: 1.w,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0, 0),
+                                    blurRadius: 0,
+                                  ),
+                                ],
                               ),
-                              boxShadow: [
-                                BoxShadow(offset: Offset(0, 0), blurRadius: 0),
-                              ],
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

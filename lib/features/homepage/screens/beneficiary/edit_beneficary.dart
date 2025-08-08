@@ -129,6 +129,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.update_successfully),
+          duration: Duration(seconds: 1),
         ),
       );
 
@@ -169,136 +170,141 @@ class _EditBeneficaryState extends State<EditBeneficary> {
         ),
         backgroundColor: Theme.of(context).primaryColor
       ),
-      body: SafeArea(
-        child:
-            isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            width: 375.w,
-                            height: 700.h,
-                            decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-                            child: Container(
-                              height: 641.h,
+      body: GestureDetector(
+        onTap: (){
+           FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: SafeArea(
+          child:
+              isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
                               width: 375.w,
-                              margin: EdgeInsets.only(top: 78.h),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFFFFF),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30.r),
-                                  topRight: Radius.circular(30.r),
+                              height: 700.h,
+                              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                              child: Container(
+                                height: 641.h,
+                                width: 375.w,
+                                margin: EdgeInsets.only(top: 78.h),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFFFFF),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.r),
+                                    topRight: Radius.circular(30.r),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const Positioned(child: ProfileUserImgWidget()),
-                          Positioned(
-                            top: 127.h,
-                            left: 145.w,
-                            child: ProfileUsernameWidget(username: loc.user),
-                          ),
-                          Positioned(
-                            top: 160.h,
-                            left: 24.w,
-                            right: 24.w,
-                            child: Container(
-                              height: 641.h,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                borderRadius: BorderRadius.circular(15.r),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color(0x0D000000),
-                                    blurRadius: 30,
-                                    offset: Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Form(
-                                key: _formkey,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    InputFielsWidget(
-                                      focusNode: bankNameNode,
-                                      controller: bankNameController,
-                                      validator:
-                                          (value) =>
-                                              InputValidation.validateBankName(
-                                                loc,
-                                                value,
-                                              ),
-                                      errorText: bankNameError,
-                                      labelTxt: loc.chooseBank,
-                                      hintTxt: loc.chooseBank,
-                                    ),
-                                    InputFielsWidget(
-                                      focusNode: bankBranchNode,
-                                      labelTxt: loc.chooseBranch,
-                                      controller: bankBranchController,
-                                      validator:
-                                          (value) =>
-                                              InputValidation.validateBranchName(
-                                                loc,
-                                                value,
-                                              ),
-                                      errorText: branchNameError,
-                                      hintTxt: loc.chooseBranch,
-                                    ),
-                                    InputFielsWidget(
-                                      labelTxt: loc.transactionName,
-                                      controller: transactionNameController,
-                                      focusNode: transactionNameNode,
-                                      validator:
-                                          (value) =>
-                                              InputValidation.validateTransactionName(
-                                                loc,
-                                                value,
-                                              ),
-                                      hintTxt: loc.transactionName,
-                                    ),
-                                    InputFielsWidget(
-                                      labelTxt: loc.cardNumber,
-                                      controller: cardNumberController,
-                                      focusNode: cardNumberNode,
-                                      validator:
-                                          (value) =>
-                                              InputValidation.validateCardNumber(
-                                                loc,
-                                                value,
-                                              ),
-                                      errorText: cardNumberError,
-                                      inputFormatters: [cardNumberFormatter],
-                                      hintTxt: loc.cardNumber,
-                                      keyboardType: TextInputType.number,
-                                    ),
-                                    SizedBox(height: 24.h),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                        top: 16.h,
-                                        left: 16.w,
-                                        right: 16.w,
-                                      ),
-                                      child: CustomButtonWidget(
-                                        btnText: loc.edit,
-                                        bgColorBtn: Theme.of(context).primaryColor,
-                                        onTap: isEdited ? _handleEdit : null,
-                                      ),
+                            const Positioned(child: ProfileUserImgWidget()),
+                            Positioned(
+                              top: 127.h,
+                              left: 145.w,
+                              child: ProfileUsernameWidget(username: loc.user),
+                            ),
+                            Positioned(
+                              top: 160.h,
+                              left: 24.w,
+                              right: 24.w,
+                              child: Container(
+                                height: 641.h,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  borderRadius: BorderRadius.circular(15.r),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x0D000000),
+                                      blurRadius: 30,
+                                      offset: Offset(0, 4),
                                     ),
                                   ],
                                 ),
+                                child: Form(
+                                  key: _formkey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      InputFielsWidget(
+                                        focusNode: bankNameNode,
+                                        controller: bankNameController,
+                                        validator:
+                                            (value) =>
+                                                InputValidation.validateBankName(
+                                                  loc,
+                                                  value,
+                                                ),
+                                        errorText: bankNameError,
+                                        labelTxt: loc.chooseBank,
+                                        hintTxt: loc.chooseBank,
+                                      ),
+                                      InputFielsWidget(
+                                        focusNode: bankBranchNode,
+                                        labelTxt: loc.chooseBranch,
+                                        controller: bankBranchController,
+                                        validator:
+                                            (value) =>
+                                                InputValidation.validateBranchName(
+                                                  loc,
+                                                  value,
+                                                ),
+                                        errorText: branchNameError,
+                                        hintTxt: loc.chooseBranch,
+                                      ),
+                                      InputFielsWidget(
+                                        labelTxt: loc.transactionName,
+                                        controller: transactionNameController,
+                                        focusNode: transactionNameNode,
+                                        validator:
+                                            (value) =>
+                                                InputValidation.validateTransactionName(
+                                                  loc,
+                                                  value,
+                                                ),
+                                        hintTxt: loc.transactionName,
+                                      ),
+                                      InputFielsWidget(
+                                        labelTxt: loc.cardNumber,
+                                        controller: cardNumberController,
+                                        focusNode: cardNumberNode,
+                                        validator:
+                                            (value) =>
+                                                InputValidation.validateCardNumber(
+                                                  loc,
+                                                  value,
+                                                ),
+                                        errorText: cardNumberError,
+                                        inputFormatters: [cardNumberFormatter],
+                                        hintTxt: loc.cardNumber,
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                      SizedBox(height: 24.h),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: 16.h,
+                                          left: 16.w,
+                                          right: 16.w,
+                                        ),
+                                        child: CustomButtonWidget(
+                                          btnText: loc.edit,
+                                          bgColorBtn: Theme.of(context).primaryColor,
+                                          onTap: isEdited ? _handleEdit : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+        ),
       ),
     );
   }

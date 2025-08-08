@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

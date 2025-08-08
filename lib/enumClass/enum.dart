@@ -9,6 +9,7 @@ enum ExpensesCategory {
   internetBill,
   salaries,
   transportation,
+  debtClerance
 }
 
 extension ExpensesCategoryExtension on ExpensesCategory {
@@ -25,6 +26,8 @@ extension ExpensesCategoryExtension on ExpensesCategory {
         return loc.salaries;
       case ExpensesCategory.transportation:
         return loc.transportation;
+      case ExpensesCategory.debtClerance:
+        return "Debt Clearance";
     }
   }
 
@@ -39,6 +42,8 @@ extension ExpensesCategoryExtension on ExpensesCategory {
       case ExpensesCategory.salaries:
         return 'assets/icon/income.svg';
       case ExpensesCategory.transportation:
+        return 'assets/icon/bill.svg';
+      case ExpensesCategory.debtClerance:
         return 'assets/icon/bill.svg';
     }
   }
@@ -55,6 +60,8 @@ extension ExpensesCategoryExtension on ExpensesCategory {
         return AppColor.semantic1;
       case ExpensesCategory.transportation:
         return AppColor.semantic3;
+      case ExpensesCategory.debtClerance:
+        return AppColor.semantic5; 
     }
   }
 

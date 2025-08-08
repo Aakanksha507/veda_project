@@ -148,33 +148,34 @@ class _CreditCardState extends State<CreditCard> {
           },
         ),
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        color: Theme.of(context).primaryColor,
         child: Container(
-          color: Theme.of(context).primaryColor,
-          child: Container(
-            margin: EdgeInsets.only(top: 24.h),
-            decoration: BoxDecoration(
-              color: AppColor.neutral6,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.r),
-                topRight: Radius.circular(30.r),
-              ),
+          margin: EdgeInsets.only(top: 24.h),
+          decoration: BoxDecoration(
+            color: AppColor.neutral6,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.r),
+              topRight: Radius.circular(30.r),
             ),
-            child: Column(
-              children: [
-                CreditCardBackgroundDesign(
-                  cardHolderName: currentUser!.transactionName ?? "User",
-                  cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}',
-                  cardColor:
-                      getTotalAmount(currentUser!) < 0
-                          ? Colors.red
-                          : AppColor.neutral6,
-                  cardNumber: getMaskedCardNumber(
-                    currentUser!.cardNumber ?? '',
-                  ),
-                ),
+          ),
+          child: Column(
+            children: [
+              CreditCardBackgroundDesign(
+                cardHolderName: currentUser!.transactionName ?? "User",
+                cardBalance: '\$${currentUser!.cardBalance ?? '0.00'}',
+                cardColor:
+                    getTotalAmount(currentUser!) < 0
+                        ? Colors.red
+                        : AppColor.neutral6,
+                cardNumber: getMaskedCardNumber(currentUser!.cardNumber ?? ''),
+              ),
 
-                Container(
+              Padding(
+                padding: EdgeInsets.only(top: 24.0, right: 24, left: 24),
+                child: Container(
+                  height: 300.h,
+                  width: 327.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     boxShadow: [
@@ -187,150 +188,228 @@ class _CreditCardState extends State<CreditCard> {
                   ),
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListView.builder(
-                                shrinkWrap: true,
-                                primary: false,
-                                itemCount: currentUser?.category?.length,
-                                itemBuilder: (context, index) {
-                                  // final items = currentUser?.category?[index];
-                                  final categoryString =
-                                      currentUser!.category![index];
-                                  final categoryEnum =
-                                      ExpensesCategoryExtension.fromString(
-                                        categoryString,
-                                      );
-                                  return ListContainerWidget(
-                                    leadingIconPath: categoryEnum.svgAsset,
-                                    iconBgColor: categoryEnum.backgroundColor,
-                                    title: categoryEnum.label(context),
-                                    description:
-                                        currentUser!.description![index],
-                                    txtTapping:
-                                        '\$${currentUser!.amount![index]}',
-                                    txtTappingColor: categoryEnum.amountColor,
-                                    txtTappingFontWeight: FontWeight.w600,
-                                    txtTappingFontSize: 16.0.sp,
-                                    padding: EdgeInsets.all(12.w),
-                                    margin: EdgeInsets.zero,
-                                    borderBottom: BorderSide(
-                                      color: Color(0xFFECECEC),
-                                      width: 1.w,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        offset: Offset(0, 0),
-                                        blurRadius: 0,
-                                      ),
-                                    ],
-                                    // title: items['main'],
-                                    // description: items['secondarytxt'],
-                                    // txtTapping: items['date'],
-                                    // leadingIconPath: items['icon'],
-                                    // iconBgColor: items['bgColor'],
-                                    // txtTappingColor: AppColor.semantic1,
-                                    // padding: EdgeInsets.all(12.w),
-                                    // margin: EdgeInsets.zero,
-                                    // borderBottom: BorderSide(
-                                    //   color: Color(0xFFF2F2F2),
-                                    //   width: 1.0,
-                                    // ),
-                                    // // Border.(
-                                    // //   color: Color(0xFFF2F2F2),
-                                    // //   width: 1.0,
-                                    // // ),
-                                    // boxShadow: [
-                                    //   BoxShadow(offset: Offset(0, 0), blurRadius: 0),
-                                    // ],
-                                  );
-                                },
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: currentUser?.category?.length,
+                          itemBuilder: (context, index) {
+                            // final items = currentUser?.category?[index];
+                            final categoryString =
+                                currentUser!.category![index];
+                            final categoryEnum =
+                                ExpensesCategoryExtension.fromString(
+                                  categoryString,
+                                );
+                            return ListContainerWidget(
+                              leadingIconPath: categoryEnum.svgAsset,
+                              iconBgColor: categoryEnum.backgroundColor,
+                              title: categoryEnum.label(context),
+                              description: currentUser!.description![index],
+                              txtTapping:
+                                  '\$${double.parse(currentUser!.amount![index]).abs().toStringAsFixed(2)}',
+                              txtTappingColor: categoryEnum.amountColor,
+                              txtTappingFontWeight: FontWeight.w600,
+                              txtTappingFontSize: 16.0.sp,
+                              padding: EdgeInsets.all(12.w),
+                              margin: EdgeInsets.zero,
+                              borderBottom: BorderSide(
+                                color: Color(0xFFECECEC),
+                                width: 1.w,
                               ),
-                            ],
-                          ),
+                              boxShadow: [
+                                BoxShadow(offset: Offset(0, 0), blurRadius: 0),
+                              ],
+                              // title: items['main'],
+                              // description: items['secondarytxt'],
+                              // txtTapping: items['date'],
+                              // leadingIconPath: items['icon'],
+                              // iconBgColor: items['bgColor'],
+                              // txtTappingColor: AppColor.semantic1,
+                              // padding: EdgeInsets.all(12.w),
+                              // margin: EdgeInsets.zero,
+                              // borderBottom: BorderSide(
+                              //   color: Color(0xFFF2F2F2),
+                              //   width: 1.0,
+                              // ),
+                              // // Border.(
+                              // //   color: Color(0xFFF2F2F2),
+                              // //   width: 1.0,
+                              // // ),
+                              // boxShadow: [
+                              //   BoxShadow(offset: Offset(0, 0), blurRadius: 0),
+                              // ],
+                            );
+                          },
                         ),
                       ],
                     ),
                   ),
                 ),
+              ),
 
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            loc.total,
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                            ),
+              Padding(
+                padding: EdgeInsets.only(right: 24.w, left: 24.w, bottom: 12.h),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          loc.total,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
                           ),
-                          Text(
-                            '\$${getTotalAmount(currentUser!).abs().toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  getTotalAmount(currentUser!) < 0
-                                      ? Colors.red
-                                      : AppColor.primary1,
-                            ),
+                        ),
+                        Text(
+                          '\$${getTotalAmount(currentUser!).abs().toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                            color:
+                                getTotalAmount(currentUser!) < 0
+                                    ? Colors.red
+                                    : AppColor.primary1,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24.0),
-                        child: CustomButtonWidget(
-                          btnText: loc.pay,
-                          bgColorBtn: Theme.of(context).primaryColor,
-                          isEnabled: getTotalAmount(currentUser!) < 0,
-                          onTap: () async {
-                            double cardBalance =
-                                double.tryParse(
-                                  currentUser!.cardBalance ?? '0',
-                                ) ??
-                                0.0;
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: CustomButtonWidget(
+                        btnText: loc.pay,
+                        bgColorBtn: Theme.of(context).primaryColor,
+                        isEnabled: getTotalAmount(currentUser!) < 0,
+                        onTap: () async {
+                          final currentUsers =
+                              await prefService.getCurrentUser();
 
+                          if (currentUsers != null) {
                             double totalAmount = getTotalAmount(currentUser!);
 
-                            double updatedBalance = cardBalance - totalAmount;
+                            final updatedDescriptionList = List<String>.from(
+                              currentUsers.description ?? [],
+                            )..add('Debt Cleared');
 
-                            currentUser!.cardBalance = updatedBalance
-                                .toStringAsFixed(2);
+                            final updatedAmountList = List<String>.from(
+                              currentUsers.amount ?? [],
+                            )..add(((totalAmount).toStringAsFixed(2)));
 
-                              currentUser!.amount?.clear();
-                              currentUser!.category?.clear();
-                              currentUser!.description?.clear();
+                            final updatedCategoryList = List<String>.from(
+                              currentUsers.category ?? [],
+                            )..add(ExpensesCategory.debtClerance.name);
 
-                                await prefService.setData(currentUser!);
+                            final updatedUser = User(
+                              id: currentUsers.id,
+                              username: currentUsers.username,
+                              phoneNumber: currentUsers.phoneNumber,
+                              password: currentUsers.password,
+                              bankName: currentUsers.bankName,
+                              bankBranch: currentUsers.bankBranch,
+                              transactionName: currentUsers.transactionName,
+                              cardNumber: currentUsers.cardNumber,
+                              category: updatedCategoryList,
+                              description: updatedDescriptionList,
+                              amount: updatedAmountList,
+                            );
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Updated Successfully")),
-                              );
+                            await prefService.setData(updatedUser);
 
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => HomeScreen()),
-                              );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(loc.add_successfully),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                          }
+                        },
 
-                            
-                          },
-                        ),
+                        // onTap: () async {
+                        //   final currentUsers =
+                        //       await prefService.getCurrentUser();
+                        //   // double cardBalance =
+                        //   //     double.tryParse(
+                        //   //       currentUser!.cardBalance ?? '0',
+                        //   //     ) ??
+                        //   //     0.0;
+
+                        //   double totalAmount = getTotalAmount(currentUser!);
+
+                        //   // double updatedBalance = cardBalance - totalAmount;
+
+                        //   // currentUser!.cardBalance = updatedBalance
+                        //   //     .toStringAsFixed(2);
+
+                        //   // currentUser!.amount?.clear();
+                        //   // currentUser!.category?.clear();
+                        //   // currentUser!.description?.clear();
+
+                        //   // await prefService.setData(currentUser!);
+
+                        //   // ScaffoldMessenger.of(context).showSnackBar(
+                        //   //   SnackBar(
+                        //   //     content: Text("Updated Successfully"),
+                        //   //     duration: Duration(seconds: 1),
+                        //   //   ),
+                        //   // );
+                        //   if (currentUsers != null) {
+                        //     final updatedDescriptionList = List<String>.from(
+                        //       currentUsers.description ?? [],
+                        //     )..add('succesfully');
+                        //     final updatedAmountList = List<String>.from(
+                        //       currentUsers.amount ?? [],
+                        //     )..add(totalAmount as String);
+                        //     final updatedCategoryList = List<String>.from(
+                        //       currentUsers.category ?? [],
+                        //     )..add("Debt Clearance" ?? '');
+
+                        //     final updateWithCategory = User(
+                        //       id: currentUsers.id,
+                        //       username: currentUsers.username,
+                        //       phoneNumber: currentUsers.phoneNumber,
+                        //       password: currentUsers.password,
+                        //       bankName: currentUsers.bankName,
+                        //       bankBranch: currentUsers.bankBranch,
+                        //       transactionName: currentUsers.transactionName,
+                        //       cardNumber: currentUsers.cardNumber,
+                        //       category: updatedCategoryList,
+                        //       description: updatedDescriptionList,
+                        //       amount: updatedAmountList,
+                        //     );
+
+                        //     // debugPrint('Amoutn: ${updateWithCategory.amount}');
+
+                        //     await prefService.setData(updateWithCategory);
+                        //     ScaffoldMessenger.of(context).showSnackBar(
+                        //       SnackBar(
+                        //         content: Text(loc.add_successfully),
+                        //         duration: Duration(seconds: 1),
+                        //       ),
+                        //     );
+                        //   }
+                        //   Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => HomeScreen(),
+                        //     ),
+                        //   );
+                        // },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

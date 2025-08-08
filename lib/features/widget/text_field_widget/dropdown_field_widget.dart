@@ -8,10 +8,12 @@ class DropdownFieldWidget extends StatefulWidget {
   final ExpensesCategory? selectedValue;
   final ValueChanged<ExpensesCategory?> onChanged;
 
+
   const DropdownFieldWidget({
     super.key,
     required this.onChanged,
     this.selectedValue,
+
   });
 
   @override
@@ -52,7 +54,9 @@ class _DropdownFieldWidgetState extends State<DropdownFieldWidget> {
               ),
             ),
             items:
-                ExpensesCategory.values.map((category) {
+                ExpensesCategory.values
+                .where((category) => category != ExpensesCategory.debtClerance) 
+                .map((category) {
                   return DropdownMenuItem(
                     value: category,
                     child: TextWidget(

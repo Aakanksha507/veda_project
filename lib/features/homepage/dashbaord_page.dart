@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
@@ -93,6 +94,8 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
 
     return total;
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -189,15 +192,17 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: screenWidth * 0.06,
-              vertical: screenHeight * 0.08,
+              vertical: screenHeight * 0.088,
             ),
             child: Align(
               alignment: Alignment.topRight,
-              child: SvgPicture.asset(
-                'assets/icon/notify_bell.svg',
-                height: 28.h,
-                width: 26.w,
-              ),
+              child: Icon(Icons.logout, color: AppColor.neutral6, 
+              ), 
+              // child: SvgPicture.asset(
+              //   'assets/icon/notify_bell.svg',
+              //   height: 28.h,
+              //   width: 26.w,
+              // ),
             ),
           ),
         ),
@@ -205,8 +210,13 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
         Positioned(
           top: 130.h,
           child: CreditCardBackgroundDesign(
-
-            // cardNumber:getMaskedCardNumber(currentUser!.cardNumber ?? '123214123'),
+            cardHolderName: currentUser!.transactionName ?? 'User not Found',
+            cardNumber:getMaskedCardNumber(currentUser!.cardNumber ?? 'Card Not Fount'),
+            cardBalance: '\$${currentUser!.cardBalance}',
+              cardColor:
+                  getTotalAmount(currentUser!) < 0
+                      ? Colors.red
+                      : AppColor.neutral6,
           ),
         ),
 

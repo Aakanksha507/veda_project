@@ -38,7 +38,7 @@ class _AddExpensesState extends State<AddExpenses> {
         automaticallyImplyLeading: false,
         title: AppBarWidget(
           mainTxt: loc.addExpenses,
-          bgColor:Theme.of(context).primaryColor,
+          bgColor: Theme.of(context).primaryColor,
           txtColor: Color(0xFFFFFFFF),
           iconColor: Color(0xFFFFFFFF),
           onTap: () {
@@ -48,7 +48,7 @@ class _AddExpensesState extends State<AddExpenses> {
             );
           },
         ),
-        backgroundColor:Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Container(
         color: Color(0xFFFFFFFF),
@@ -70,9 +70,11 @@ class _AddExpensesState extends State<AddExpenses> {
                   });
                 },
               ),
+
               InputFielsWidget(
                 hintTxt: loc.description,
-                validator: (value) => InputValidation.validateDescription(loc, value),
+                validator:
+                    (value) => InputValidation.validateDescription(loc, value),
                 focusNode: FocusNode(),
                 controller: descriptionController,
                 labelTxt: loc.description,
@@ -80,7 +82,8 @@ class _AddExpensesState extends State<AddExpenses> {
               InputFielsWidget(
                 hintTxt: loc.amount,
                 controller: amoutController,
-                validator: (value) => InputValidation.validateAmount(loc, value),
+                validator:
+                    (value) => InputValidation.validateAmount(loc, value),
                 focusNode: FocusNode(),
                 labelTxt: loc.amount,
               ),
@@ -134,7 +137,10 @@ class _AddExpensesState extends State<AddExpenses> {
 
                         await prefService.setData(updateWithCategory);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.add_successfully)),
+                          SnackBar(
+                            content: Text(loc.add_successfully),
+                            duration: Duration(seconds: 1),
+                          ),
                         );
 
                         Navigator.pushReplacement(
