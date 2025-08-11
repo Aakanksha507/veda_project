@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefService {
@@ -76,4 +79,50 @@ class SharedPrefService {
     return users.firstWhere((user) => user.phoneNumber == phoneNumber);
   }
 
+  Future<void> saveImageToPrefs(File imageFile) async {
+    final prefs = await SharedPreferences.getInstance();
+    final phoneNumber = prefs.getString('phoneNumber');
+    if (phoneNumber == null) return;
+
+    final bytes = await imageFile.readAsBytes();
+    final base64Image = base64Encode(bytes);
+
+    List<String> userList =
+        prefs.getStringList(_usersKey) ?? []; // get all user
+    // update image of that cartain user
+    List<String> updatedUserList =
+        userList.map((userJson) {
+          final userMap = jsonDecode(userJson);
+          if (userMap['phoneNumber'] == phoneNumber) {
+            userMap['profileImage'] = base64Image;
+          }
+          return jsonEncode(userMap);
+        }).toList();
+    await prefs.setStringList(_usersKey, updatedUserList);
+  }
+
+  Future<File?> loadUserProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final phoneNumber = prefs.getString('phoneNumber');
+    if (phoneNumber == null) return null;
+
+    List<String> userList = prefs.getStringList(_usersKey) ?? [];
+
+    for (var userJson in userList) {
+      final userMap = jsonDecode(userJson);
+      if (userMap['phoneNumber'] == phoneNumber) {
+        final base64Image = userMap['profileImage'];
+        if (base64Image != null && base64Image.isNotEmpty) {
+          final bytes = base64Decode(base64Image);
+          final tempDir = await getTemporaryDirectory();   
+          final file = File('${tempDir.path}/profile_image');    
+          await file.writeAsBytes(bytes);
+
+          return file;
+        }
+      }
+      return null; 
+    }
+    return null;
+  }
 }

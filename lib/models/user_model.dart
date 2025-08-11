@@ -11,6 +11,7 @@ class User {
   final List<String>? category;
   final List<String>? description;
   final List<String>? amount;
+  final String? profileImg;
 
   User({
     this.id,
@@ -25,6 +26,7 @@ class User {
     this.category,
     this.description,
     this.amount,
+    this.profileImg,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class User {
           [],
       amount:
           (json['amount'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      profileImg: json['profileImg'],
     );
   }
 
@@ -63,6 +66,7 @@ class User {
       'categoryName': category,
       'description': description,
       'amount': amount,
+      'profileImg' : profileImg,
     };
   }
 }

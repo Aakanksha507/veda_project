@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/setting/language_widget.dart';
@@ -10,8 +15,39 @@ import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
+
+  @override
+  State<SettingScreen> createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  File? selectedImage;
+  SharedPrefService prefService = SharedPrefService();
+
+  Future getImage() async {
+    final returnedImage = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (returnedImage == null) return; 
+    final imageFile = File(returnedImage.path);
+    await prefService.saveImageToPrefs(imageFile);
+    setState(() {
+      selectedImage =imageFile;
+    });
+  }
+  @override
+  void initState(){
+    super.initState();
+     prefService.loadUserProfileImage().then((file) {
+    if (file != null) {
+      setState(() {
+        selectedImage = file;
+      });
+    }
+  });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +94,32 @@ class SettingScreen extends StatelessWidget {
               ],
             ),
           ),
-          ProfileUserImgWidget(imgHeight: 100.h, imgWidth: 100.w),
+          ProfileUserImgWidget(
+            imgHeight: 100.h,
+            imgWidth: 100.w,
+            img:
+                selectedImage != null
+                    ? FileImage(selectedImage!)
+                    : AssetImage("assets/image/img1.png"),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  splashColor: AppColor.primary3,
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () {
+                    getImage();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/icon/roundedButton.svg',
+                    height: 32.h,
+                    width: 32.w,
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             top: 127.h,
             left: 145.w,

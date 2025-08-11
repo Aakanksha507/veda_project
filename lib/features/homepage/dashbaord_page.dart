@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
@@ -28,23 +30,31 @@ class ScreenPage extends ConsumerStatefulWidget {
 
 class _ScreenPageState extends ConsumerState<ScreenPage> {
   User? currentUser;
+  File? selectedImage;
   final SharedPrefService prefService = SharedPrefService();
 
-    @override
+  @override
   void initState() {
     super.initState();
     loadUserAndBalance();
+    // prefService.loadUserProfileImage( (file){
+    //  if(file != null){
+    //   setState(() {
+    //     selectedImage = file;
+    //   });
+    //  }
+    // });
     getUserExpenses();
   }
 
-   Future<void> getUserExpenses() async {
+  Future<void> getUserExpenses() async {
     User? user = await prefService.getCurrentUser();
     if (user != null) {
-      if (mounted){
+      if (mounted) {
         setState(() {
-        currentUser = user;
-      });
-      }  
+          currentUser = user;
+        });
+      }
     }
   }
 
@@ -95,8 +105,6 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
     return total;
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final ref = this.ref;
@@ -113,6 +121,8 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
             imgHeight: 50.h,
             imgWidth: 50.w,
             imgMargin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 56.h),
+            img: selectedImage != null 
+            ? FileImage(selectedImage!) : AssetImage("assets/image/img1.png"),
           ),
         ),
         Padding(
@@ -196,8 +206,7 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
             ),
             child: Align(
               alignment: Alignment.topRight,
-              child: Icon(Icons.logout, color: AppColor.neutral6, 
-              ), 
+              child: Icon(Icons.logout, color: AppColor.neutral6),
               // child: SvgPicture.asset(
               //   'assets/icon/notify_bell.svg',
               //   height: 28.h,
@@ -207,18 +216,21 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
           ),
         ),
 
-        Positioned(
-          top: 130.h,
-          child: CreditCardBackgroundDesign(
-            cardHolderName: currentUser!.transactionName ?? 'User not Found',
-            cardNumber:getMaskedCardNumber(currentUser!.cardNumber ?? 'Card Not Fount'),
-            cardBalance: '\$${currentUser!.cardBalance}',
+        if (currentUser != null)
+          Positioned(
+            top: 130.h,
+            child: CreditCardBackgroundDesign(
+              cardHolderName: currentUser!.transactionName,
+              cardNumber: getMaskedCardNumber(
+                currentUser!.cardNumber ?? 'Card Not Found',
+              ),
+              cardBalance: '\$${currentUser!.cardBalance}',
               cardColor:
                   getTotalAmount(currentUser!) < 0
                       ? Colors.red
                       : AppColor.neutral6,
+            ),
           ),
-        ),
 
         Positioned(
           top: 391.h,
