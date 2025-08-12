@@ -26,28 +26,98 @@ class _SettingScreenState extends State<SettingScreen> {
   File? selectedImage;
   SharedPrefService prefService = SharedPrefService();
 
-  Future getImage() async {
-    final returnedImage = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (returnedImage == null) return; 
-    final imageFile = File(returnedImage.path);
-    await prefService.saveImageToPrefs(imageFile);
-    setState(() {
-      selectedImage =imageFile;
-    });
-  }
+  get routeObserver => null;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
-     prefService.loadUserProfileImage().then((file) {
+    loadImage();
+    // getLostData();
+  }
+
+  Future<void> loadImage() async {
+    final file = await prefService.loadUserProfileImage();
     if (file != null) {
       setState(() {
         selectedImage = file;
       });
-    }
-  });
+    } 
   }
+
+  Future getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? returnedImage = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Choose Image Feature'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.camera_alt_outlined),
+                title: Text("Camera"),
+                onTap: () async {
+                  Navigator.pop(
+                    context,
+                    await picker.pickImage(source: ImageSource.camera),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.photo),
+                title: Text("Gallery"),
+                onTap: () async {
+                  Navigator.pop(
+                    context,
+                    await picker.pickImage(source: ImageSource.gallery),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.remove_circle_outline),
+                title: Text("Remove"),
+                onTap: () async {
+                  Navigator.pop(context, null);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    if (returnedImage == null) {
+      await prefService.clearUserProfileImage();
+      setState(() {
+        selectedImage = null;
+      });
+      return;
+    }
+    final imageFile = File(returnedImage.path);
+    await prefService.saveImageToPrefs(imageFile);
+    setState(() {
+      selectedImage = imageFile;
+    });
+  }
+  
+
+  // Future<void> getLostData() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final LostDataResponse response = await picker.retrieveLostData();
+
+  //   if (response.isEmpty) return;
+
+  //   final List<XFile>? files = response.files;
+  //   if (files != null && files.isNotEmpty) {
+  //     final imageFile = File(files.first.path);
+  //     await prefService.saveImageToPrefs(imageFile);
+  //     setState(() {
+  //       selectedImage = imageFile;
+  //      });
+  //   }else {
+  //     debugPrint('Error retrieving lost data: ${response.exception}');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +195,11 @@ class _SettingScreenState extends State<SettingScreen> {
             left: 145.w,
             child: ProfileUsernameWidget(username: loc.user),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 166.h, horizontal: 24.w),
+          Positioned(
+            top: 166.h, left: 24.w, right: 24.w, bottom: 0,
+            // padding: EdgeInsets.symmetric(vertical: 166.h, horizontal: 24.w),
             child: ListView.separated(
+              
               itemBuilder: (context, index) {
                 final items = item[index];
 

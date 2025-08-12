@@ -30,8 +30,8 @@ class _MyAppState extends ConsumerState<MyApp> {
     //ref is obj provided by riverpod that access and react to state provider.
     final themeMode = ref.watch(themeModeProvider);
     final appLocale = ref.watch(localeProvider);
-    return MaterialApp(
 
+    return MaterialApp(
       theme: AppTheme.lighttheme(),
       darkTheme: AppTheme.darkTheme(),
       themeMode: themeMode,//ThemeMode.system, 

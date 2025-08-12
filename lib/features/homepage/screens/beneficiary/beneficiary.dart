@@ -232,6 +232,7 @@ class _BeneficiaryState extends State<Beneficiary> {
                                           username: currentUser.username,
                                           phoneNumber: currentUser.phoneNumber,
                                           password: currentUser.password,
+                                          profileImg: currentUser.profileImg,
                                           bankName: bankName,
                                           bankBranch: bankBranch,
                                           transactionName: transactionName,

@@ -120,9 +120,11 @@ class SignUpPageState extends State<SignUpPage> {
                           phoneNumber: phoneNumber,
                           password: password,
                         );
-      
+
+    
                         await prefService.setData(newUser);
-      
+                        await prefService.setUserPhoneNumber(newUser.phoneNumber!);
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(loc.registration_success_message),
                           duration: Duration(seconds: 1))

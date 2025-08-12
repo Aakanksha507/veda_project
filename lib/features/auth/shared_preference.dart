@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +12,7 @@ class SharedPrefService {
   Future<void> setData(User user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> userList = prefs.getStringList(_usersKey) ?? [];
+    debugPrint("%%%%% usersdata: ${userList}");
 
     userList.removeWhere((jsonStr) {
       final map = jsonDecode(jsonStr);
@@ -35,16 +36,18 @@ class SharedPrefService {
     await pref.remove('phoneNumber');
   }
 
-  //to retrive all data
-  Future<List<User>> getAllUsers() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> userList = prefs.getStringList(_usersKey) ?? [];
 
-    return userList.map((userJson) {
-      Map<String, dynamic> userMap = jsonDecode(userJson);
-      return User.fromJson(userMap);
-    }).toList();
-  }
+Future<List<User>> getAllUsers() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+// print("Saved phone number: ${prefs.getString('phoneNumber')}");
+// print("Saved users: ${prefs.getStringList('users')}");
+
+  List<String> userList = prefs.getStringList(_usersKey) ?? [];
+  return userList.map((userJson) {
+    Map<String, dynamic> userMap = jsonDecode(userJson);
+    return User.fromJson(userMap);
+  }).toList();
+}
 
   //to remove user according to phone number
 
@@ -94,7 +97,7 @@ class SharedPrefService {
         userList.map((userJson) {
           final userMap = jsonDecode(userJson);
           if (userMap['phoneNumber'] == phoneNumber) {
-            userMap['profileImage'] = base64Image;
+            userMap['profileImg'] = base64Image;
           }
           return jsonEncode(userMap);
         }).toList();
@@ -111,18 +114,36 @@ class SharedPrefService {
     for (var userJson in userList) {
       final userMap = jsonDecode(userJson);
       if (userMap['phoneNumber'] == phoneNumber) {
-        final base64Image = userMap['profileImage'];
+        final base64Image = userMap['profileImg'];
+                // print("Match User Phone: ${base64Image}");
         if (base64Image != null && base64Image.isNotEmpty) {
           final bytes = base64Decode(base64Image);
-          final tempDir = await getTemporaryDirectory();   
-          final file = File('${tempDir.path}/profile_image');    
+          final appDocDir = await getApplicationDocumentsDirectory();
+          final file = File('${appDocDir.path}/profile_image');
           await file.writeAsBytes(bytes);
-
           return file;
         }
       }
-      return null; 
     }
     return null;
   }
+
+  Future<void> clearUserProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final phoneNumber = prefs.getString('phoneNumber');
+    if (phoneNumber == null) return;
+
+    List<String> userList = prefs.getStringList(_usersKey) ?? [];
+    List<String> updated =
+        userList.map((userJson) {
+          final userMap = jsonDecode(userJson);
+          if (userMap['phoneNumber'] == phoneNumber) {
+            userMap.remove('profileImg');
+          }
+          return jsonEncode(userMap);
+        }).toList();
+
+    await prefs.setStringList(_usersKey, updated);
+  }
+
 }

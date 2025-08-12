@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/auth/login/International_phone_number_inputfield.dart';
 import 'package:myflutterapp/features/auth/sevice/input_validation.dart';
@@ -11,6 +12,8 @@ import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
+import 'package:collection/collection.dart';
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInPage extends StatefulWidget {
@@ -35,15 +38,15 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
     return GestureDetector(
-      onTap: (){
-         FocusManager.instance.primaryFocus?.unfocus();
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: BackgroundLayoutWidget(
         appbarTittle: loc.signin,
         titleText: loc.welcomeBack,
         secondaryText: loc.helloSignInToContinue,
         //  btnText: "SignIn",
-        promptText:loc.dontHaveAnAccount,
+        promptText: loc.dontHaveAnAccount,
         actionText: loc.signup,
         dynamicWidget: Padding(
           padding: EdgeInsets.only(top: 301.0.w),
@@ -55,27 +58,33 @@ class _SignInPageState extends State<SignInPage> {
                   //Input Field For PhoneNumber
                   InternationalPhoneNumberInputfield(
                     controller: phoneNumberController,
-                    validator: (value) => InputValidation.validatePhoneNumber(loc, value),
+                    validator:
+                        (value) =>
+                            InputValidation.validatePhoneNumber(loc, value),
                     errorText: phoneError,
-                    onInputValidated: (bool isValid) { 
-                        setState(() {
-                          phoneError = isValid ? null : phoneError;
-                        });
-                      },
+                    onInputValidated: (bool isValid) {
+                      setState(() {
+                        phoneError = isValid ? null : phoneError;
+                      });
+                    },
                   ),
                   //Input Field For Password
                   InputFielsWidget(
                     hintTxt: loc.password,
                     focusNode: passwordnode,
                     controller: passwordController,
-                    validator:  (value)=>  InputValidation.validatePassword(loc, value),
+                    validator:
+                        (value) => InputValidation.validatePassword(loc, value),
                     errorText: passwordError,
                     obscureTextPassword: obscurePassword,
                     hintStyleColor: AppColor.neutral4,
                     borderBoxColor: Color(0xFFCBCBCB),
-                   onChanged: (value) {
+                    onChanged: (value) {
                       setState(() {
-                        passwordError = InputValidation.validatePassword(loc,value);
+                        passwordError = InputValidation.validatePassword(
+                          loc,
+                          value,
+                        );
                       });
                     },
                   ),
@@ -102,80 +111,80 @@ class _SignInPageState extends State<SignInPage> {
                       if (_formKey.currentState!.validate()) {
                         final phoneNumber = phoneNumberController.text.trim();
                         final password = passwordController.text.trim();
-      
-                        final phoneErrorText = InputValidation.validatePhoneNumber(loc, phoneNumber);
-                        final passwordErrorText = InputValidation.validatePassword(loc, password);
-      
+
+                        final phoneErrorText =
+                            InputValidation.validatePhoneNumber(
+                              loc,
+                              phoneNumber,
+                            );
+                        final passwordErrorText =
+                            InputValidation.validatePassword(loc, password);
+
                         final prefService = SharedPrefService();
                         final users = await prefService.getAllUsers();
-                        
-                        
-      
-                        User? matchUser;
-                        try {
-                          matchUser = users.firstWhere(
-                            (user) =>
-                                user.phoneNumber == phoneNumber 
-                               
-                          );
-                        } catch (e) {
-                          print("%not found ${e.toString()}");
-                          matchUser = null;
-                        }
-      
+
+                        final matchUser = users.firstWhereOrNull(
+                          (user) => user.phoneNumber == phoneNumber,
+                        );
+
                         setState(() {
                           phoneError = phoneErrorText;
                           passwordError = passwordErrorText;
                         });
-      
-                        // debugPrint("Match User Phone: ${phoneError}");
-      
+
+                        // debugPrint("Match User Phone: ${password}");
+
                         if (matchUser == null ||
-                            matchUser.phoneNumber != phoneNumber  ) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(loc.invalid_phone_password_message),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                            matchUser.phoneNumber != phoneNumber) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(loc.invalid_phone_password_message),
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
                           setState(() {
                             phoneError = loc.invalid_phone_message;
                           });
-                          
                         }
-                        debugPrint("matchUser.password  ${matchUser?.password} == $password ");
+                        debugPrint(
+                          "matchUser.password  ${matchUser?.password} == $password ",
+                        );
                         if (matchUser != null &&
-                            matchUser.password != password  ) {
-                               debugPrint("matchUser.password  ${matchUser.password} == $password ");
+                            matchUser.password != password) {
+                          debugPrint(
+                            "matchUser.password  ${matchUser.password} == $password ",
+                          );
                           setState(() {
-                         phoneError = null;
+                            phoneError = null;
                             passwordError = loc.invalid_password_message;
                           });
-                          
                         }
-                      
+
                         if (matchUser == null ||
                             matchUser.phoneNumber != phoneNumber ||
-                            matchUser.password != password ) {
+                            matchUser.password != password) {
                           setState(() {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text(loc.invalid_phone_password_message),
+                                content: Text(
+                                  loc.invalid_phone_password_message,
+                                ),
                                 duration: Duration(seconds: 1),
                               ),
                             );
                           });
                         }
-      
-                        if (matchUser != null && matchUser.password == password ) {
+
+                        if (matchUser != null &&
+                            matchUser.password == password) {
                           await prefService.setUserPhoneNumber(phoneNumber);
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (_) => const HomeScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const HomeScreen(),
+                            ),
                           );
-                          
                         }
-                        
                       }
                     },
                   ),
@@ -189,7 +198,7 @@ class _SignInPageState extends State<SignInPage> {
                           fontWeight: FontWeight.w400,
                           fontSize: 12.sp,
                         ),
-      
+
                         TextButton(
                           onPressed: () {
                             Navigator.push(

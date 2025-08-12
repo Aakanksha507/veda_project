@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
@@ -37,15 +35,19 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
   void initState() {
     super.initState();
     loadUserAndBalance();
-    // prefService.loadUserProfileImage( (file){
-    //  if(file != null){
-    //   setState(() {
-    //     selectedImage = file;
-    //   });
-    //  }
-    // });
+    loadUserProfileImage();
     getUserExpenses();
   }
+
+void loadUserProfileImage() async {
+final file = await prefService.loadUserProfileImage();
+  if(file != null){
+      setState(() {
+        selectedImage = file;
+      });
+     }
+}
+
 
   Future<void> getUserExpenses() async {
     User? user = await prefService.getCurrentUser();
@@ -222,7 +224,7 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
             child: CreditCardBackgroundDesign(
               cardHolderName: currentUser!.transactionName,
               cardNumber: getMaskedCardNumber(
-                currentUser!.cardNumber ?? 'Card Not Found',
+                currentUser!.cardNumber ?? '000000000000',
               ),
               cardBalance: '\$${currentUser!.cardBalance}',
               cardColor:

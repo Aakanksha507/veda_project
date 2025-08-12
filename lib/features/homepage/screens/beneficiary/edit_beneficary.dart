@@ -117,7 +117,14 @@ class _EditBeneficaryState extends State<EditBeneficary> {
     if (currentUser != null) {
       final updatedUser = User(
         id: currentUser.id,
+        username: currentUser.username,
         phoneNumber: currentUser.phoneNumber,
+        password: currentUser.password,
+        profileImg: currentUser.profileImg,
+        category: currentUser.category,
+        description: currentUser.description,
+        amount: currentUser.amount,
+        cardBalance: currentUser.cardBalance,
         bankName: bankNameController.text.trim(),
         bankBranch: bankBranchController.text.trim(),
         transactionName: transactionNameController.text.trim(),
@@ -168,11 +175,11 @@ class _EditBeneficaryState extends State<EditBeneficary> {
             );
           },
         ),
-        backgroundColor: Theme.of(context).primaryColor
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: GestureDetector(
-        onTap: (){
-           FocusManager.instance.primaryFocus?.unfocus();
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: SafeArea(
           child:
@@ -186,7 +193,9 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                             Container(
                               width: 375.w,
                               height: 700.h,
-                              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColor,
+                              ),
                               child: Container(
                                 height: 641.h,
                                 width: 375.w,
@@ -213,7 +222,8 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                               child: Container(
                                 height: 641.h,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                   borderRadius: BorderRadius.circular(15.r),
                                   boxShadow: const [
                                     BoxShadow(
@@ -290,7 +300,8 @@ class _EditBeneficaryState extends State<EditBeneficary> {
                                         ),
                                         child: CustomButtonWidget(
                                           btnText: loc.edit,
-                                          bgColorBtn: Theme.of(context).primaryColor,
+                                          bgColorBtn:
+                                              Theme.of(context).primaryColor,
                                           onTap: isEdited ? _handleEdit : null,
                                         ),
                                       ),
