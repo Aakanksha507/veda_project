@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/theme/theme_preference.dart'; 
 
 class LanguageDialog extends ConsumerWidget {
@@ -44,10 +45,7 @@ class LanguageDialog extends ConsumerWidget {
       onTap: () {
         ref.read(localeProvider.notifier).state = locale;
        Navigator.pop(context); 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Language changed to $label'),
-          duration: Duration(seconds: 1))
-        );
+        CustomSnackBar.show(context, 'Language Change to $label');
       },
     );
   }

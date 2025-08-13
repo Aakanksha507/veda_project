@@ -10,6 +10,7 @@ import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/setting/language_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/setting/password.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
@@ -41,7 +42,11 @@ class _SettingScreenState extends State<SettingScreen> {
       setState(() {
         selectedImage = file;
       });
-    } 
+    } else {
+      setState(() {
+        selectedImage = null;
+      });
+    }
   }
 
   Future getImage() async {
@@ -54,33 +59,37 @@ class _SettingScreenState extends State<SettingScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.camera_alt_outlined),
-                title: Text("Camera"),
-                onTap: () async {
-                  Navigator.pop(
-                    context,
-                    await picker.pickImage(source: ImageSource.camera),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.photo),
-                title: Text("Gallery"),
-                onTap: () async {
-                  Navigator.pop(
-                    context,
-                    await picker.pickImage(source: ImageSource.gallery),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.remove_circle_outline),
-                title: Text("Remove"),
-                onTap: () async {
-                  Navigator.pop(context, null);
-                },
-              ),
+              if (selectedImage == null) ...[
+                ListTile(
+                  leading: Icon(Icons.camera_alt_outlined),
+                  title: Text("Camera"),
+                  onTap: () async {
+                    Navigator.pop(
+                      context,
+                      await picker.pickImage(source: ImageSource.camera),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.photo),
+                  title: Text("Gallery"),
+                  onTap: () async {
+                    Navigator.pop(
+                      context,
+                      await picker.pickImage(source: ImageSource.gallery),
+                    );
+                  },
+                ),
+              ] else ...[
+                ListTile(
+                  leading: Icon(Icons.remove_circle_outline),
+                  title: Text("Remove"),
+                  onTap: () async {
+                    await prefService.clearUserProfileImage();
+                    Navigator.pop(context, null);
+                  },
+                ),
+              ],
             ],
           ),
         );
@@ -95,11 +104,11 @@ class _SettingScreenState extends State<SettingScreen> {
     }
     final imageFile = File(returnedImage.path);
     await prefService.saveImageToPrefs(imageFile);
+    final newImage = await prefService.loadUserProfileImage();
     setState(() {
       selectedImage = imageFile;
     });
   }
-  
 
   // Future<void> getLostData() async {
   //   final ImagePicker picker = ImagePicker();
@@ -196,10 +205,12 @@ class _SettingScreenState extends State<SettingScreen> {
             child: ProfileUsernameWidget(username: loc.user),
           ),
           Positioned(
-            top: 166.h, left: 24.w, right: 24.w, bottom: 0,
+            top: 166.h,
+            left: 24.w,
+            right: 24.w,
+            bottom: 0,
             // padding: EdgeInsets.symmetric(vertical: 166.h, horizontal: 24.w),
             child: ListView.separated(
-              
               itemBuilder: (context, index) {
                 final items = item[index];
 
@@ -222,12 +233,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             );
                             break;
                           case 1:
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Coming Soon"),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                              CustomSnackBar.show(context, loc.comingSoon);
                             break;
                           case 2:
                             showDialog(
@@ -237,23 +243,13 @@ class _SettingScreenState extends State<SettingScreen> {
                             break;
 
                           case 3:
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Coming Soon"),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                              CustomSnackBar.show(context, loc.comingSoon);
                             break;
                           case 4:
                             CutomToggleSwitchWidget();
                             break;
                           case 5:
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Coming Soon"),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
+                             CustomSnackBar.show(context, loc.comingSoon);
                             break;
                         }
                       },
@@ -261,6 +257,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         padding: EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
                               items,

@@ -8,6 +8,7 @@ import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dar
 import 'package:myflutterapp/features/homepage/screens/credit_card_background_design.dart';
 import 'package:myflutterapp/features/homepage/screens/transactions/add_expenses.dart';
 import 'package:myflutterapp/features/homepage/screens/transactions/edit_expenses.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -77,7 +78,8 @@ class _TransactionReportState extends State<TransactionReport> {
       final categoryString = user.category![i];
 
       final categoryEnum = ExpensesCategoryExtension.fromString(categoryString);
-      final parsedAmount = double.tryParse(amountString) ?? 0.0;
+      String cleaned = amountString.replaceAll(RegExp(r'[^\d.]'), '');
+      final parsedAmount = double.tryParse(cleaned) ?? 0.0;
 
       if (categoryEnum == ExpensesCategory.salaries) {
         total += parsedAmount;
@@ -186,12 +188,7 @@ class _TransactionReportState extends State<TransactionReport> {
                                 prefService.setData(currentUser!);
                               }
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(loc.deleted_successfully),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
+                               CustomSnackBar.show(context, loc.deleted_successfully);
                             },
 
                             background: Container(color: Colors.red),

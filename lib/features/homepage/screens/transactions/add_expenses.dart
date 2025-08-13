@@ -6,6 +6,7 @@ import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/transactions/transaction_report.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
@@ -131,17 +132,13 @@ class _AddExpensesState extends State<AddExpenses> {
                           category: updatedCategoryList,
                           description: updatedDescriptionList,
                           amount: updatedAmountList,
+                          profileImg: currentUser.profileImg,
                         );
 
                         // debugPrint('Amoutn: ${updateWithCategory.amount}');
 
                         await prefService.setData(updateWithCategory);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(loc.add_successfully),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
+                         CustomSnackBar.show(context, loc.add_successfully);
 
                         Navigator.pushReplacement(
                           context,

@@ -22,16 +22,20 @@ class MyApp extends ConsumerStatefulWidget {
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
 }
+    final GlobalKey materialAppKey = GlobalKey();
 
 class _MyAppState extends ConsumerState<MyApp> {
   
   @override
   Widget build(BuildContext context) {
+
+
     //ref is obj provided by riverpod that access and react to state provider.
     final themeMode = ref.watch(themeModeProvider);
     final appLocale = ref.watch(localeProvider);
 
     return MaterialApp(
+      key: materialAppKey,
       theme: AppTheme.lighttheme(),
       darkTheme: AppTheme.darkTheme(),
       themeMode: themeMode,//ThemeMode.system, 

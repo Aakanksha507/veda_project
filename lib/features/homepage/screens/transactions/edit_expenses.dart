@@ -6,6 +6,7 @@ import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/transactions/transaction_report.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -165,12 +166,7 @@ class _EditExpensesState extends State<EditExpenses> {
                                 currentUser.amount![widget.index] = amount;
 
                                 await prefService.setData(currentUser);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(loc.update_successfully),
-                                    duration: Duration(seconds: 1)
-                                  ),
-                                );
+                                 CustomSnackBar.show(context, loc.update_successfully);
 
                                 Navigator.pushReplacement(
                                   context,

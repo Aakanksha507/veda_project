@@ -7,6 +7,7 @@ import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
 import 'package:myflutterapp/features/homepage/home_screen.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
@@ -133,12 +134,7 @@ class _EditBeneficaryState extends State<EditBeneficary> {
 
       await prefService.setData(updatedUser);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.update_successfully),
-          duration: Duration(seconds: 1),
-        ),
-      );
+      CustomSnackBar.show(context, AppLocalizations.of(context)!.update_successfully);
 
       setState(() {
         isLoading = false;

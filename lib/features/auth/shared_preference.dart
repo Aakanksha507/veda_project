@@ -12,7 +12,7 @@ class SharedPrefService {
   Future<void> setData(User user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> userList = prefs.getStringList(_usersKey) ?? [];
-    debugPrint("%%%%% usersdata: ${userList}");
+    // debugPrint("%%%%% usersdata: ${userList}");
 
     userList.removeWhere((jsonStr) {
       final map = jsonDecode(jsonStr);
@@ -119,8 +119,9 @@ Future<List<User>> getAllUsers() async {
         if (base64Image != null && base64Image.isNotEmpty) {
           final bytes = base64Decode(base64Image);
           final appDocDir = await getApplicationDocumentsDirectory();
-          final file = File('${appDocDir.path}/profile_image');
-          await file.writeAsBytes(bytes);
+          final file = File('${appDocDir.path}/profile_img_${DateTime.now().millisecondsSinceEpoch}');
+          debugPrint("&&&& Image: '${appDocDir.path}/profile_img_${DateTime.now().millisecondsSinceEpoch}'");
+          await file.writeAsBytes(bytes, flush: true);
           return file;
         }
       }
@@ -134,6 +135,7 @@ Future<List<User>> getAllUsers() async {
     if (phoneNumber == null) return;
 
     List<String> userList = prefs.getStringList(_usersKey) ?? [];
+
     List<String> updated =
         userList.map((userJson) {
           final userMap = jsonDecode(userJson);
@@ -142,6 +144,8 @@ Future<List<User>> getAllUsers() async {
           }
           return jsonEncode(userMap);
         }).toList();
+        // debugPrint("%%& userlist: ${updated}");
+        
 
     await prefs.setStringList(_usersKey, updated);
   }

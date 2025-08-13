@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:myflutterapp/Api/api_client.dart';
+import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,6 +19,7 @@ class _ApiState extends State<ApiDioPractice> {
   late final ApiClient apiClient;
   List<dynamic> bbcNews = [];
   List<dynamic> usNews = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -47,26 +50,28 @@ class _ApiState extends State<ApiDioPractice> {
   // }
 
   // Performing multiple concurrent request
-Future fetchPosts() async {
-  try {
-    final result = await Future.wait([
-      apiClient.getRequest(
-        '/top-headlines?' , queryParameters: {'sources':'bbc-news'} 
-      ),
-      apiClient.getRequest(
-          'top-headlines?' , queryParameters: {'country': 'us'}
+  Future fetchPosts() async {
+    try {
+      final result = await Future.wait([
+        apiClient.getRequest(
+          '/top-headlines?',
+          queryParameters: {'sources': 'bbc-news'},
+        ),
+        apiClient.getRequest(
+          'top-headlines?',
+          queryParameters: {'country': 'us'},
+        ),
+      ]);
 
-      ),
-    ]);
-
-    setState(() {
-      bbcNews = result[0]['articles'];
-      usNews = result[1]['articles'];
-    });
-  } catch (e) {
-    print('Error fetching posts: $e');
+      setState(() {
+        bbcNews = result[0]['articles'];
+        usNews = result[1]['articles'];
+        isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching posts: $e');
+    }
   }
-}
 
   //post data
   void addPosts() async {
@@ -108,132 +113,193 @@ Future fetchPosts() async {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(
-        title: AppBarWidget(mainTxt: loc.news, txtColor: Color(0xFFFFFFFF)),
-        automaticallyImplyLeading: false,
-      ),
-      body:
-          bbcNews.isEmpty
-              ? Center(child: CircularProgressIndicator())
-              : Column(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: AppBarWidget(mainTxt: loc.news, txtColor: Colors.white),
+          bottom:TabBar(
+            tabs: [
+              Tab(text: 'BBC News',),
+              Tab(text: 'US News'),
+            ],
+            labelStyle: TextStyle(
+              fontSize: 16,
+              color: AppColor.neutral6,
+              fontWeight:FontWeight.w500
+            ),
+            unselectedLabelStyle: TextStyle(
+               fontSize: 16,
+              color: AppColor.neutral6,
+              fontWeight:FontWeight.w500
+            ),
+          ),
+        ),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : TabBarView(
                 children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: usNews.length,
-                      itemBuilder: (context, index) {
-                        final post = usNews[index];
-                        // print('Image URL for post $index: ${post['urlToImage']}');
-
-                        return Card(
-                          margin: EdgeInsets.all(8.w),
-
-                          child: ListTile(
-                            leading: CachedNetworkImage(
-                              imageUrl: post['urlToImage'] ?? '',
-                              width: 80,
-                              height: 100,
-                              fit: BoxFit.cover,
-                              repeat: ImageRepeat.noRepeat,
-                              placeholder:
-                                  (context, url) => CircularProgressIndicator(),
-                              errorWidget:
-                                  (context, url, error) => Icon(
-                                    Icons.error,
-                                    color:
-                                        Theme.of(context).colorScheme.error,
-                                  ),
-                            ),
-
-                            title: Text(
-                              post['title'] ?? 'No Title',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              post['description'] ?? 'No Description',
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: bbcNews.length,
-                      itemBuilder: (context, index) {
-                        final post = bbcNews[index];
-                        // print('Image URL for post $index: ${post['urlToImage']}');
-
-                        return Card(
-                          margin: EdgeInsets.all(8.w),
-
-                          child: ListTile(
-                            leading: CachedNetworkImage(
-                              imageUrl: post['urlToImage'] ?? '',
-                              width: 80,
-                              height: 100,
-                              fit: BoxFit.cover,
-                              repeat: ImageRepeat.noRepeat,
-                              placeholder:
-                                  (context, url) => CircularProgressIndicator(),
-                              errorWidget:
-                                  (context, url, error) => Icon(Icons.error),
-                            ),
-
-                            title: Text(
-                              post['title'] ?? 'No Title',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              post['description'] ?? 'No Description',
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  ElevatedButton(
-                    onPressed: addPosts,
-                    child: Text(
-                      'Add Posts',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                      ),
-                    ),
-                  ),
-
-                  // ElevatedButton(onPressed: putPosts,
-                  // child: const Text('Edit Posts'),
-                  // ),
-                  //  ElevatedButton(onPressed: deletePosts,
-                  // child: const Text('Delete Posts'),
-                  // )
+                  NewsList(news: bbcNews),
+                  NewsList(news: usNews),
                 ],
               ),
+      ),
     );
   }
 }
+
+
+class NewsList extends StatelessWidget {
+  final List<dynamic> news;
+
+  const NewsList({super.key, required this.news});
+
+  @override
+  Widget build(BuildContext context) {
+    if (news.isEmpty) {
+      return const Center(child: Text("No articles found."));
+    }
+
+    return ListView.builder(
+      itemCount: news.length,
+      itemBuilder: (context, index) {
+        final post = news[index];
+        return Card(
+          margin: EdgeInsets.all(8.w),
+          child: ListTile(
+            leading: CachedNetworkImage(
+              imageUrl: post['urlToImage'] ?? '',
+              width: 80,
+              height: 100,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
+            title: Text(
+              post['title'] ?? 'No Title',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+            subtitle: Text(
+              post['description'] ?? 'No Description',
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+      
+//       body:
+//           isLoading
+//               ? Center(child: CircularProgressIndicator())
+//               : TabBarView(children: [
+//                 Expanded(
+//                     child: ListView.builder(
+//                       itemCount: usNews.length,
+//                       itemBuilder: (context, index) {
+//                         final post = usNews[index];
+//                         // print('Image URL for post $index: ${post['urlToImage']}');
+
+//                         return Card(
+//                           margin: EdgeInsets.all(8.w),
+
+//                           child: ListTile(
+//                             leading: CachedNetworkImage(
+//                               imageUrl: post['urlToImage'] ?? '',
+//                               width: 80,
+//                               height: 100,
+//                               fit: BoxFit.cover,
+//                               repeat: ImageRepeat.noRepeat,
+//                               placeholder:
+//                                   (context, url) => CircularProgressIndicator(),
+//                               errorWidget:
+//                                   (context, url, error) => Icon(
+//                                     Icons.error,
+//                                     color: Theme.of(context).colorScheme.error,
+//                                   ),
+//                             ),
+
+//                             title: Text(
+//                               post['title'] ?? 'No Title',
+//                               style: TextStyle(
+//                                 fontSize: 16.sp,
+//                                 fontWeight: FontWeight.w600,
+//                                 color:
+//                                     Theme.of(context).colorScheme.onSecondary,
+//                               ),
+//                             ),
+//                             subtitle: Text(
+//                               post['description'] ?? 'No Description',
+//                               style: TextStyle(
+//                                 fontSize: 12.sp,
+//                                 fontWeight: FontWeight.w400,
+//                                 color:
+//                                     Theme.of(context).colorScheme.onSecondary,
+//                               ),
+//                             ),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ),
+//                   Expanded(
+//                     child: ListView.builder(
+//                       itemCount: bbcNews.length,
+//                       itemBuilder: (context, index) {
+//                         final post = bbcNews[index];
+//                         // print('Image URL for post $index: ${post['urlToImage']}');
+
+//                         return Card(
+//                           margin: EdgeInsets.all(8.w),
+
+//                           child: ListTile(
+//                             leading: CachedNetworkImage(
+//                               imageUrl: post['urlToImage'] ?? '',
+//                               width: 80,
+//                               height: 100,
+//                               fit: BoxFit.cover,
+//                               repeat: ImageRepeat.noRepeat,
+//                               placeholder:
+//                                   (context, url) => CircularProgressIndicator(),
+//                               errorWidget:
+//                                   (context, url, error) => Icon(Icons.error),
+//                             ),
+
+//                             title: Text(
+//                               post['title'] ?? 'No Title',
+//                               style: TextStyle(
+//                                 fontSize: 16.sp,
+//                                 fontWeight: FontWeight.w600,
+//                                 color:
+//                                     Theme.of(context).colorScheme.onSecondary,
+//                               ),
+//                             ),
+//                             subtitle: Text(
+//                               post['description'] ?? 'No Description',
+//                               style: TextStyle(
+//                                 fontSize: 12.sp,
+//                                 fontWeight: FontWeight.w400,
+//                                 color:
+//                                     Theme.of(context).colorScheme.onSecondary,
+//                               ),
+//                             ),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ),
+
+//               ]),
+            
+//     );
+//   }
+// }

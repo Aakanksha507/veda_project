@@ -6,6 +6,7 @@ import 'package:myflutterapp/features/auth/sevice/input_validation.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/background_layout_widget.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/features/auth/signup/term_condition_checkup_box.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
@@ -125,10 +126,7 @@ class SignUpPageState extends State<SignUpPage> {
                         await prefService.setData(newUser);
                         await prefService.setUserPhoneNumber(newUser.phoneNumber!);
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(loc.registration_success_message),
-                          duration: Duration(seconds: 1))
-                        );
+                        CustomSnackBar.show(context, loc.registration_success_message);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

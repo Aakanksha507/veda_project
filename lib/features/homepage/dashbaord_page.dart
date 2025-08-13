@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/auth/shared_preference.dart';
-import 'package:myflutterapp/features/button_widgets/cutom_toggle_switch_widget.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/screen_layout.dart';
 import 'package:myflutterapp/features/homepage/screens/beneficiary/beneficiary.dart';
 import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
@@ -16,7 +15,6 @@ import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:myflutterapp/theme/theme_preference.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScreenPage extends ConsumerStatefulWidget {
@@ -35,17 +33,21 @@ class _ScreenPageState extends ConsumerState<ScreenPage> {
   void initState() {
     super.initState();
     loadUserAndBalance();
-    loadUserProfileImage();
+    loadImage();
     getUserExpenses();
   }
 
-void loadUserProfileImage() async {
+void loadImage() async {
 final file = await prefService.loadUserProfileImage();
   if(file != null){
       setState(() {
         selectedImage = file;
       });
-     }
+     }else{
+      setState(() {
+        selectedImage = null;
+      });
+    }
 }
 
 
@@ -109,7 +111,6 @@ final file = await prefService.loadUserProfileImage();
 
   @override
   Widget build(BuildContext context) {
-    final ref = this.ref;
     final loc = AppLocalizations.of(context)!;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -136,61 +137,61 @@ final file = await prefService.loadUserProfileImage();
           ),
         ),
 
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 88.w, vertical: 60.h),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                final RenderBox button =
-                    context.findRenderObject() as RenderBox;
-                final RenderBox overlay =
-                    Overlay.of(context).context.findRenderObject() as RenderBox;
-                final Offset position = button.localToGlobal(
-                  Offset.zero,
-                  ancestor: overlay,
-                );
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 88.w, vertical: 60.h),
+        //   child: Align(
+        //     alignment: Alignment.topRight,
+        //     child: IconButton(
+        //       onPressed: () {
+        //         final RenderBox button =
+        //             context.findRenderObject() as RenderBox;
+        //         final RenderBox overlay =
+        //             Overlay.of(context).context.findRenderObject() as RenderBox;
+        //         final Offset position = button.localToGlobal(
+        //           Offset.zero,
+        //           ancestor: overlay,
+        //         );
 
-                showMenu<Locale>(
-                  context: context,
-                  position: RelativeRect.fromLTRB(
-                    position.dx + button.size.width,
-                    position.dy,
-                    position.dx,
-                    position.dy + button.size.height,
-                  ),
-                  items: [
-                    PopupMenuItem(
-                      value: const Locale('en'),
-                      child: const Text('English'),
-                    ),
-                    PopupMenuItem(
-                      value: const Locale('ne'),
-                      child: const Text('Nepali'),
-                    ),
-                    PopupMenuItem(
-                      value: const Locale('fr'),
-                      child: const Text('French'),
-                    ),
-                  ],
-                ).then((selectedLocale) {
-                  if (selectedLocale != null) {
-                    ref.read(localeProvider.notifier).state = selectedLocale;
-                  }
-                });
-              },
-              icon: Icon(Icons.g_translate_rounded, color: Colors.white),
-            ),
-          ),
-        ),
+        //         showMenu<Locale>(
+        //           context: context,
+        //           position: RelativeRect.fromLTRB(
+        //             position.dx + button.size.width,
+        //             position.dy,
+        //             position.dx,
+        //             position.dy + button.size.height,
+        //           ),
+        //           items: [
+        //             PopupMenuItem(
+        //               value: const Locale('en'),
+        //               child: const Text('English'),
+        //             ),
+        //             PopupMenuItem(
+        //               value: const Locale('ne'),
+        //               child: const Text('Nepali'),
+        //             ),
+        //             PopupMenuItem(
+        //               value: const Locale('fr'),
+        //               child: const Text('French'),
+        //             ),
+        //           ],
+        //         ).then((selectedLocale) {
+        //           if (selectedLocale != null) {
+        //             ref.read(localeProvider.notifier).state = selectedLocale;
+        //           }
+        //         });
+        //       },
+        //       icon: Icon(Icons.g_translate_rounded, color: Colors.white),
+        //     ),
+        //   ),
+        // ),
 
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 60.h),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: CutomToggleSwitchWidget(),
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 55.w, vertical: 60.h),
+        //   child: Align(
+        //     alignment: Alignment.topRight,
+        //     child: CutomToggleSwitchWidget(),
+        //   ),
+        // ),
         GestureDetector(
           onTap: () async {
             final prefService = SharedPrefService();

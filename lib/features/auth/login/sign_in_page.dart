@@ -9,6 +9,7 @@ import 'package:myflutterapp/features/auth/signup/sign_up_page.dart';
 import 'package:myflutterapp/features/homepage/home_screen.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/background_layout_widget.dart';
 import 'package:myflutterapp/features/button_widgets/custom_button_widget.dart';
+import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
@@ -136,12 +137,11 @@ class _SignInPageState extends State<SignInPage> {
 
                         if (matchUser == null ||
                             matchUser.phoneNumber != phoneNumber) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(loc.invalid_phone_password_message),
-                              duration: Duration(seconds: 1),
-                            ),
+                          CustomSnackBar.show(
+                            context,
+                            loc.invalid_phone_password_message,
                           );
+
                           setState(() {
                             phoneError = loc.invalid_phone_message;
                           });
@@ -164,13 +164,9 @@ class _SignInPageState extends State<SignInPage> {
                             matchUser.phoneNumber != phoneNumber ||
                             matchUser.password != password) {
                           setState(() {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  loc.invalid_phone_password_message,
-                                ),
-                                duration: Duration(seconds: 1),
-                              ),
+                            CustomSnackBar.show(
+                              context,
+                              loc.invalid_phone_password_message,
                             );
                           });
                         }
