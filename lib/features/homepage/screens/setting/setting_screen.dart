@@ -14,7 +14,7 @@ import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});

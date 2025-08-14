@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/enumClass/enum.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class DropdownFieldWidget extends StatefulWidget {
   final ExpensesCategory? selectedValue;

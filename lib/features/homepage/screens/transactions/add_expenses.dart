@@ -10,7 +10,7 @@ import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/dropdown_field_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class AddExpenses extends StatefulWidget {
   const AddExpenses({super.key});

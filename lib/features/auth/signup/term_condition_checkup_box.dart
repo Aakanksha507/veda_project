@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class TermConditionCheckupBox extends StatefulWidget {
   const TermConditionCheckupBox({super.key});

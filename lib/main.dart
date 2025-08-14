@@ -5,7 +5,7 @@ import 'package:myflutterapp/features/auth/login/checking_login_status.dart';
 import 'package:myflutterapp/theme/theme.dart';
 import 'package:myflutterapp/theme/theme_preference.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 
 void main() => runApp

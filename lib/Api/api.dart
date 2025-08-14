@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myflutterapp/Api/api_client.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class ApiDioPractice extends StatefulWidget {
   const ApiDioPractice({super.key});

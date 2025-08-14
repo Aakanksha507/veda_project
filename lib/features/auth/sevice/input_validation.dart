@@ -1,4 +1,4 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class InputValidation {
   static String? validatePhoneNumber(AppLocalizations loc, String? value) {

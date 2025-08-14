@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
 import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/text_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class HomeCategoryLayout extends StatelessWidget {
   final String text;

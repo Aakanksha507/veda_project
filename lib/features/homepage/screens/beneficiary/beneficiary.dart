@@ -10,9 +10,9 @@ import 'package:myflutterapp/features/homepage/screens/credit_card.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Beneficiary extends StatefulWidget {
   const Beneficiary({super.key});

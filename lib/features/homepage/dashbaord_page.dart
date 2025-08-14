@@ -13,8 +13,8 @@ import 'package:myflutterapp/features/homepage/screens/transactions/transaction_
 import 'package:myflutterapp/features/widget/home_category_layout.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 import 'package:myflutterapp/models/user_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScreenPage extends ConsumerStatefulWidget {

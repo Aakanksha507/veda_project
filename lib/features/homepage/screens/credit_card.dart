@@ -9,7 +9,7 @@ import 'package:myflutterapp/features/homepage/screens/beneficiary/beneficiary.d
 import 'package:myflutterapp/features/homepage/screens/credit_card_background_design.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 import 'package:myflutterapp/models/user_model.dart';
 
 class CreditCard extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myflutterapp/features/homepage/screen_widgets/app_bar_widget.dart';
 import 'package:myflutterapp/features/widget/list_container_widget.dart';
 import 'package:myflutterapp/AppColor/app_color.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});

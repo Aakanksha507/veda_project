@@ -92,7 +92,7 @@
   "description_required": "विवरण आवश्यक छ",
   "amount_required": "रकम आवश्यक छ",
   "update_successfully": "सफलतापूर्वक अपडेट भयो",
-  "transaction_required": "कारोबारको नाम अनिवार्य छ",
+  "transaction_requirded": "कारोबारको नाम अनिवार्य छ",
   "category_required": "कृपया श्रेणी चयन गर्नुहोस्",
   "add_successfully": "सफलतापूर्वक थपियो",
   "deleted_successfully": "सफलतापूर्वक हटाइयो",

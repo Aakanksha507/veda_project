@@ -11,9 +11,9 @@ import 'package:myflutterapp/features/utils/custom_snack_bar.dart';
 import 'package:myflutterapp/features/widget/profile_user_img_widget.dart';
 import 'package:myflutterapp/features/widget/profile_username_widget.dart';
 import 'package:myflutterapp/features/widget/text_field_widget/input_fiels_widget.dart';
+import 'package:myflutterapp/l10n/app_localizations.dart';
 import 'package:myflutterapp/models/user_model.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditBeneficary extends StatefulWidget {
   final String bankName;
